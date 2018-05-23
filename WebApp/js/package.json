@@ -1,0 +1,22 @@
+{
+  "name": "js",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel build app.ts -d ../wwwroot/contents",
+    "watch": "parcel watch app.ts -d ../wwwroot/contents"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mithril": "1.1.6",
+    "purecss": "1.0.0"
+  },
+  "devDependencies": {
+    "@types/mithril": "1.1.12",
+    "typescript": "2.8.3"
+  }
+}
