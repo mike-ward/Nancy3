@@ -1,5 +1,4 @@
 ﻿import m from 'mithril';
-import addStyeSheet from '../../services/dom-service';
 import { header } from './header';
 import { footer } from './footer';
 
