@@ -1,4 +1,5 @@
 ﻿import m from 'mithril';
+import constants from '../../services/constants-service';
 import { addStyleSheet } from '../../services/dom-service';
 import { userBar } from './user-bar';
 import { navBar } from './nav-bar';
@@ -20,7 +21,7 @@ function view() {
   return m(
     '.header', [
       m(userBar),
-      m('h1[style=clear:both]', 'My Application Title'),
+      m('h1[style=clear:both]', constants.appTitle),
       m(navBar, { 'options': navbarOptions } as any),
       m('hr')
     ]);

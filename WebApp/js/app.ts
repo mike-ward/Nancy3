@@ -23,18 +23,22 @@ addStyleSheet(`
   #app { margin: 1em }
 `);
 
-const root = document.getElementById('app') as Element;
-
 const page = content => ({
   view: () => m(layout, m(content))
 });
 
+const auth = content => ({
+  onmatch: () => page(content)
+});
+
+const root = document.getElementById('app') as Element;
+
 m.route(root, 'splash', {
   // Pages
   'splash': page(splash),
-  'news': page(news),
-  'markets': page(markets),
-  'stocks': page(stocks),
+  'news': auth(news),
+  'markets': auth(markets),
+  'stocks': auth(stocks),
   'about': page(about),
 
   // Account
