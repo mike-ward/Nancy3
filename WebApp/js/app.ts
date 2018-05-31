@@ -21,6 +21,7 @@ import { login } from './components/pages/account/login';
 
 addStyleSheet(`
   #app { margin: 1em }
+  .bold { font-weight: bold }
 `);
 
 const page = content => ({

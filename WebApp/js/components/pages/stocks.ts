@@ -1,5 +1,6 @@
 ﻿import m from 'mithril';
 import { grid } from '../grid/grid';
+import { loading } from '../loading/loading'
 import { IGridOptions, IGridColumn } from '../grid/IGridOptions';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 
@@ -12,7 +13,7 @@ function view() {
     m('p', `Count: ${stockOptions ? stockOptions.data.length : 0}`),
     stockOptions
       ? m(grid, { gridOptions: stockOptions, style: { 'font-size': 'smaller' } } as any)
-      : 'loading..');
+      : m(loading));
 }
 
 function oninit() {

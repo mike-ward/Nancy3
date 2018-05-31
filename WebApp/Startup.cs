@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Nancy.Owin;
 
-namespace Nancy3
+namespace App
 {
     public class Startup
     {

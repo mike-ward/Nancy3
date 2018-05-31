@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Nancy3.Models.Authentication;
+using App.Models.Authentication;
 
-namespace Nancy3.Infrastructure
+namespace App.Infrastructure
 {
     public interface IUserRepository
     {

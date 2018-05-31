@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="js\tsout\**" />
+    <Content Remove="js\tsout\**" />
+    <EmbeddedResource Remove="js\tsout\**" />
+    <None Remove="js\tsout\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Views\index.html" />
   </ItemGroup>
 
@@ -17,7 +24,6 @@
 
   <ItemGroup>
     <Folder Include="js\components\pages\admin\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>

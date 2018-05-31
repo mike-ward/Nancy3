@@ -2,7 +2,7 @@
 using System.Net;
 using Nancy;
 
-namespace Nancy3.Modules
+namespace App.Modules
 {
     public class MarketsModule : NancyModule
     {

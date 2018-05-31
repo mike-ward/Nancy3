@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Security.Claims;
+using App.Infrastructure;
 using Nancy;
 using Nancy.Authentication.Forms;
-using Nancy3.Infrastructure;
 
-namespace Nancy3.Models.Authentication.Forms
+namespace App.Models.Authentication.Forms
 {
     public class UserMapperForms : IUserMapper
     {

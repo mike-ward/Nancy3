@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using System.Security.Principal;
 
-namespace Nancy3.Models.Authentication
+namespace App.Models.Authentication
 {
     public class UserPrincipal : ClaimsPrincipal
     {

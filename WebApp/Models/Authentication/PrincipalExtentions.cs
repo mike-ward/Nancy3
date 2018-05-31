@@ -1,6 +1,6 @@
 ﻿using System.Security.Principal;
 
-namespace Nancy3.Models.Authentication
+namespace App.Models.Authentication
 {
     public static class PrincipalExtensions
     {

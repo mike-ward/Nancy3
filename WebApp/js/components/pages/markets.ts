@@ -1,5 +1,6 @@
 ﻿import m from 'mithril';
 import { grid } from '../grid/grid';
+import { loading } from '../loading/loading';
 import { IGridOptions, IGridColumn } from '../grid/IGridOptions';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 import { addStyleSheet } from '../../services/dom-service';
@@ -11,14 +12,14 @@ let losers = {} as IGridOptions;
 const fields = ['symbol', 'companyName', 'primaryExchange', 'sector', 'latestPrice', 'open', 'close', 'high', 'low', 'week52High', 'week52Low'];
 
 function view() {
-  return m('div', 
+  return m('.markets', 
     m('h2', 'Markets'),
-    m('p[style="font-weight:bold"]', mostActive.columns ? 'Most Active Stocks' : ''),
-    m(grid as any, { 'class': 'markets-grid', gridOptions: mostActive }),
-    m('p[style="font-weight:bold"]', gainers.columns ? 'Gainers' : ''),
-    m(grid as any, { 'class': 'markets-grid', gridOptions: gainers }),
-    m('p[style="font-weight:bold"]', losers.columns ? 'Losers' : ''),
-    m(grid as any, { 'class': 'markets-grid', gridOptions: losers })
+    mostActive.columns ? m('p.bold', 'Most Active Stocks') : m(loading),
+    m(grid, { gridOptions: mostActive } as any),
+    gainers.columns ? m('p.bold', 'Gainers') : m(loading),
+    m(grid, { gridOptions: gainers } as any),
+    losers.columns ? m('p.bold', 'Losers') : m(loading),
+    m(grid, { gridOptions: losers } as any)
   );
 }
 
@@ -56,7 +57,7 @@ function buildGridOptions(fields: string[], data: any) {
 }
 
 // language=css
-const css = `.markets-grid { font-size: smaller; }`;
+const css = `div.markets .grid { font-size: smaller; }`;
 addStyleSheet(css);
 
 export const markets = {
