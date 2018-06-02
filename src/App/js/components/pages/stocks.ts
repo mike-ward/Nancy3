@@ -4,28 +4,36 @@ import { loading } from '../loading/loading'
 import { IGridOptions, IGridColumn } from '../grid/IGridOptions';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 
-let stockOptions: IGridOptions;
-const fields = ['symbol', 'name', 'date', 'type'];
+export const stocks = {
+  oninit: oninit,
+  view: view
+}
 
-function view() {
-  return m('div',
-    m('h2', `Stocks`),
-    m('p', `Count: ${stockOptions ? stockOptions.data.length : 0}`),
-    stockOptions
-      ? m(grid, { gridOptions: stockOptions, style: { 'font-size': 'smaller' } } as any)
-      : m(loading));
+const model = {
+  stockOptions: null as IGridOptions
 }
 
 function oninit() {
   getStocks()
-    .then(r => { stockOptions = buildGridOptions(fields, r) });
+    .then(r => { model.stockOptions = gridOptions(r) });
+}
+
+function view() {
+  return m('div',
+    m('h2', `Stocks`),
+    m('p', `Count: ${model.stockOptions ? model.stockOptions.data.length : 0}`),
+    model.stockOptions
+      ? m(grid, { gridOptions: model.stockOptions, style: { 'font-size': 'smaller' } } as any)
+      : m(loading));
 }
 
 function getStocks() {
   return m.request({ url: 'api/markets/symbols', data: Date.now() });
 }
 
-function buildGridOptions(fields: string[], data: any) {
+function gridOptions(data: any) {
+  const fields = ['symbol', 'name', 'date', 'type'];
+
   const columns: IGridColumn[] = fields
     .map(field => ({
       id: field,
@@ -35,9 +43,3 @@ function buildGridOptions(fields: string[], data: any) {
 
   return { columns: columns, data: data, key: 'symbol' };
 }
-
-export const stocks = {
-  view: view,
-  oninit: oninit
-}
-

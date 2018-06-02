@@ -22,6 +22,7 @@ import { login } from './components/pages/account/login';
 addStyleSheet(`
   #app { margin: 1em }
   .bold { font-weight: bold }
+  .italic { font-style: italic }
 `);
 
 const page = content => ({
@@ -29,7 +30,10 @@ const page = content => ({
 });
 
 const auth = content => ({
-  onmatch: () => page(content)
+  onmatch: () => {
+    // todo: check authentication
+    return page(content);
+  }
 });
 
 const root = document.getElementById('app') as Element;

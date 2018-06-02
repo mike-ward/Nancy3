@@ -1,7 +1,8 @@
 ﻿export interface IGridOptions {
   columns: IGridColumn[];
   data: {}[];
-  key?: string;
+  key?: string | Function;
+  meta?: any;
 }
 
 export interface IGridColumn {

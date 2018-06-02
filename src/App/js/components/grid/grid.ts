@@ -28,7 +28,7 @@ function tbody(gridOptions: IGridOptions, state: any) {
   const key = gridOptions.key;
   const tbody = m('tbody', data.map(row =>
     m('tr',
-      { key: key ? row[key] : undefined },
+      { key: key ? (key instanceof Function ? (key as Function)(row) : row[key]) : undefined },
       columns.map(column => td(row, column))))
     );
   return tbody;

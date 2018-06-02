@@ -5,62 +5,70 @@ import { IGridOptions, IGridColumn } from '../grid/IGridOptions';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 import { addStyleSheet } from '../../services/dom-service';
 
-let mostActive = {} as IGridOptions;
-let gainers = {} as IGridOptions;
-let losers = {} as IGridOptions;
+export const markets = {
+  oninit: oninit,
+  view: view
+}
 
-const fields = ['symbol', 'companyName', 'primaryExchange', 'sector', 'latestPrice', 'open', 'close', 'high', 'low', 'week52High', 'week52Low'];
-
-function view() {
-  return m('.markets', 
-    m('h2', 'Markets'),
-    mostActive.columns ? m('p.bold', 'Most Active Stocks') : m(loading),
-    m(grid, { gridOptions: mostActive } as any),
-    gainers.columns ? m('p.bold', 'Gainers') : m(loading),
-    m(grid, { gridOptions: gainers } as any),
-    losers.columns ? m('p.bold', 'Losers') : m(loading),
-    m(grid, { gridOptions: losers } as any)
-  );
+const model = {
+  mostActive: {} as IGridOptions,
+  gainers: {} as IGridOptions,
+  losers: {} as IGridOptions
 }
 
 function oninit() {
-  getMostActive()
-    .then(r => { mostActive = buildGridOptions(fields, r) });
+  getMostActive();
+  getGainers();
+  getLosers();
+}
 
-  getGainers()
-    .then(r => { gainers = buildGridOptions(fields, r) });
+function view() {
+  return m('.markets',
+    m('h2', 'Markets'),
+    [model.mostActive, model.gainers, model.losers]
+      .map(mdl => [
+        mdl.columns ? m('p.bold', mdl.meta) : m(loading),
+        m(grid, { gridOptions: mdl } as any)
+      ])
+  );
+}
 
-  getLosers()
-    .then(r => { losers = buildGridOptions(fields, r) });
+function api(url: string) {
+  return m.request({ url: url, data: Date.now() });
 }
 
 function getMostActive() {
-  return m.request({ url: 'api/markets/most-active', data: Date.now() });
+  api('api/markets/most-active')
+    .then(r => { model.mostActive = gridOptions('Most Active Stocks', r) });
 }
 
 function getGainers() {
-  return m.request({ url: 'api/markets/gainers', data: Date.now() });
+  api('api/markets/gainers')
+    .then(r => { model.gainers = gridOptions('Gainers', r) });
 }
 
 function getLosers() {
-  return m.request({ url: 'api/markets/losers', data: Date.now() });
+  api('api/markets/losers')
+    .then(r => { model.losers = gridOptions('Losers', r) });
 }
 
-function buildGridOptions(fields: string[], data: any) {
+function gridOptions(title: string, data: any) {
+  const fields = [
+    'symbol', 'companyName', 'primaryExchange', 'sector', 'latestPrice',
+    'open', 'close', 'high', 'low', 'week52High', 'week52Low'
+  ];
+
   const columns: IGridColumn[] = fields
     .map(field => ({
       id: field,
       title: camelIdentifierToTitle(field),
       allowSort: true,
     }));
-  return { columns: columns, data: data };
+
+  return { columns: columns, data: data, meta: title };
 }
 
 // language=css
 const css = `div.markets .grid { font-size: smaller; }`;
 addStyleSheet(css);
 
-export const markets = {
-  view: view,
-  oninit: oninit
-}
