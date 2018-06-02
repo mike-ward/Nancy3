@@ -2,9 +2,9 @@
 
 namespace App.Modules
 {
-    public class Index : NancyModule
+    public class IndexModule : NancyModule
     {
-        public Index()
+        public IndexModule()
         {
             Get("/", args => View["index"]);
         }
