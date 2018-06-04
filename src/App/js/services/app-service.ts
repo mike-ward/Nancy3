@@ -13,34 +13,42 @@ import { about } from '../components/pages/about';
 // Account
 import { login } from '../components/pages/account/login';
 
-export function startApp() {
-  addStyleSheet(
-    `
+export var startApp = update => model => {
+    addStyleSheet(
+      `
   #app { margin: 1em }
   .bold { font-weight: bold }
   .italic { font-style: italic }
 `);
 
-  const page = content => ({
-    view: () => m(layout, m(content))
-  });
+    const page = vnode => ({
+      view: () => m(layout, m(vnode))
+    });
 
-  const auth = content => ({
-    onmatch: () => {
-      // todo: check authentication
-      return page(content);
-    }
-  });
+    const auth = vnode => ({
+      onmatch: () => {
+        // todo: check authentication
+        return page(vnode);
+      }
+    });
 
+  const emptyComponent = {
+    view: () => ''
+  };
+
+  const router = component => {
+    update(() => model.component = component);
+    return { onmatch: () => new Promise((a, b) => emptyComponent) }
+  }
+    
   const root = document.getElementById('app') as Element;
 
   m.route(
-    root,
-    'splash',
+    root, 'splash',
     {
       // Pages
-      'splash': page(splash),
-      'news': auth(news),
+      'splash': router(page(splash)),
+      'news': router(auth(news)),
       'markets': auth(markets),
       'stocks': auth(stocks),
       'about': page(about),
