@@ -5,7 +5,6 @@ module.hot && module.hot.accept();
 if (!-[1,]) alert('Internet Explorer 7 and 8 are not supported');
 
 import m from 'mithril';
-import stream from 'mithril/stream';
 import { startApp } from './services/app-service'
 
 

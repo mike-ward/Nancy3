@@ -14,21 +14,20 @@ import { about } from '../components/pages/about';
 import { login } from '../components/pages/account/login';
 
 export function startApp() {
-    addStyleSheet(
-      `
-  #app { margin: 1em }
-  .bold { font-weight: bold }
-  .italic { font-style: italic }
-`);
+    addStyleSheet(`
+      #app { margin: 1em }
+      .bold { font-weight: bold }
+      .italic { font-style: italic }
+    `);
 
-    const page = vnode => ({
-      view: () => m(layout, m(vnode))
+    const page = component => ({
+      view: () => m(layout, m(component))
     });
 
-    const auth = vnode => ({
+    const auth = component => ({
       onmatch: () => {
         // todo: check authentication
-        return page(vnode);
+        return component;
       }
     });
 
@@ -39,9 +38,9 @@ export function startApp() {
     {
       // Pages
       'splash': page(splash),
-      'news': auth(news),
-      'markets': auth(markets),
-      'stocks': auth(stocks),
+      'news': auth(page(news)),
+      'markets': auth(page(markets)),
+      'stocks': auth(page(stocks)),
       'about': page(about),
 
       // Account
