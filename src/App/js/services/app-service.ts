@@ -13,7 +13,7 @@ import { about } from '../components/pages/about';
 // Account
 import { login } from '../components/pages/account/login';
 
-export var startApp = update => model => {
+export function startApp() {
     addStyleSheet(
       `
   #app { margin: 1em }
@@ -32,23 +32,14 @@ export var startApp = update => model => {
       }
     });
 
-  const emptyComponent = {
-    view: () => ''
-  };
-
-  const router = component => {
-    update(() => model.component = component);
-    return { onmatch: () => new Promise((a, b) => emptyComponent) }
-  }
-    
   const root = document.getElementById('app') as Element;
 
   m.route(
     root, 'splash',
     {
       // Pages
-      'splash': router(page(splash)),
-      'news': router(auth(news)),
+      'splash': page(splash),
+      'news': auth(news),
       'markets': auth(markets),
       'stocks': auth(stocks),
       'about': page(about),

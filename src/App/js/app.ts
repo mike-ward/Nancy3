@@ -8,10 +8,5 @@ import m from 'mithril';
 import stream from 'mithril/stream';
 import { startApp } from './services/app-service'
 
-const model:any = {}
-const update = stream();
-const models = stream.scan((model: any, func: any) => func(model), model, update);
-const root = document.getElementById('app') as Element;
-models.map(mdl => m.render(root, model.component && m(model.component)));
 
-startApp(update)(model);
+startApp();
