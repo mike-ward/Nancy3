@@ -4,7 +4,7 @@ import { loading } from '../loading/loading'
 import { IGridOptions, IGridColumn } from '../grid/IGridOptions';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 
-export const stocks = {
+export const stocks: m.Component = {
   oninit: oninit,
   view: view
 }

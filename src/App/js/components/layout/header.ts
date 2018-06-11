@@ -17,6 +17,11 @@ const navbarOptions = {
   ]
 }
 
+export const header = {
+  view: view,
+  css: css
+}
+
 function view() {
   return m(
     '.header', [
@@ -25,9 +30,4 @@ function view() {
       m(navBar, { 'options': navbarOptions } as any),
       m('hr')
     ]);
-}
-
-export const header = {
-  view: view,
-  css: css
 }

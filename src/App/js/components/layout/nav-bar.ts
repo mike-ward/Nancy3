@@ -1,13 +1,6 @@
 ﻿import m from 'mithril';
 import { addStyleSheet } from '../../services/dom-service';
 
-function view(v: any) {
-  const options = v.attrs.options;
-  return options
-    ? m('.nav-bar', options.items.map((item: any) => m('a', { href: item.link, oncreate: m.route.link }, item.name)))
-    : null;
-}
-
 // language=css
 const css = `
   .nav-bar {
@@ -26,4 +19,11 @@ addStyleSheet(css);
 
 export const navBar = {
   view: view
+}
+
+function view(v: any) {
+  const options = v.attrs.options;
+  return options
+    ? m('.nav-bar', options.items.map((item: any) => m('a', { href: item.link, oncreate: m.route.link }, item.name)))
+    : null;
 }

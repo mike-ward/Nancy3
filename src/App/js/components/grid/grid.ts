@@ -3,6 +3,22 @@ import { IGridOptions, IGridColumn } from './IGridOptions';
 import { compareService } from '../../services/compare-service';
 import { addStyleSheet } from '../../services/dom-service';
 
+// language=CSS
+const css = `
+  .grid th, .grid td{white-space:nowrap;}
+  .grid-click-action{cursor:pointer;}
+  .grid-click-action:hover{text-decoration: underline;}
+  .grid-column-title:hover{cursor:pointer;}
+  .grid-column-sort-indicator{margin-left:1em;}
+  .grid-column-sort-indicator-hidden{visibility:collapse;}
+  .grid-column-title:hover .grid-column-sort-indicator-hidden{color:gray !important;visibility:visible;}`;
+
+addStyleSheet(css);
+
+export const grid = {
+  view: view
+}
+
 function thead(gridOptions: IGridOptions, state: any) {
   const columns = visibleColumns(gridOptions.columns);
   const thead = m('thead', [m('tr', columns.map(column => th(column, state)))]);
@@ -30,7 +46,7 @@ function tbody(gridOptions: IGridOptions, state: any) {
     m('tr',
       { key: key ? (key instanceof Function ? (key as Function)(row) : row[key]) : undefined },
       columns.map(column => td(row, column))))
-    );
+  );
   return tbody;
 }
 
@@ -108,20 +124,4 @@ function view(v) {
     ])
   ]);
   return vn;
-}
-
-// language=CSS
-const css = `
-  .grid th, .grid td{white-space:nowrap;}
-  .grid-click-action{cursor:pointer;}
-  .grid-click-action:hover{text-decoration: underline;}
-  .grid-column-title:hover{cursor:pointer;}
-  .grid-column-sort-indicator{margin-left:1em;}
-  .grid-column-sort-indicator-hidden{visibility:collapse;}
-  .grid-column-title:hover .grid-column-sort-indicator-hidden{color:gray !important;visibility:visible;}`;
-
-addStyleSheet(css);
-
-export const grid = {
-  view: view
 }

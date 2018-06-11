@@ -5,6 +5,10 @@ import { addStyleSheet } from '../../services/dom-service';
 const css = `.user-bar { float: right; margin-right: 2em; }`;
 addStyleSheet(css);
 
+export const userBar = {
+  view: view
+};
+
 function view() {
   const pageData = (window as any).pageData;
   const isAdmin = pageData && pageData.isAdmin;
@@ -17,7 +21,3 @@ function view() {
 
   return vn;
 }
-
-export const userBar = {
-  view: view
-};

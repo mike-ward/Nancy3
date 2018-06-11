@@ -5,7 +5,11 @@ import { IGridOptions, IGridColumn } from '../grid/IGridOptions';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 import { addStyleSheet } from '../../services/dom-service';
 
-export const markets = {
+// language=css
+const css = `div.markets .grid { font-size: smaller; }`;
+addStyleSheet(css);
+
+export const markets: m.Component = {
   oninit: oninit,
   view: view
 }
@@ -67,8 +71,3 @@ function gridOptions(title: string, data: any) {
 
   return { columns: columns, data: data, meta: title };
 }
-
-// language=css
-const css = `div.markets .grid { font-size: smaller; }`;
-addStyleSheet(css);
-

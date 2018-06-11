@@ -7,8 +7,11 @@ const css = `
   form.login-form label { margin-top: 1em }
   form.login-form button { margin-top: 1em }
 `;
-
 addStyleSheet(css);
+
+export const login = {
+  view: view
+}
 
 function view() {
   return m('form.pure-form.pure-form-stacked.login-form',
@@ -22,8 +25,4 @@ function view() {
       m('button.pure-button.pure-button-primary[type="submit"]', 'Sign in')
     )
   );
-}
-
-export const login = {
-  view: view
 }
