@@ -1,4 +1,7 @@
-﻿import m from 'mithril';
+﻿import 'es5-shim';
+import 'es6-shim';
+
+import m from 'mithril';
 import 'purecss/build/pure-min.css';
 import { addStyleSheet } from './dom-service';
 
