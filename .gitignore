@@ -1,5 +1,5 @@
 tsout/
-src/App/js/.cache/*.json
+src/App/js/.cache/*
 src/App/wwwroot/content/app.*
 
 ## Ignore Visual Studio temporary files, build results, and
