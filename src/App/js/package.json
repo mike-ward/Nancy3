@@ -14,7 +14,7 @@
   "dependencies": {
     "es5-shim": "4.5.12",
     "es6-shim": "0.35.3",
-    "mithril": "1.1.6",
+    "mithril": "2.0.0-rc.0",
     "purecss": "1.0.0"
   },
   "devDependencies": {
