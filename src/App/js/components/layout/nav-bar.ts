@@ -24,6 +24,11 @@ export const navBar = {
 function view(v: any) {
   const options = v.attrs.options;
   return options
-    ? m('.nav-bar', options.items.map((item: any) => m('a', { href: item.link, oncreate: m.route.link }, item.name)))
+    ? m('.nav-bar', links(options))
     : null;
+}
+
+function links(options) {
+  return options.items
+    .map((item: any) => m('a', { href: item.link, oncreate: m.route.link }, item.name));
 }
