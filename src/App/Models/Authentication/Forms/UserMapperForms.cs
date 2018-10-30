@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Security.Claims;
 using App.Infrastructure;
+using App.Infrastructure.Interfaces;
 using Nancy;
 using Nancy.Authentication.Forms;
 

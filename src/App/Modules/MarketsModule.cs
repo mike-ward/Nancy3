@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Nancy;
+using System;
 using System.Net;
-using Nancy;
 
 namespace App.Modules
 {
-    public class MarketsModule : NancyModule
+    public sealed class MarketsModule : NancyModule
     {
         private static object Get(string url)
         {

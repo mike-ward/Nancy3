@@ -2,7 +2,7 @@
 
 namespace App.Modules
 {
-    public class IndexModule : NancyModule
+    public sealed class IndexModule : NancyModule
     {
         public IndexModule()
         {
