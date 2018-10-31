@@ -1,7 +1,7 @@
 ﻿import m from 'mithril';
 
 function view() {
-  return `About page here`;
+  return `This space for rent`;
 }
 
 export const about: m.Component = {
