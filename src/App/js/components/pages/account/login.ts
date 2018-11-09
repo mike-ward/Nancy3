@@ -1,14 +1,13 @@
 ﻿import m from 'mithril';
 import constants from '../../../services/constants-service';
-import { addStyleSheet } from '../../../services/dom-service';
+import { cssStylesAdd } from '../../../services/css-service';
 
 // language=css
-const css = `
+cssStylesAdd(`
   form.login-form { width: 30rem; margin: 5rem auto }
   form.login-form label { margin-top: 1em }
   form.login-form button { margin-top: 1em }
-`;
-addStyleSheet(css);
+`);
 
 export const login = {
   view: view

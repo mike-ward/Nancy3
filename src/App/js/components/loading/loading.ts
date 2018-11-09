@@ -1,5 +1,5 @@
 ﻿import m from 'mithril';
-import { addStyleSheet } from '../../services/dom-service';
+import { cssStylesAdd } from '../../services/css-service';
 
 function view(vnode: any) {
   return m('span', vnode.attrs, [
@@ -9,7 +9,7 @@ function view(vnode: any) {
 }
 
 // language=css
-addStyleSheet(`.loading-img { height: 16px; width: 16px; vertical-align: middle}`);
+cssStylesAdd(`.loading-img { height: 16px; width: 16px; vertical-align: middle}`);
 
 export const loading = {
   view: view,

@@ -1,9 +1,8 @@
 ﻿import m from 'mithril';
-import { addStyleSheet } from '../../services/dom-service';
+import { cssStylesAdd } from '../../services/css-service';
 
 // language=CSS
-const css = `.footer{margin-top:5rem;}`;
-addStyleSheet(css);
+cssStylesAdd(`.footer{margin-top:5rem;}`);
 
 export const footer = {
   view: view

@@ -1,8 +1,8 @@
 ﻿import m from 'mithril';
-import { addStyleSheet } from '../../services/dom-service';
+import { cssStylesAdd } from '../../services/css-service';
 
 // language=css
-const css = `
+cssStylesAdd(`
   .nav-bar {
     margin: .25em auto;
   }
@@ -13,9 +13,8 @@ const css = `
   }
   .nav-bar a:hover {
     border-bottom: solid 1px;
-  }`;
-
-addStyleSheet(css);
+  }`
+);
 
 export const navBar = {
   view: view

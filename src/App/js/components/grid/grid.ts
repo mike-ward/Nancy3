@@ -1,19 +1,17 @@
 ﻿import m from 'mithril';
 import { IGridOptions, IGridColumn } from './IGridOptions';
 import { compareService } from '../../services/compare-service';
-import { addStyleSheet } from '../../services/dom-service';
+import { cssStylesAdd } from '../../services/css-service';
 
 // language=CSS
-const css = `
+cssStylesAdd(`
   .grid th, .grid td{white-space:nowrap;}
   .grid-click-action{cursor:pointer;}
   .grid-click-action:hover{text-decoration: underline;}
   .grid-column-title:hover{cursor:pointer;}
   .grid-column-sort-indicator{margin-left:1em;}
   .grid-column-sort-indicator-hidden{visibility:collapse;}
-  .grid-column-title:hover .grid-column-sort-indicator-hidden{color:gray !important;visibility:visible;}`;
-
-addStyleSheet(css);
+  .grid-column-title:hover .grid-column-sort-indicator-hidden{color:gray !important;visibility:visible;}`);
 
 export const grid = {
   view: view

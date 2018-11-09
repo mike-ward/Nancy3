@@ -1,12 +1,11 @@
 ﻿import m from 'mithril';
 import constants from '../../services/constants-service';
-import { addStyleSheet } from '../../services/dom-service';
+import { cssStylesAdd } from '../../services/css-service';
 import { userBar } from './user-bar';
 import { navBar } from './nav-bar';
 
 // language=CSS
-const css = `.header{clear:both;text-align:center;}`;
-addStyleSheet(css);
+cssStylesAdd(`.header{clear:both;text-align:center;}`);
 
 const navbarOptions = {
   items: [
@@ -18,8 +17,7 @@ const navbarOptions = {
 }
 
 export const header = {
-  view: view,
-  css: css
+  view: view
 }
 
 function view() {

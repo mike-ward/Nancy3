@@ -3,11 +3,10 @@ import { grid } from '../grid/grid';
 import { loading } from '../loading/loading';
 import { IGridOptions, IGridColumn } from '../grid/IGridOptions';
 import { camelIdentifierToTitle } from '../../services/convert-service';
-import { addStyleSheet } from '../../services/dom-service';
+import { cssStylesAdd } from '../../services/css-service';
 
 // language=css
-const css = `div.markets .grid { font-size: smaller; }`;
-addStyleSheet(css);
+cssStylesAdd(`div.markets .grid { font-size: smaller; }`);
 
 export const markets: m.Component = {
   oninit: oninit,

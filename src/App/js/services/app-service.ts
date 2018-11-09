@@ -3,7 +3,7 @@ import 'es6-shim';
 
 import m from 'mithril';
 import 'purecss/build/pure-min.css';
-import { addStyleSheet } from './dom-service';
+import { cssStylesAdd, cssStylesInject } from './css-service';
 
 // Pages
 import { layout } from '../components/layout/layout';
@@ -18,12 +18,13 @@ import { login } from '../components/pages/account/login';
 
 export function startApp() {
   // language=css
-  addStyleSheet(`
+  cssStylesAdd(`
     #app { margin: 1em }
     .bold { font-weight: bold }
     .italic { font-style: italic }
   `);
 
+  cssStylesInject();
   const root = document.getElementById('app') as Element;
 
   m.route(

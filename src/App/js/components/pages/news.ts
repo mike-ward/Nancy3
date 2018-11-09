@@ -1,9 +1,10 @@
 ﻿import m from 'mithril';
-import { addStyleSheet, decodeHtml } from '../../services/dom-service';
+import { decodeHtml } from '../../services/dom-service';
 import { dateToLocaleString } from '../../services/convert-service';
+import { cssStylesAdd } from '../../services/css-service';
 
 // language=css
-addStyleSheet(`
+cssStylesAdd(`
   .new-item{margin-bottom:2em;}
   .home-date-time{font-weight:bold;margin:-1em 0 1em 0;}`);
 

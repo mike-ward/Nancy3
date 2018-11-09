@@ -1,9 +1,8 @@
 ﻿import m from 'mithril';
-import { addStyleSheet } from '../../services/dom-service';
+import { cssStylesAdd } from '../../services/css-service';
 
 // language=CSS
-const css = `.user-bar { float: right; margin-right: 2em; }`;
-addStyleSheet(css);
+cssStylesAdd(`.user-bar { float: right; margin-right: 2em; }`);
 
 export const userBar = {
   view: view
