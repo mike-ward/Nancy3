@@ -9,7 +9,7 @@ cssStylesAdd(`.header{clear:both;text-align:center;}`);
 
 const navbarOptions = {
   items: [
-    { name: 'Home', link: 'news' },
+    { name: 'News', link: 'news' },
     { name: 'Markets', link: 'markets' },
     { name: 'Stocks', link: 'stocks' },
     { name: 'About', link: 'about' }

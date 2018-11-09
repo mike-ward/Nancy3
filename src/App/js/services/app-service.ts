@@ -3,6 +3,7 @@ import 'es6-shim';
 
 import m from 'mithril';
 import 'purecss/build/pure-min.css';
+import constants from './constants-service';
 import { cssStylesAdd, cssStylesInject } from './css-service';
 
 // Pages
@@ -31,18 +32,20 @@ export function startApp() {
     root, 'splash',
     {
       // Pages
-      'splash': page(splash),
-      'news': auth(page(news)),
-      'markets': auth(page(markets)),
-      'stocks': auth(page(stocks)),
-      'about': page(about),
+      'splash': page(splash, 'Splash'),
+      'news': auth(page(news, 'News')),
+      'markets': auth(page(markets, 'Markets')),
+      'stocks': auth(page(stocks, 'Stocks')),
+      'about': page(about, 'About'),
 
       // Account
       'account/login': login
     });
 
-  function page(component: m.Component): m.Component {
+  function page(component: m.Component, title: string): m.Component {
     return {
+      oncreate: () => document.title = `${constants.appTitle} - ${title}`,
+      onremove: () => document.title = `${constants.appTitle}`,
       view: () => m(layout, m(component))
     }
   }
