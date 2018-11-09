@@ -30,10 +30,9 @@ function th(column: IGridColumn, state: any) {
     {
       title: column.tooltip || '',
       onclick: () => titleClickActions(column, state)
-    }, [
-      column.title,
-      sortIndicator(column, state)
-    ]
+    },
+    column.title,
+    sortIndicator(column, state)
   );
   return th;
 }
@@ -117,11 +116,11 @@ function view(v) {
   const gridOptions = v.attrs.gridOptions as IGridOptions;
   if (!gridOptions || !gridOptions.columns || !gridOptions.data) return null;
 
-  const vn = m('.grid', v.attrs, [
-    m('table.pure-table.pure-table-bordered', [
+  const vn = m('.grid', v.attrs,
+    m('table.pure-table.pure-table-bordered',
       thead(gridOptions, v.state),
       tbody(gridOptions, v.state)
-    ])
-  ]);
+    )
+  );
   return vn;
 }

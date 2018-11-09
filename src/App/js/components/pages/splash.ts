@@ -1,6 +1,6 @@
 ﻿import m from 'mithril';
 
-function view(v) {
+function view() {
   return `Splash: ${Date.now()}`;
 }
 

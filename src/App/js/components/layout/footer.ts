@@ -11,8 +11,8 @@ export const footer = {
 
 function view() {
   return m(
-    '.footer', [
-      m('hr'),
-      m('.app-footer', 'footer stuff goes here')
-    ]);
+    '.footer',
+    m('hr'),
+    m('.app-footer', 'footer stuff goes here')
+  );
 }

@@ -27,13 +27,13 @@ function oninit() {
 }
 
 function view() {
+  const markets = [model.mostActive, model.gainers, model.losers];
   return m('.markets',
     m('h2', 'Markets'),
-    [model.mostActive, model.gainers, model.losers]
-      .map(mdl => [
-        mdl.columns ? m('p.bold', mdl.meta) : m(loading),
-        m(grid, { gridOptions: mdl } as any)
-      ])
+    markets.map(mdl => [
+      mdl.columns ? m('p.bold', mdl.meta) : m(loading),
+      m(grid, { gridOptions: mdl } as any)
+    ])
   );
 }
 

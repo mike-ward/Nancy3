@@ -17,6 +17,7 @@ import { about } from '../components/pages/about';
 import { login } from '../components/pages/account/login';
 
 export function startApp() {
+  // language=css
   addStyleSheet(`
     #app { margin: 1em }
     .bold { font-weight: bold }

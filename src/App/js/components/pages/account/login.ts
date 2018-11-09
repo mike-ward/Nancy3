@@ -2,6 +2,7 @@
 import constants from '../../../services/constants-service';
 import { addStyleSheet } from '../../../services/dom-service';
 
+// language=css
 const css = `
   form.login-form { width: 30rem; margin: 5rem auto }
   form.login-form label { margin-top: 1em }

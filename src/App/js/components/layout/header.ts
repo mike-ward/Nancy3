@@ -23,11 +23,10 @@ export const header = {
 }
 
 function view() {
-  return m(
-    '.header', [
-      m(userBar),
-      m('h1[style=clear:both]', constants.appTitle),
-      m(navBar, { 'options': navbarOptions } as any),
-      m('hr')
-    ]);
+  return m('.header',
+    m(userBar),
+    m('h1[style=clear:both]', constants.appTitle),
+    m(navBar, { 'options': navbarOptions } as any),
+    m('hr')
+  );
 }

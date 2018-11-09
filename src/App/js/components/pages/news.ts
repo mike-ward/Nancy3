@@ -28,11 +28,10 @@ function oninit(v: m.Vnode): void {
 function view(): m.Vnode {
   return m(
     'div',
-    [
-      m('h2', 'News'),
-      m('p', new Date(model.time).toLocaleString()),
-      m('div', model.news.map((item: any) => newsNode(item)))
-    ]);
+    m('h2', 'News'),
+    m('p', new Date(model.time).toLocaleString()),
+    m('div', model.news.map((item: any) => newsNode(item)))
+  );
 }
 
 function updateNews() {
@@ -48,12 +47,11 @@ function updateTime() {
 function newsNode(item: any): m.Vnode {
   const vn = m(
     '.news-item',
-    [
-      m('h3', [m('a', { href: item.url, target: '_blank' } as any, decodeHtml(item.headline))]),
-      m('div.home-date-time', dateToLocaleString(item.datetime)),
-      m('p', decodeHtml(item.summary)),
-      m('p', 'source: ', m('em', decodeHtml(item.source)))
-    ]);
+    m('h3', [m('a', { href: item.url, target: '_blank' } as any, decodeHtml(item.headline))]),
+    m('div.home-date-time', dateToLocaleString(item.datetime)),
+    m('p', decodeHtml(item.summary)),
+    m('p', 'source: ', m('em', decodeHtml(item.source)))
+  );
 
   return vn;
 }
