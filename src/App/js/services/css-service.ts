@@ -9,4 +9,5 @@ export function cssStylesInject() {
   sheet.type = 'text/css';
   sheet.innerHTML = cssRules;
   document.head.appendChild(sheet);
+  cssRules = '';
 }
