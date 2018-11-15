@@ -24,9 +24,10 @@ function thead(gridOptions: IGridOptions, state: any) {
 }
 
 function th(column: IGridColumn, state: any) {
-  const th = m('th.grid-column-title',
+  const th = m('th',
     {
-      title: column.tooltip || '',
+      'class': column.allowSort ? 'grid-column-title' : '',
+      title: column.tooltip || undefined,
       onclick: () => titleClickActions(column, state)
     },
     column.title,
