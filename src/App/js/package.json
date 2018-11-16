@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "parcel build app.ts -d ../wwwroot/content",
+    "build-Debug": "parcel build app.ts -d ../wwwroot/content --no-minify",
+    "build-Release": "parcel build app.ts -d ../wwwroot/content --experimental-scope-hoisting --no-cache",
     "watch": "parcel watch app.ts -d ../wwwroot/content"
   },
   "keywords": [],
