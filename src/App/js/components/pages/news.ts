@@ -5,7 +5,7 @@ import { cssStylesAdd } from '../../services/css-service';
 
 // language=css
 cssStylesAdd(`
-  .new-item{margin-bottom:2em;}
+  .news-item{margin-bottom:2em;max-width:60em}
   .home-date-time{font-weight:bold;margin:-1em 0 1em 0;}`);
 
 const timerField = 'timer';

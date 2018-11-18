@@ -33,11 +33,7 @@
     <PackageReference Include="Nancy.Authentication.Forms" Version="2.0.0-clinteastwood" />
   </ItemGroup>
 
-  <ItemGroup>
-    <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.3" />
-  </ItemGroup>
-
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(DeployOnBuild)' != 'true'">
     <Exec Command="cd js&#xD;&#xA;npm run build-$(ConfigurationName)" />
   </Target>
 
