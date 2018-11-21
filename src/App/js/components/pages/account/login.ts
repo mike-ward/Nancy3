@@ -5,18 +5,19 @@ import { cssStylesAdd } from '../../../services/css-service';
 // language=css
 cssStylesAdd(`
   form.login-form { width: 30rem; margin: 5rem auto }
-  form.login-form label { margin-top: 1em }
-  form.login-form button { margin-top: 1em }
+  form.login-form label { margin-top: 1rem }
+  form.login-form button { margin-top: 1rem }
 `);
 
 export const login = {
-  view: view
+  view: view,
+  oncreate: () => document.getElementById('email').focus()
 }
 
 function view() {
   return m('form.pure-form.pure-form-stacked.login-form',
     m('fieldset',
-      m('legend', `${constants.appTitle} Login`),
+      m('legend', m('.bold', `${constants.appTitle} Sign In`)),
       m("label[for='email']", 'Email'),
       m('input.pure-input-2-3[id="email"][type="email"]'),
       m('span.pure-form-message', 'This is a required field.'),
