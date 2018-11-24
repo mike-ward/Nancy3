@@ -19,7 +19,7 @@ export const grid = {
 
 function thead(gridOptions: IGridOptions, state: any) {
   const columns = visibleColumns(gridOptions.columns);
-  const thead = m('thead', [m('tr', columns.map(column => th(column, state)))]);
+  const thead = m('thead', m('tr', columns.map(column => th(column, state))));
   return thead;
 }
 
@@ -40,29 +40,35 @@ function tbody(gridOptions: IGridOptions, state: any) {
   const data = sortByColumn(gridOptions, state);
   const columns = visibleColumns(gridOptions.columns);
   const key = gridOptions.key;
+  const getKey = (key instanceof Function)
+    ? row => (key as Function)(row)
+    : row => row[key];
+
   const tbody = m('tbody', data.map(row =>
     m('tr',
-      { key: key ? (key instanceof Function ? (key as Function)(row) : row[key]) : undefined },
+      { key: key ? getKey(row) : undefined },
       columns.map(column => td(row, column))))
   );
   return tbody;
 }
 
 function td(row: {}, column: IGridColumn) {
-  const value = columnValue(row, column);
+  const val = row[column.id];
+  const value = val === null || val === undefined ? column.contentIfNull : val;
+  const renderedValue = column.renderer ? column.renderer(value) : value;
+  const className = column.cellClick ? 'grid-click-action' : undefined;
+  const tooltip = column.cellTooltip ? column.cellTooltip(value) : undefined;
+  const clickHandler = () => column.cellClick ? column.cellClick(value) : undefined;
+
   const td = m('td',
     {
-      'class': column.cellClick ? 'grid-click-action' : undefined,
-      title: column.cellTooltip ? column.cellTooltip(value) : undefined,
-      onclick: () => column.cellClick ? column.cellClick(columnValue(row, column)) : undefined
+      'class': className,
+      title: tooltip,
+      onclick: clickHandler
     },
-    column.renderer ? column.renderer(value) : value);
-  return td;
-}
+    renderedValue);
 
-function columnValue(row: any, column: IGridColumn) {
-  const value = row[column.id];
-  return value === null || value === undefined ? column.contentIfNull : value;
+  return td;
 }
 
 function visibleColumns(columns: IGridColumn[]) {

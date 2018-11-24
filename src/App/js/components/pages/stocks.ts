@@ -10,20 +10,20 @@ export const stocks: m.Component = {
 }
 
 const model = {
-  stockOptions: null as IGridOptions
+  stocks: null as IGridOptions
 }
 
 function oninit() {
   getStocks()
-    .then(r => { model.stockOptions = gridOptions(r) });
+    .then(r => { model.stocks = gridOptionsFactory(r) });
 }
 
 function view() {
   return m('div',
     m('h2', `Stocks`),
-    m('p', `Count: ${model.stockOptions ? model.stockOptions.data.length : 0}`),
-    model.stockOptions
-      ? m(grid, { gridOptions: model.stockOptions, style: { 'font-size': 'smaller' } } as any)
+    m('p', `Count: ${model.stocks ? model.stocks.data.length : 0}`),
+    model.stocks
+      ? m(grid, { gridOptions: model.stocks, style: { 'font-size': 'smaller' } } as any)
       : m(loading));
 }
 
@@ -31,7 +31,7 @@ function getStocks() {
   return m.request({ url: 'api/markets/symbols', data: Date.now() });
 }
 
-function gridOptions(data: any) {
+function gridOptionsFactory(data: any) {
   const fields = ['symbol', 'name', 'date', 'type'];
 
   const columns: IGridColumn[] = fields
@@ -41,5 +41,8 @@ function gridOptions(data: any) {
       allowSort: true,
     }));
 
-  return { columns: columns, data: data, key: 'symbol' };
+  return {
+    columns: columns,
+    data: data
+  };
 }

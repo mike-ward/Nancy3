@@ -1,7 +1,4 @@
-﻿import 'es5-shim';
-import 'es6-shim';
-
-import m from 'mithril';
+﻿import m from 'mithril';
 import 'purecss/build/pure-min.css';
 import constants from './constants-service';
 import { cssStylesAdd, cssStylesInject } from './css-service';
