@@ -1,4 +1,6 @@
-﻿import 'purecss/build/pure-min.css';
+﻿declare var global;
+
+import 'purecss/build/pure-min.css';
 import { cssStylesAdd, cssStylesInject } from './css-service';
 import { buildRoutes } from './route-service';
 
@@ -10,6 +12,9 @@ export function startApp() {
     .bold { font-weight: bold }
     .italic { font-style: italic }
   `);
+
+  // True when running opsec tests
+  if (global.window) return;
 
   cssStylesInject();
   buildRoutes();

@@ -12,9 +12,8 @@ import { about } from '../components/pages/about';
 // Account
 import { login } from '../components/pages/account/login';
 
-const root = document.getElementById('app') as Element;
-
 export function buildRoutes() {
+  const root = document.getElementById('app') as Element;
   m.route(root,'',
     {
       // Pages
