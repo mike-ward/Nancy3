@@ -86,9 +86,9 @@ function sortIndicator(column: IGridColumn, state: any) {
 }
 
 function sortByColumn(gridOptions: IGridOptions, state: any) {
-  const data = gridOptions.data.slice();
-  if (!state.sortedColumnId) return data;
   const columnId = state.sortedColumnId;
+  if (!columnId) return gridOptions.data;
+  const data = gridOptions.data.slice();
   const column = gridOptions.columns[columnId];
 
   const comparer = column && column.comparer
