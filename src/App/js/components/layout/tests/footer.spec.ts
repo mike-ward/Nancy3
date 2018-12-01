@@ -1,8 +1,4 @@
-﻿declare let global: any;
-import browser from 'mithril/test-utils/browserMock';
-global.window = browser();
-global.document = window;
-
+﻿import '../../../browserMock';
 import { footer } from '../footer';
 
   test('footer should contain test', () => {
