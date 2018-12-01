@@ -13,9 +13,6 @@ export function startApp() {
     .italic { font-style: italic }
   `);
 
-  // True when running opsec tests
-  if (global.window) return;
-
   cssStylesInject();
   buildRoutes();
 }
