@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "ospec",
+    "test": "jest",
     "build-Debug": "parcel build app.ts -d ../wwwroot/content --no-minify",
     "build-Release": "parcel build app.ts -d ../wwwroot/content --experimental-scope-hoisting --no-cache",
     "watch": "parcel watch app.ts -d ../wwwroot/content"
@@ -17,8 +17,11 @@
     "purecss": "1.0.0"
   },
   "devDependencies": {
+    "@types/jest": "23.3.10",
     "@types/mithril": "1.1.13",
     "glob": "7.1.3",
+    "jest": "23.6.0",
+    "ts-jest": "23.10.5",
     "typescript": "3.2.1"
   }
 }

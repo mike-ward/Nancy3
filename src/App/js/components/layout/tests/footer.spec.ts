@@ -1,12 +1,11 @@
-﻿import * as window from 'mithril/test-utils/browserMock';
+﻿declare let global: any;
+import browser from 'mithril/test-utils/browserMock';
+global.window = browser();
+global.document = window;
+
 import { footer } from '../footer';
-import { o } from 'mithril/ospec';
 
-o.spec('footer', () => {
-
-  o('footer should contain test', () => {
+  test('footer should contain test', () => {
     const vnode = footer.view();
-    o(vnode.tag).equals('pp');
+    expect(vnode.tag).toBe('div');
   });
-
-});
