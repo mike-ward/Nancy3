@@ -19,9 +19,13 @@
 
   <ItemGroup>
     <Compile Remove="js\tsout\**" />
+    <Compile Remove="tsout\**" />
     <Content Remove="js\tsout\**" />
+    <Content Remove="tsout\**" />
     <EmbeddedResource Remove="js\tsout\**" />
+    <EmbeddedResource Remove="tsout\**" />
     <None Remove="js\tsout\**" />
+    <None Remove="tsout\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -4,6 +4,6 @@
     "module": "commonjs",
     "esModuleInterop": true,
     "sourceMap": true,
-    "outDir": "./tsout"
+    "outDir": "../tsout"
   }
 }
