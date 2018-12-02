@@ -4,7 +4,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <TypeScriptToolsVersion>3.0</TypeScriptToolsVersion>
     <UserSecretsId>4ef93650-7b0d-4014-99c9-e295aeab411d</UserSecretsId>
-    <RunPostBuildEvent>Always</RunPostBuildEvent>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -29,7 +29,30 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="js\app.ts" />
+    <None Remove="js\components\grid\grid.ts" />
+    <None Remove="js\components\grid\IGridOptions.ts" />
+    <None Remove="js\components\layout\footer.ts" />
+    <None Remove="js\components\layout\header.ts" />
+    <None Remove="js\components\layout\layout.ts" />
+    <None Remove="js\components\layout\nav-bar.ts" />
     <None Remove="js\components\layout\tests\footer.spec.ts" />
+    <None Remove="js\components\layout\user-bar.ts" />
+    <None Remove="js\components\loading\loading.ts" />
+    <None Remove="js\components\pages\about.ts" />
+    <None Remove="js\components\pages\account\login.ts" />
+    <None Remove="js\components\pages\markets.ts" />
+    <None Remove="js\components\pages\news.ts" />
+    <None Remove="js\components\pages\splash.ts" />
+    <None Remove="js\components\pages\stocks.ts" />
+    <None Remove="js\services\app-service.ts" />
+    <None Remove="js\services\compare-service.ts" />
+    <None Remove="js\services\constants-service.ts" />
+    <None Remove="js\services\convert-service.ts" />
+    <None Remove="js\services\css-service.ts" />
+    <None Remove="js\services\dialog-service.ts" />
+    <None Remove="js\services\dom-service.ts" />
+    <None Remove="js\services\route-service.ts" />
     <None Remove="Views\index.html" />
   </ItemGroup>
 
@@ -50,7 +73,30 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="js\app.ts" />
+    <TypeScriptCompile Include="js\components\grid\grid.ts" />
+    <TypeScriptCompile Include="js\components\grid\IGridOptions.ts" />
+    <TypeScriptCompile Include="js\components\layout\footer.ts" />
+    <TypeScriptCompile Include="js\components\layout\header.ts" />
+    <TypeScriptCompile Include="js\components\layout\layout.ts" />
+    <TypeScriptCompile Include="js\components\layout\nav-bar.ts" />
     <TypeScriptCompile Include="js\components\layout\tests\footer.spec.ts" />
+    <TypeScriptCompile Include="js\components\layout\user-bar.ts" />
+    <TypeScriptCompile Include="js\components\loading\loading.ts" />
+    <TypeScriptCompile Include="js\components\pages\about.ts" />
+    <TypeScriptCompile Include="js\components\pages\account\login.ts" />
+    <TypeScriptCompile Include="js\components\pages\markets.ts" />
+    <TypeScriptCompile Include="js\components\pages\news.ts" />
+    <TypeScriptCompile Include="js\components\pages\splash.ts" />
+    <TypeScriptCompile Include="js\components\pages\stocks.ts" />
+    <TypeScriptCompile Include="js\services\app-service.ts" />
+    <TypeScriptCompile Include="js\services\compare-service.ts" />
+    <TypeScriptCompile Include="js\services\constants-service.ts" />
+    <TypeScriptCompile Include="js\services\convert-service.ts" />
+    <TypeScriptCompile Include="js\services\css-service.ts" />
+    <TypeScriptCompile Include="js\services\dialog-service.ts" />
+    <TypeScriptCompile Include="js\services\dom-service.ts" />
+    <TypeScriptCompile Include="js\services\route-service.ts" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(DeployOnBuild)' != 'true'">

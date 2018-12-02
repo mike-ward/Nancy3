@@ -41,8 +41,8 @@ function tbody(gridOptions: IGridOptions, state: any) {
   const columns = visibleColumns(gridOptions.columns);
   const key = gridOptions.key;
   const getKey = (key instanceof Function)
-    ? row => (key as Function)(row)
-    : row => row[key];
+    ? (row: any) => (key as Function)(row)
+    : (row: any) => row[key];
 
   const tbody = m('tbody', data.map(row =>
     m('tr',
@@ -52,9 +52,9 @@ function tbody(gridOptions: IGridOptions, state: any) {
   return tbody;
 }
 
-function td(row: {}, column: IGridColumn) {
+function td(row: {[idx: string]: any}, column: IGridColumn) {
   const val = row[column.id];
-  const value = val === null || val === undefined ? column.contentIfNull : val;
+  const value: any = val === null || val === undefined ? column.contentIfNull : val;
   const renderedValue = column.renderer ? column.renderer(value) : value;
   const className = column.cellClick ? 'grid-click-action' : undefined;
   const tooltip = column.cellTooltip ? column.cellTooltip(value) : undefined;
@@ -117,8 +117,8 @@ function columnSortAction(column: IGridColumn, state: any) {
     : column.id;
 }
 
-function view(v) {
-  const gridOptions = v.attrs.gridOptions as IGridOptions;
+function view(v: m.Vnode) {
+  const gridOptions = (v.attrs as any).gridOptions as IGridOptions;
   if (!gridOptions || !gridOptions.columns || !gridOptions.data) return null;
 
   const vn = m('.grid', v.attrs,

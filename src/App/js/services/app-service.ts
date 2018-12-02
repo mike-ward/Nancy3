@@ -1,6 +1,4 @@
-﻿declare var global;
-
-import 'purecss/build/pure-min.css';
+﻿import 'purecss/build/pure-min.css';
 import { cssStylesAdd, cssStylesInject } from './css-service';
 import { buildRoutes } from './route-service';
 

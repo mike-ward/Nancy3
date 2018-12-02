@@ -24,7 +24,7 @@
 }
 
 function naturalStringCompare(a: string | number, b: string | number): number {
-  const isDigit = c => c >= '0' && c <= '9';
+  const isDigit = (c: any) => c >= '0' && c <= '9';
   const isNumber = this._.isNumber;
 
   enum ClassificationType { Undecided, Alpha, Number }

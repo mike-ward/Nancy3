@@ -13,17 +13,25 @@ const timerField = 'timer';
 export const news = {
   view: view,
   oninit: oninit,
-  onremove: (v: m.Vnode) => clearInterval(v.state[timerField])
+  onremove: (v: m.Vnode) => clearInterval((v.state as any)[timerField])
 };
 
+interface INews {
+  url: string;
+  headline: string;
+  datetime: Date;
+  summary: string;
+  source: string;
+}
+
 const model = {
-  news: [],
+  news: [] as INews[],
   time: Date.now(),
 };
 
 function oninit(v: m.Vnode): void {
   updateNews();
-  v.state[timerField] = setInterval(updateTime, 1000);
+  (v.state as any)[timerField] = setInterval(updateTime, 1000);
 }
 
 function view(): m.Vnode {

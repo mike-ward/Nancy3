@@ -6,7 +6,7 @@ export const layout = {
   view: view
 }
 
-function view(v) {
+function view(v: m.Vnode) {
   return m('',
     m(header),
     v.children,

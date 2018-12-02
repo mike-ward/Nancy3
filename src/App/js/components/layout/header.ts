@@ -2,12 +2,12 @@
 import constants from '../../services/constants-service';
 import { cssStylesAdd } from '../../services/css-service';
 import { userBar } from './user-bar';
-import { navBar } from './nav-bar';
+import { navBar, INavbarOptions } from './nav-bar';
 
 // language=CSS
 cssStylesAdd(`.header{clear:both;text-align:center;}`);
 
-const navbarOptions = {
+const navbarOptions: INavbarOptions = {
   items: [
     { name: 'News', link: 'news' },
     { name: 'Markets', link: 'markets' },

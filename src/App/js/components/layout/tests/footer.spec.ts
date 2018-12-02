@@ -1,7 +1,8 @@
 ﻿import '../../../browserMock';
+import mq from 'mithril-query';
 import { footer } from '../footer';
 
-  test('footer should contain test', () => {
-    const vnode = footer.view();
-    expect(vnode.tag).toBe('div');
-  });
+test('footer should contain div.footer', () => {
+  const out = mq(footer.view());
+  out.should.have('div.footer');
+});
