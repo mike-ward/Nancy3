@@ -27,7 +27,7 @@ function th(column: IGridColumn, state: any) {
   const th = m('th',
     {
       'class': column.allowSort ? 'grid-column-title' : '',
-      title: column.tooltip || undefined,
+      title: column.headTooltip || undefined,
       onclick: () => titleClickActions(column, state)
     },
     column.title,
@@ -40,25 +40,29 @@ function tbody(gridOptions: IGridOptions, state: any) {
   const data = sortByColumn(gridOptions, state);
   const columns = visibleColumns(gridOptions.columns);
   const key = gridOptions.key;
-  const getKey = (key instanceof Function)
-    ? (row: any) => (key as Function)(row)
-    : (row: any) => row[key];
+
+  const getKey = key
+    ? (key instanceof Function)
+      ? (row: any) => (key as Function)(row)
+      : (row: any) => row[key]
+    : (): undefined => undefined;
 
   const tbody = m('tbody', data.map(row =>
     m('tr',
-      { key: key ? getKey(row) : undefined },
-      columns.map(column => td(row, column))))
+      { key: getKey(row) },
+      columns.map(column => td(row, column, state))))
   );
+
   return tbody;
 }
 
-function td(row: {[idx: string]: any}, column: IGridColumn) {
+function td(row: { [idx: string]: any }, column: IGridColumn, state: any) {
   const val = row[column.id];
   const value: any = val === null || val === undefined ? column.contentIfNull : val;
-  const renderedValue = column.renderer ? column.renderer(value) : value;
+  const renderedValue = column.cellRenderer ? column.cellRenderer(value, column, state) : value;
   const className = column.cellClick ? 'grid-click-action' : undefined;
-  const tooltip = column.cellTooltip ? column.cellTooltip(value) : undefined;
-  const clickHandler = () => column.cellClick ? column.cellClick(value) : undefined;
+  const tooltip = column.cellTooltip ? column.cellTooltip(value, column, state) : undefined;
+  const clickHandler = () => column.cellClick ? column.cellClick(value, column, state) : undefined;
 
   const td = m('td',
     {

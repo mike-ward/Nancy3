@@ -30,7 +30,7 @@ function view() {
   return m('.markets',
     m('h2', 'Markets'),
     markets.map(mdl => [
-      mdl.columns ? m('p.bold', mdl.meta) : m(loading),
+      m('p.bold', mdl.columns ? mdl.meta : m(loading)),
       m(grid, { gridOptions: mdl } as any)
     ])
   );
