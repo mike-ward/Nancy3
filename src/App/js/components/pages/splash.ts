@@ -1,9 +1,15 @@
 ﻿import m from 'mithril';
 
-function view() {
-  return `Splash: ${Date.now()}`;
+export const splash: m.Component = {
+  view: view,
+  oninit: (v: m.Vnode) => (v.state as any)['timer'] = setInterval(updateTime, 1000),
+  onremove: (v: m.Vnode) => clearInterval((v.state as any)['timer']),
 }
 
-export const splash: m.Component = {
-  view: view
+function view() {
+  return new Date().toUTCString();
+}
+
+function updateTime() {
+  m.redraw();
 }

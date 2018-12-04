@@ -1,8 +1,12 @@
-﻿export interface IGridOptions {
+﻿export interface IGridModel {
   columns: IGridColumn[];
-  data: {}[];
+  data: IDataRow[];
   key?: string | Function;
   sortBy?: ISortByColumn[];
+}
+
+interface IDataRow {
+  [columnId: string] : string | number | Date
 }
 
 export interface IGridColumn {
@@ -11,11 +15,11 @@ export interface IGridColumn {
   headTooltip?: string;
   hide?: boolean;
   contentIfNull?: string;
-  cellRenderer?: (value: any, column: IGridColumn, state: any) => string;
+  cellRenderer?: (value: any, column: IGridColumn, row: IDataRow) => string;
   allowSort?: boolean;
   comparer?: (a: any, b: any) => number;
-  cellClick?: (value: any, column: IGridColumn, state: any) => void;
-  cellTooltip?: (value: any, column: IGridColumn, state: any) => void;
+  cellClick?: (value: any, column: IGridColumn, row: IDataRow) => void;
+  cellTooltip?: (value: any, column: IGridColumn, row: IDataRow) => void;
 }
 
 export interface ISortByColumn {

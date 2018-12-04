@@ -2,6 +2,7 @@
 import { decodeHtml } from '../../services/dom-service';
 import { dateToLocaleString } from '../../services/convert-service';
 import { cssStylesAdd } from '../../services/css-service';
+import { loading } from '../loading/loading';
 
 // language=css
 cssStylesAdd(`
@@ -12,8 +13,7 @@ const timerField = 'timer';
 
 export const news = {
   view: view,
-  oninit: oninit,
-  onremove: (v: m.Vnode) => clearInterval((v.state as any)[timerField])
+  oncreate: oncreate,
 };
 
 interface INews {
@@ -25,13 +25,12 @@ interface INews {
 }
 
 const model = {
-  news: [] as INews[],
+  news: null as INews[],
   time: Date.now(),
 };
 
-function oninit(v: m.Vnode): void {
+function oncreate(): void {
   updateNews();
-  (v.state as any)[timerField] = setInterval(updateTime, 1000);
 }
 
 function view(): m.Vnode {
@@ -39,18 +38,15 @@ function view(): m.Vnode {
     'div',
     m('h2', 'News'),
     m('p', new Date(model.time).toLocaleString()),
-    m('div', model.news.map((item: any) => newsNode(item)))
+    m('div', model.news
+      ? model.news.map((item: any) => newsNode(item))
+      : m(loading))
   );
 }
 
 function updateNews() {
   m.request({ url: 'api/markets/news', data: Date.now() })
     .then(r => model.news = r as any);
-}
-
-function updateTime() {
-  model.time = Date.now();
-  m.redraw();
 }
 
 function newsNode(item: any): m.Vnode {

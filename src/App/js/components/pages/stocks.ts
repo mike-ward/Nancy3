@@ -1,7 +1,7 @@
 ﻿import m from 'mithril';
 import { grid } from '../grid/grid';
 import { loading } from '../loading/loading'
-import { IGridOptions, IGridColumn } from '../grid/IGridOptions';
+import { IGridModel, IGridColumn } from '../grid/IGridModel';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 
 export const stocks: m.Component = {
@@ -10,12 +10,12 @@ export const stocks: m.Component = {
 }
 
 const model = {
-  stocks: null as IGridOptions
+  stocks: null as IGridModel
 }
 
 function oninit() {
   getStocks()
-    .then(r => { model.stocks = gridOptionsFactory(r) });
+    .then(r => { model.stocks = gridModelFactory(r) });
 }
 
 function view() {
@@ -23,7 +23,7 @@ function view() {
     m('h2', `Stocks`),
     m('p', `Count: ${model.stocks ? model.stocks.data.length : 0}`),
     model.stocks
-      ? m(grid, { gridOptions: model.stocks, style: { 'font-size': 'smaller' } } as any)
+      ? m(grid, { gridModel: model.stocks, style: { 'font-size': 'smaller' } } as any)
       : m(loading));
 }
 
@@ -31,7 +31,7 @@ function getStocks() {
   return m.request({ url: 'api/markets/symbols', data: Date.now() });
 }
 
-function gridOptionsFactory(data: any) {
+function gridModelFactory(data: any) {
   const fields = ['symbol', 'name', 'date', 'type'];
 
   const columns: IGridColumn[] = fields
