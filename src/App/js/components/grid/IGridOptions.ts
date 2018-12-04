@@ -2,7 +2,7 @@
   columns: IGridColumn[];
   data: {}[];
   key?: string | Function;
-  meta?: any;
+  sortBy?: ISortByColumn[];
 }
 
 export interface IGridColumn {
@@ -16,4 +16,9 @@ export interface IGridColumn {
   comparer?: (a: any, b: any) => number;
   cellClick?: (value: any, column: IGridColumn, state: any) => void;
   cellTooltip?: (value: any, column: IGridColumn, state: any) => void;
+}
+
+export interface ISortByColumn {
+  id: string;
+  direction: 'up' | 'dn';
 }

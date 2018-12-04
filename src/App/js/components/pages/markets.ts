@@ -13,10 +13,15 @@ export const markets: m.Component = {
   view: view
 }
 
+interface IMarket {
+  title: string;
+  gridOptions: IGridOptions;
+}
+
 const model = {
-  mostActive: {} as IGridOptions,
-  gainers: {} as IGridOptions,
-  losers: {} as IGridOptions
+  mostActive: {title: 'Most Active Stocks', gridOptions: null} as IMarket,
+  gainers: { title: 'Gainers', gridOptions: null} as IMarket,
+  losers: { title: 'Losers', gridOptions: null} as IMarket
 }
 
 function oninit() {
@@ -30,8 +35,10 @@ function view() {
   return m('.markets',
     m('h2', 'Markets'),
     markets.map(mdl => [
-      m('p.bold', mdl.columns ? mdl.meta : m(loading)),
-      m(grid, { gridOptions: mdl } as any)
+      m('p', mdl.gridOptions
+        ? m('span.bold', mdl.title)
+        : m(loading)),
+      m(grid, { gridOptions: mdl.gridOptions } as any)
     ])
   );
 }
@@ -42,20 +49,20 @@ function api(url: string) {
 
 function getMostActive() {
   api('api/markets/most-active')
-    .then(r => { model.mostActive = gridOptions('Most Active Stocks', r) });
+    .then(r => { model.mostActive.gridOptions = gridOptions(r) });
 }
 
 function getGainers() {
   api('api/markets/gainers')
-    .then(r => { model.gainers = gridOptions('Gainers', r) });
+    .then(r => { model.gainers.gridOptions = gridOptions(r) });
 }
 
 function getLosers() {
   api('api/markets/losers')
-    .then(r => { model.losers = gridOptions('Losers', r) });
+    .then(r => { model.losers.gridOptions = gridOptions(r) });
 }
 
-function gridOptions(title: string, data: any) {
+function gridOptions(data: any) {
   const fields = [
     'symbol', 'companyName', 'primaryExchange', 'sector', 'latestPrice',
     'open', 'close', 'high', 'low', 'week52High', 'week52Low'
@@ -68,5 +75,5 @@ function gridOptions(title: string, data: any) {
       allowSort: true,
     }));
 
-  return { columns: columns, data: data, meta: title };
+  return { columns: columns, data: data };
 }

@@ -5,39 +5,64 @@ import { cssStylesAdd } from '../../services/css-service';
 
 // language=CSS
 cssStylesAdd(`
-  .grid th, .grid td{white-space:nowrap;}
-  .grid-click-action{cursor:pointer;}
-  .grid-click-action:hover{text-decoration: underline;}
-  .grid-column-title:hover{cursor:pointer;}
-  .grid-column-sort-indicator{margin-left:1em;}
-  .grid-column-sort-indicator-hidden{visibility:collapse;}
-  .grid-column-title:hover .grid-column-sort-indicator-hidden{color:gray !important;visibility:visible;}`);
+  .grid th,.grid td{white-space:nowrap;}
+  .grid-cell-click-action{cursor:pointer;}
+  .grid-cell-click:hover{text-decoration:underline;}
+  .grid-sort-title:hover,.grid-sort-indicator-up,.grid-sort-indicator-dn{cursor:pointer;}
+  .grid-sort-indicator-up:after{content:'▲'}
+  .grid-sort-indicator-dn:after{content:'▼'}
+`);
 
 export const grid = {
   view: view
 }
 
-function thead(gridOptions: IGridOptions, state: any) {
+function view(v: m.Vnode) {
+  const gridOptions = (v.attrs as any).gridOptions as IGridOptions;
+  if (!gridOptions || !gridOptions.columns || !gridOptions.data) return null;
+
+  const vn = m('.grid', v.attrs,
+    m('table.pure-table.pure-table-bordered',
+      thead(gridOptions),
+      tbody(gridOptions)
+    )
+  );
+  return vn;
+}
+
+function thead(gridOptions: IGridOptions) {
   const columns = visibleColumns(gridOptions.columns);
-  const thead = m('thead', m('tr', columns.map(column => th(column, state))));
+  const thead = m('thead', m('tr', columns.map(column => th(column, gridOptions))));
   return thead;
 }
 
-function th(column: IGridColumn, state: any) {
+function th(column: IGridColumn, gridOptions: IGridOptions) {
+  const classes = column.allowSort ? ['grid-sort-title'] : [];
+
+  const sortByColumn =
+    gridOptions.sortBy &&
+    gridOptions.sortBy.reduce((a, c) => c.id === column.id ? c : a, null);
+
+  if (sortByColumn) {
+    const sortByClass = sortByColumn.direction === 'up'
+      ? 'grid-sort-indicator-up'
+      : 'grid-sort-indicator-dn';
+    classes.push(sortByClass);
+  }
+
   const th = m('th',
     {
-      'class': column.allowSort ? 'grid-column-title' : '',
+      'class': classes.join(' '),
       title: column.headTooltip || undefined,
-      onclick: () => titleClickActions(column, state)
+      onclick: () => titleClickActions(column, gridOptions)
     },
-    column.title,
-    sortIndicator(column, state)
+    column.title
   );
   return th;
 }
 
-function tbody(gridOptions: IGridOptions, state: any) {
-  const data = sortByColumn(gridOptions, state);
+function tbody(gridOptions: IGridOptions) {
+  const data = sortByColumns(gridOptions);
   const columns = visibleColumns(gridOptions.columns);
   const key = gridOptions.key;
 
@@ -50,19 +75,19 @@ function tbody(gridOptions: IGridOptions, state: any) {
   const tbody = m('tbody', data.map(row =>
     m('tr',
       { key: getKey(row) },
-      columns.map(column => td(row, column, state))))
+      columns.map(column => td(row, column))))
   );
 
   return tbody;
 }
 
-function td(row: { [idx: string]: any }, column: IGridColumn, state: any) {
+function td(row: { [idx: string]: any }, column: IGridColumn) {
   const val = row[column.id];
   const value: any = val === null || val === undefined ? column.contentIfNull : val;
-  const renderedValue = column.cellRenderer ? column.cellRenderer(value, column, state) : value;
-  const className = column.cellClick ? 'grid-click-action' : undefined;
-  const tooltip = column.cellTooltip ? column.cellTooltip(value, column, state) : undefined;
-  const clickHandler = () => column.cellClick ? column.cellClick(value, column, state) : undefined;
+  const renderedValue = column.cellRenderer ? column.cellRenderer(value, column, row) : value;
+  const className = column.cellClick ? 'grid-cell-click' : undefined;
+  const tooltip = column.cellTooltip ? column.cellTooltip(value, column, row) : undefined;
+  const clickHandler = () => column.cellClick ? column.cellClick(value, column, row) : undefined;
 
   const td = m('td',
     {
@@ -80,56 +105,45 @@ function visibleColumns(columns: IGridColumn[]) {
   return filtered;
 }
 
-function sortIndicator(column: IGridColumn, state: any) {
-  if (!column.allowSort) return '';
-  const isSorted = column.id === state.sortedColumnId;
-  const sortSymbol = isSorted && !state.sortDirection ? '▼' : '▲';
-  const cssClass = `grid-column-sort-indicator${isSorted ? '' : '.grid-column-sort-indicator-hidden'}`;
-  const vn = m(`span.${cssClass}`, sortSymbol);
-  return vn;
+function sortByColumns(gridOptions: IGridOptions) {
+  if (gridOptions.sortBy) {
+    for (let sortByColumn of gridOptions.sortBy) {
+      // future: add multiple column sort
+      const column = gridOptions.columns.reduce((a, c) => c.id === sortByColumn.id ? c : a, null);
+      if (!column) return gridOptions.data;
+
+      const comparer = column.comparer
+        ? column.comparer
+        : compareService.compareAny;
+
+      const columnId = column.id;
+      const data = gridOptions.data.slice();
+
+      data.sort((l: any, r: any) => {
+        const result = comparer(l[columnId], r[columnId]);
+        return sortByColumn.direction === 'up' ? result : -result;
+      });
+
+      return data;
+    }
+  }
+  return gridOptions.data;
 }
 
-function sortByColumn(gridOptions: IGridOptions, state: any) {
-  const columnId = state.sortedColumnId;
-  if (!columnId) return gridOptions.data;
-  const data = gridOptions.data.slice();
-  const column = gridOptions.columns[columnId];
-
-  const comparer = column && column.comparer
-    ? column.comparer
-    : compareService.compareAny;
-
-  data.sort((l: any, r: any) => {
-    const result = comparer(l[columnId], r[columnId]);
-    return state.sortDirection ? result : -result;
-  });
-
-  return data;
+function titleClickActions(column: IGridColumn, gridOptions: IGridOptions) {
+  if (column.allowSort) columnSortAction(column.id, gridOptions);
 }
 
-function titleClickActions(column: IGridColumn, state: any) {
-  if (column.allowSort) columnSortAction(column, state);
-}
+function columnSortAction(columnId: string, gridOptions: IGridOptions) {
+  if (!gridOptions.sortBy) gridOptions.sortBy = [];
+  let sortByColumn = gridOptions.sortBy.reduce((a, c) => c.id === columnId ? c : a, null);
 
-function columnSortAction(column: IGridColumn, state: any) {
-  state.sortDirection = state.sortedColumnId === column.id
-    ? !state.sortDirection
-    : true;
+  if (!sortByColumn) {
+    sortByColumn = { id: columnId, direction: 'up' }
+    gridOptions.sortBy = [sortByColumn];
+    return;
+  }
 
-  state.sortedColumnId = state.sortedColumnId === column.id && state.sortDirection
-    ? null
-    : column.id;
-}
-
-function view(v: m.Vnode) {
-  const gridOptions = (v.attrs as any).gridOptions as IGridOptions;
-  if (!gridOptions || !gridOptions.columns || !gridOptions.data) return null;
-
-  const vn = m('.grid', v.attrs,
-    m('table.pure-table.pure-table-bordered',
-      thead(gridOptions, v.state),
-      tbody(gridOptions, v.state)
-    )
-  );
-  return vn;
+  if (sortByColumn.direction === 'up') sortByColumn.direction = 'dn';
+  else if (sortByColumn.direction === 'dn') gridOptions.sortBy = null;
 }

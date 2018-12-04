@@ -1,4 +1,9 @@
-﻿function compareAny(a: any, b: any): number {
+﻿export var compareService = {
+  compareAny: compareAny,
+  naturalStringCompare: naturalStringCompare
+}
+
+function compareAny(a: any, b: any): number {
   if (a === b) return 0;
 
   // NaN, and only NaN, will compare unequal to itself,
@@ -78,9 +83,4 @@ function naturalStringCompare(a: string | number, b: string | number): number {
     a = (a as string).substring(ac.content.length);
     b = (b as string).substring(bc.content.length);
   }
-}
-
-export var compareService = {
-  compareAny: compareAny,
-  naturalStringCompare: naturalStringCompare
 }
