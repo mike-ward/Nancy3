@@ -9,8 +9,9 @@ import { cssStylesAdd } from '../../services/css-service';
 cssStylesAdd(`div.markets .grid{font-size:smaller;}`);
 
 export const markets: m.Component = {
+  view: view,
   oninit: oninit,
-  view: view
+  onremove: onremove,
 };
 
 interface IMarket {
@@ -18,16 +19,31 @@ interface IMarket {
   model: IGridModel;
 }
 
-const model = {
-  mostActive: { title: 'Most Active Stocks', model: null } as IMarket,
-  gainers: { title: 'Gainers', model: null } as IMarket,
-  losers: { title: 'Losers', model: null } as IMarket
-};
+interface IModel {
+  mostActive: IMarket;
+  gainers: IMarket;
+  losers: IMarket;
+}
+
+let model: IModel;
 
 function oninit() {
+  model = initModel();
   getMostActive();
   getGainers();
   getLosers();
+}
+
+function onremove() {
+  model = initModel();
+}
+
+function initModel() {
+  return {
+    mostActive: { title: 'Most Active Stocks', model: null } as IMarket,
+    gainers: { title: 'Gainers', model: null } as IMarket,
+    losers: { title: 'Losers', model: null } as IMarket
+  }
 }
 
 function view() {

@@ -11,7 +11,8 @@ cssStylesAdd(`
 
 export const news = {
   view: view,
-  oncreate: oncreate,
+  oninit: oninit,
+  onremove: onremove,
 };
 
 interface INews {
@@ -22,24 +23,36 @@ interface INews {
   source: string;
 }
 
-const model = {
-  news: null as INews[],
-  time: Date.now(),
-};
+interface IModel {
+  news: INews[]
+}
 
-function oncreate(): void {
-  updateNews();
+let model: IModel;
+
+function initModel() {
+  return {
+    news: [] as INews[]
+  }
 }
 
 function view(): m.Vnode {
   return m('div',
     m('h2', 'News'),
-    m('p', new Date(model.time).toLocaleString()),
     m('div', model.news
       ? model.news.map((item: any) => newsNode(item))
       : m(loading))
   );
 }
+
+function oninit(): void {
+  model = initModel();
+  updateNews();
+}
+
+function onremove() {
+  model = initModel();
+}
+
 
 function updateNews() {
   m.request({ url: 'api/markets/news', data: Date.now() })

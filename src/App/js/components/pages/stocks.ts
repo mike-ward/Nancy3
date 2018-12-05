@@ -1,30 +1,44 @@
 ﻿import m from 'mithril';
-import { grid } from '../grid/grid';
+import { grid, IGridAttrs } from '../grid/grid';
 import { loading } from '../loading/loading'
 import { IGridModel, IGridColumn } from '../grid/IGridModel';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 
 export const stocks: m.Component = {
+  view: view,
   oninit: oninit,
-  view: view
+  onremove: onremove
 }
 
-const model = {
-  stocks: null as IGridModel
+interface IModel {
+  stocks: IGridModel;
 }
 
-function oninit() {
-  getStocks()
-    .then(r => { model.stocks = gridModelFactory(r) });
-}
+let model: IModel;
 
 function view() {
   return m('div',
     m('h2', `Stocks`),
     m('p', `Count: ${model.stocks ? model.stocks.data.length : 0}`),
     model.stocks
-      ? m(grid, { model: model.stocks, style: { 'font-size': 'smaller' } } as any)
-      : m(loading));
+    ? m(grid, { model: model.stocks, style: { 'font-size': 'smaller' } } as IGridAttrs)
+    : m(loading));
+}
+
+function oninit() {
+  model = initModel();
+  getStocks()
+    .then(r => { model.stocks = gridModelFactory(r) });
+}
+
+function onremove() {
+  model = initModel();
+}
+
+function initModel() {
+  return {
+    stocks: null as IGridModel
+  }
 }
 
 function getStocks() {
