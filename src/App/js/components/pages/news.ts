@@ -9,8 +9,6 @@ cssStylesAdd(`
   .news-item{margin-bottom:2rem;max-width:60rem}
   .home-date-time{font-weight:bold;margin:-1rem 0 1rem 0;}`);
 
-const timerField = 'timer';
-
 export const news = {
   view: view,
   oncreate: oncreate,
@@ -34,8 +32,7 @@ function oncreate(): void {
 }
 
 function view(): m.Vnode {
-  return m(
-    'div',
+  return m('div',
     m('h2', 'News'),
     m('p', new Date(model.time).toLocaleString()),
     m('div', model.news
@@ -50,8 +47,7 @@ function updateNews() {
 }
 
 function newsNode(item: any): m.Vnode {
-  const vn = m(
-    '.news-item',
+  const vn = m('.news-item',
     m('h3', [m('a', { href: item.url, target: '_blank' } as any, decodeHtml(item.headline))]),
     m('div.home-date-time', dateToLocaleString(item.datetime)),
     m('p', decodeHtml(item.summary)),

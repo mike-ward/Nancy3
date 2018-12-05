@@ -1,5 +1,5 @@
 ﻿import m from 'mithril';
-import { grid } from '../grid/grid';
+import { grid, IGridAttrs } from '../grid/grid';
 import { loading } from '../loading/loading';
 import { IGridModel, IGridColumn } from '../grid/IGridModel';
 import { camelIdentifierToTitle } from '../../services/convert-service';
@@ -15,13 +15,13 @@ export const markets: m.Component = {
 
 interface IMarket {
   title: string;
-  gridModel: IGridModel;
+  model: IGridModel;
 }
 
 const model = {
-  mostActive: { title: 'Most Active Stocks', gridModel: null } as IMarket,
-  gainers: { title: 'Gainers', gridModel: null } as IMarket,
-  losers: { title: 'Losers', gridModel: null } as IMarket
+  mostActive: { title: 'Most Active Stocks', model: null } as IMarket,
+  gainers: { title: 'Gainers', model: null } as IMarket,
+  losers: { title: 'Losers', model: null } as IMarket
 };
 
 function oninit() {
@@ -34,12 +34,12 @@ function view() {
   const markets = [model.mostActive, model.gainers, model.losers];
   return m('.markets',
     m('h2', 'Markets'),
-    markets.map(mdl => [
+    markets.map(market => [
       m('p',
-        mdl.gridModel
-        ? m('span.bold', mdl.title)
+        market.model
+        ? m('span.bold', market.title)
         : m(loading)),
-      m(grid, { gridModel: mdl.gridModel } as any)
+      m(grid, { model: market.model } as IGridAttrs)
     ])
   );
 }
@@ -50,20 +50,20 @@ function api(url: string) {
 
 function getMostActive() {
   api('api/markets/most-active')
-    .then(r => { model.mostActive.gridModel = gridModel(r) });
+    .then(r => { model.mostActive.model = gridModelFactory(r) });
 }
 
 function getGainers() {
   api('api/markets/gainers')
-    .then(r => { model.gainers.gridModel = gridModel(r) });
+    .then(r => { model.gainers.model = gridModelFactory(r) });
 }
 
 function getLosers() {
   api('api/markets/losers')
-    .then(r => { model.losers.gridModel = gridModel(r) });
+    .then(r => { model.losers.model = gridModelFactory(r) });
 }
 
-function gridModel(data: any) {
+function gridModelFactory(data: any) {
   const fields = [
     'symbol', 'companyName', 'primaryExchange', 'sector', 'latestPrice',
     'open', 'close', 'high', 'low', 'week52High', 'week52Low'

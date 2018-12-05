@@ -23,7 +23,7 @@ function view() {
     m('h2', `Stocks`),
     m('p', `Count: ${model.stocks ? model.stocks.data.length : 0}`),
     model.stocks
-      ? m(grid, { gridModel: model.stocks, style: { 'font-size': 'smaller' } } as any)
+      ? m(grid, { model: model.stocks, style: { 'font-size': 'smaller' } } as any)
       : m(loading));
 }
 

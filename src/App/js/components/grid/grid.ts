@@ -13,139 +13,151 @@ cssStylesAdd(`
   .grid-sort-indicator-dn:after{content:'▼'}
 `);
 
-export const grid = {
-  view: view
-};
-
-function view(v: m.Vnode) {
-  const gridModel = (v.attrs as any).gridModel as IGridModel;
-  if (!gridModel || !gridModel.columns || !gridModel.data) return null;
-
-  const vn = m('.grid',
-    v.attrs,
-    m('table.pure-table.pure-table-bordered',
-      thead(gridModel),
-      tbody(gridModel)
-    )
-  );
-  return vn;
+export interface IGridAttrs extends m.Attributes {
+  model: IGridModel
 }
 
-function thead(gridModel: IGridModel) {
-  const columns = visibleColumns(gridModel.columns);
-  const thead = m('thead', m('tr', columns.map(column => th(column, gridModel))));
-  return thead;
+interface ISortByColumn {
+  id: string;
+  direction: 'up' | 'dn';
 }
 
-function th(column: IGridColumn, gridModel: IGridModel) {
-  const classes = column.allowSort ? ['grid-sort-title'] : [];
+export const grid: m.FactoryComponent<IGridAttrs> = () => {
+  // Save sortBy column states here.
+  let sortBy: ISortByColumn[] = null;
 
-  const sortByColumn =
-    gridModel.sortBy &&
-      gridModel.sortBy.reduce((a, c) => c.id === column.id ? c : a, null);
+  return {
+    view: v => {
+      const model = v.attrs.model;
+      if (!model || !model.columns || !model.data) return null;
 
-  if (sortByColumn) {
-    const sortByClass = sortByColumn.direction === 'up'
-      ? 'grid-sort-indicator-up'
-      : 'grid-sort-indicator-dn';
-    classes.push(sortByClass);
-  }
-
-  const th = m('th',
-    {
-      'class': classes.join(' '),
-      title: column.headTooltip || undefined,
-      onclick: () => titleClickActions(column, gridModel)
-    },
-    column.title
-  );
-  return th;
-}
-
-function tbody(gridModel: IGridModel) {
-  const data = sortByColumns(gridModel);
-  const columns = visibleColumns(gridModel.columns);
-  const key = gridModel.key;
-
-  const getKey = key
-    ? (key instanceof Function)
-    ? (row: any) => (key as Function)(row)
-    : (row: any) => row[key]
-    : (): undefined => undefined;
-
-  const tbody = m('tbody',
-    data.map(row =>
-      m('tr',
-        { key: getKey(row) },
-        columns.map(column => td(row, column))))
-  );
-
-  return tbody;
-}
-
-function td(row: { [idx: string]: any }, column: IGridColumn) {
-  const val = row[column.id];
-  const value: any = val === null || val === undefined ? column.contentIfNull : val;
-  const renderedValue = column.cellRenderer ? column.cellRenderer(value, column, row) : value;
-  const className = column.cellClick ? 'grid-cell-click' : undefined;
-  const tooltip = column.cellTooltip ? column.cellTooltip(value, column, row) : undefined;
-  const clickHandler = () => column.cellClick ? column.cellClick(value, column, row) : undefined;
-
-  const td = m('td',
-    {
-      'class': className,
-      title: tooltip,
-      onclick: clickHandler
-    },
-    renderedValue);
-
-  return td;
-}
-
-function visibleColumns(columns: IGridColumn[]) {
-  const filtered = columns.filter(c => !c.hide);
-  return filtered;
-}
-
-function sortByColumns(gridModel: IGridModel) {
-  if (gridModel.sortBy) {
-    for (let sortByColumn of gridModel.sortBy) {
-      // future: add multiple column sort
-      const column = gridModel.columns.reduce((a, c) => c.id === sortByColumn.id ? c : a, null);
-      if (!column) return gridModel.data;
-
-      const comparer = column.comparer
-        ? column.comparer
-        : compareService.compareAny;
-
-      const columnId = column.id;
-      const data = gridModel.data.slice();
-
-      data.sort((l: any, r: any) => {
-        const result = comparer(l[columnId], r[columnId]);
-        return sortByColumn.direction === 'up' ? result : -result;
-      });
-
-      return data;
+      const vn = m('.grid',
+        v.attrs,
+        m('table.pure-table.pure-table-bordered',
+          thead(model),
+          tbody(model)
+        )
+      );
+      return vn;
     }
   }
-  return gridModel.data;
-}
 
-function titleClickActions(column: IGridColumn, gridModel: IGridModel) {
-  if (column.allowSort) columnSortAction(column.id, gridModel);
-}
-
-function columnSortAction(columnId: string, gridModel: IGridModel) {
-  if (!gridModel.sortBy) gridModel.sortBy = [];
-  let sortByColumn = gridModel.sortBy.reduce((a, c) => c.id === columnId ? c : a, null);
-
-  if (!sortByColumn) {
-    sortByColumn = { id: columnId, direction: 'up' };
-    gridModel.sortBy = [sortByColumn];
-    return;
+  function thead(model: IGridModel) {
+    const columns = visibleColumns(model.columns);
+    const thead = m('thead', m('tr', columns.map(column => th(column))));
+    return thead;
   }
 
-  if (sortByColumn.direction === 'up') sortByColumn.direction = 'dn';
-  else if (sortByColumn.direction === 'dn') gridModel.sortBy = null;
+  function th(column: IGridColumn) {
+    const classes = column.allowSort ? ['grid-sort-title'] : [];
+
+    const sortByColumn =
+      sortBy &&
+      sortBy.reduce((a, c) => c.id === column.id ? c : a, null);
+
+    if (sortByColumn) {
+      const sortByClass = sortByColumn.direction === 'up'
+        ? 'grid-sort-indicator-up'
+        : 'grid-sort-indicator-dn';
+      classes.push(sortByClass);
+    }
+
+    const th = m('th',
+      {
+        className: classes.join(' '),
+        title: column.headTooltip || undefined,
+        onclick: () => titleClickActions(column)
+      },
+      column.title
+    );
+    return th;
+  }
+
+  function tbody(model: IGridModel) {
+    const data = sortByColumns(model);
+    const columns = visibleColumns(model.columns);
+    const key = model.key;
+
+    const getKey = key
+      ? (key instanceof Function)
+        ? (row: any) => (key as Function)(row)
+        : (row: any) => row[key]
+      : (): undefined => undefined;
+
+    const tbody = m('tbody',
+      data.map(row =>
+        m('tr',
+          { key: getKey(row) },
+          columns.map(column => td(row, column))))
+    );
+
+    return tbody;
+  }
+
+  function td(row: { [idx: string]: any }, column: IGridColumn) {
+    const val = row[column.id];
+    const value: any = val === null || val === undefined ? column.contentIfNull : val;
+    const renderedValue = column.cellRenderer ? column.cellRenderer(value, column, row) : value;
+    const className = column.cellClick ? 'grid-cell-click' : undefined;
+    const tooltip = column.cellTooltip ? column.cellTooltip(value, column, row) : undefined;
+    const clickHandler = () => column.cellClick ? column.cellClick(value, column, row) : undefined;
+
+    const td = m('td',
+      {
+        className: className,
+        title: tooltip,
+        onclick: clickHandler
+      },
+      renderedValue);
+
+    return td;
+  }
+
+  function visibleColumns(columns: IGridColumn[]) {
+    const filtered = columns.filter(c => !c.hide);
+    return filtered;
+  }
+
+  function sortByColumns(model: IGridModel) {
+    if (sortBy) {
+      for (let sortByColumn of sortBy) {
+        // future: add multiple column sort
+        const column = model.columns.reduce((a, c) => c.id === sortByColumn.id ? c : a, null);
+        if (!column) return model.data;
+
+        const comparer = column.comparer
+          ? column.comparer
+          : compareService.compareAny;
+
+        const columnId = column.id;
+        const data = model.data.slice();
+
+        data.sort((l: any, r: any) => {
+          const result = comparer(l[columnId], r[columnId]);
+          return sortByColumn.direction === 'up' ? result : -result;
+        });
+
+        return data;
+      }
+    }
+    return model.data;
+  }
+
+  function titleClickActions(column: IGridColumn) {
+    if (column.allowSort) columnSortAction(column.id);
+  }
+
+  function columnSortAction(columnId: string) {
+    if (!sortBy) sortBy = [];
+    let sortByColumn = sortBy.reduce((a, c) => c.id === columnId ? c : a, null);
+
+    if (!sortByColumn) {
+      sortByColumn = { id: columnId, direction: 'up' };
+      sortBy = [sortByColumn];
+      return;
+    }
+
+    if (sortByColumn.direction === 'up') sortByColumn.direction = 'dn';
+    else if (sortByColumn.direction === 'dn') sortBy = null;
+  }
 }

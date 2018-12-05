@@ -1,9 +1,13 @@
 ﻿import m from 'mithril';
 
-export const splash: m.Component = {
-  view: view,
-  oninit: (v: m.Vnode) => (v.state as any)['timer'] = setInterval(updateTime, 1000),
-  onremove: (v: m.Vnode) => clearInterval((v.state as any)['timer']),
+export const splash: m.FactoryComponent = () => {
+  let timer: number;
+
+  return {
+    view: view,
+    oninit: () => timer = setInterval(updateTime, 1000),
+    onremove: () => clearInterval(timer),
+  }
 }
 
 function view() {

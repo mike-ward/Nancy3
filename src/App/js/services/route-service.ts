@@ -28,7 +28,7 @@ export function buildRoutes() {
     });
 }
 
-function page(component: m.Component, title: string): m.Component {
+function page(component: m.ComponentTypes, title: string): m.Component {
   return {
     oncreate: () => document.title = `${constants.appTitle} - ${title}`,
     onremove: () => document.title = `${constants.appTitle}`,
@@ -36,7 +36,7 @@ function page(component: m.Component, title: string): m.Component {
   }
 }
 
-function auth(component: m.Component): m.RouteResolver {
+function auth(component: m.ComponentTypes): m.RouteResolver {
   return {
     onmatch: () => {
       // todo: check authentication
