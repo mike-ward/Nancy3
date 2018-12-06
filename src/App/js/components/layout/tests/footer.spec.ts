@@ -4,5 +4,5 @@ import { footer } from '../footer';
 
 test('footer should contain div.footer', () => {
   const out = mq(footer.view());
-  out.should.have('div.footer');
+  out.should.have(1, 'div.footer');
 });

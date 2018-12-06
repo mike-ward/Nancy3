@@ -4,5 +4,5 @@ import { header } from '../header';
 
 test('header should contain div.header', () => {
   const out = mq(header.view());
-  out.should.have('div.header');
+  out.should.have(1, 'div.header');
 });

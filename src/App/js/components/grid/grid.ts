@@ -36,18 +36,19 @@ export const grid: m.FactoryComponent<IGridAttrs> = () => {
 
   function thead(model: IGridModel) {
     const columns = model.columns;
-    const vnode = m('thead', m('tr', columns.map(column => th(column))));
-    return vnode;
+    return m('thead', m('tr', columns.map(column => th(column))));
   }
 
   function th(column: IGridColumn) {
     const classes = [] as string[];
+
     if (column.allowSort) {
       classes.push('grid-sort-title');
       const direction = vm.sortByDirection(column.id);
       if (direction > 0) classes.push('grid-sort-indicator-up');
       if (direction < 0) classes.push('grid-sort-indicator-dn');
     }
+    
     return m('th',
       {
         className: classes.join(' '),
@@ -80,14 +81,14 @@ export const grid: m.FactoryComponent<IGridAttrs> = () => {
   function td(row: { [idx: string]: any }, column: IGridColumn) {
     const val = row[column.id];
     const value: any = val === null || val === undefined ? column.contentIfNull : val;
-    const renderedValue = column.cellRenderer ? column.cellRenderer(value, column, row) : value;
-    const className = column.cellClick ? 'grid-cell-click' : undefined;
-    const tooltip = column.cellTooltip ? column.cellTooltip(value, column, row) : undefined;
-    const clickHandler = () => column.cellClick ? column.cellClick(value, column, row) : undefined;
+    const renderedValue = column.cellRenderer ? column.cellRenderer(value, column) : value;
+    const cellClass = column.cellClick ? 'grid-cell-click' : undefined;
+    const tooltip = column.cellTooltip ? column.cellTooltip(value, renderedValue, column) : undefined;
+    const clickHandler = () => column.cellClick ? column.cellClick(value, renderedValue, column) : undefined;
 
     return m('td',
       {
-        className: className,
+        className: cellClass,
         title: tooltip,
         onclick: clickHandler
       },
