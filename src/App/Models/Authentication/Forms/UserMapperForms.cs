@@ -1,9 +1,8 @@
-﻿using System;
-using System.Security.Claims;
-using App.Infrastructure;
-using App.Infrastructure.Interfaces;
+﻿using App.Infrastructure.Interfaces;
 using Nancy;
 using Nancy.Authentication.Forms;
+using System;
+using System.Security.Claims;
 
 namespace App.Models.Authentication.Forms
 {
@@ -16,9 +15,6 @@ namespace App.Models.Authentication.Forms
             _userRepository = userRepository;
         }
 
-        public ClaimsPrincipal GetUserFromIdentifier(Guid identifier, NancyContext context)
-        {
-            throw new NotImplementedException();
-        }
+        public ClaimsPrincipal GetUserFromIdentifier(Guid identifier, NancyContext context) => throw new NotImplementedException();
     }
 }

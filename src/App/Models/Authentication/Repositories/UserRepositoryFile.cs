@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using App.Infrastructure.Extensions;
+﻿using App.Infrastructure.Extensions;
 using App.Infrastructure.Interfaces;
 using App.Infrastructure.Validatation;
 using Nancy;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading;
 
 namespace App.Models.Authentication.Repositories
 {
@@ -104,7 +104,11 @@ namespace App.Models.Authentication.Repositories
 
                 var name = Path.GetFileNameWithoutExtension(path);
                 var dir = Path.GetDirectoryName(path);
-                if (dir == null) throw new Exception("Cannot get repository directory");
+                if (dir == null)
+                {
+                    throw new Exception("Cannot get repository directory");
+                }
+
                 var backup = Path.Combine(dir, name + ".bak");
 
                 // Remove Backup

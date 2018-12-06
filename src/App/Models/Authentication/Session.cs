@@ -18,7 +18,10 @@ namespace App.Models.Authentication
         public Response SignIn(UserNamePassword namePassword, NancyModule module)
         {
             var user = _repository.Find(namePassword.Name);
-            if (user == null) return HttpStatusCode.Unauthorized;
+            if (user == null)
+            {
+                return HttpStatusCode.Unauthorized;
+            }
 
             var hash = user.Hash(namePassword.Password);
 
@@ -27,29 +30,14 @@ namespace App.Models.Authentication
                 : module.LoginAndRedirect(user.Id);
         }
 
-        public Response SignOut(NancyModule module)
-        {
-            return module.Logout("/");
-        }
+        public Response SignOut(NancyModule module) => module.Logout("/");
 
-        public Response AddOrUpdateUser(IUserIdentity userIdentity)
-        {
-            return HttpStatusCode.NotImplemented;
-        }
+        public Response AddOrUpdateUser(IUserIdentity userIdentity) => HttpStatusCode.NotImplemented;
 
-        public Response DeleteUser(IUserIdentity userIdentity)
-        {
-            return HttpStatusCode.NotImplemented;
-        }
+        public Response DeleteUser(IUserIdentity userIdentity) => HttpStatusCode.NotImplemented;
 
-        public Response LockUser(IUserIdentity userIdentity)
-        {
-            return HttpStatusCode.NotImplemented;
-        }
+        public Response LockUser(IUserIdentity userIdentity) => HttpStatusCode.NotImplemented;
 
-        public Response UnlockUser(IUserIdentity userIdentity)
-        {
-            return HttpStatusCode.NotImplemented;
-        }
+        public Response UnlockUser(IUserIdentity userIdentity) => HttpStatusCode.NotImplemented;
     }
 }

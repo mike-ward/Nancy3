@@ -1,4 +1,5 @@
-﻿using System;
+﻿using App.Infrastructure.Validatation;
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Security.Cryptography;
@@ -10,8 +11,9 @@ namespace App.Infrastructure.Cryptography
     {
         public static string HashPassword(string password, Guid salt)
         {
-            if (string.IsNullOrWhiteSpace(password)) throw new ArgumentNullException(nameof(password));
-            if (salt == Guid.Empty) throw new ArgumentException("salt");
+            Require.ArgumentNotNullEmpty(password, nameof(password));
+            Require.True(() => salt != Guid.Empty, nameof(salt));
+
             using (var md5 = MD5.Create())
             {
                 var bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(password + salt));

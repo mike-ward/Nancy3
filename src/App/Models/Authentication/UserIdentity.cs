@@ -21,15 +21,9 @@ namespace App.Models.Authentication
         public Guid ResetToken { get; private set; } = Guid.Empty;
         public DateTime LastModified { get; private set; } = DateTime.UtcNow;
 
-        public IUserIdentity Clone()
-        {
-            return (IUserIdentity)MemberwiseClone();
-        }
+        public IUserIdentity Clone() => (IUserIdentity)MemberwiseClone();
 
-        public void SetLastModified()
-        {
-            LastModified = DateTime.UtcNow;
-        }
+        public void SetLastModified() => LastModified = DateTime.UtcNow;
 
         public void SetUserId(string name)
         {
@@ -67,19 +61,10 @@ namespace App.Models.Authentication
             Claims = Claims.Where(cm => cm.IsNotEqualTo(claim)).ToArray();
         }
 
-        public void SetResetToken()
-        {
-            ResetToken = Guid.NewGuid();
-        }
+        public void SetResetToken() => ResetToken = Guid.NewGuid();
 
-        public void ClearResetToken()
-        {
-            ResetToken = Guid.Empty;
-        }
+        public void ClearResetToken() => ResetToken = Guid.Empty;
 
-        public string Hash(string password)
-        {
-            return Crypto.HashPassword(password, Id);
-        }
+        public string Hash(string password) => Crypto.HashPassword(password, Id);
     }
 }
