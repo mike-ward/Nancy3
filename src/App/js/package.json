@@ -6,14 +6,14 @@
   "scripts": {
     "test": "jest",
     "build-Debug": "parcel build app.ts -d ../wwwroot/content --no-minify",
-    "build-Release": "parcel build app.ts -d ../wwwroot/content --experimental-scope-hoisting --no-cache",
+    "build-Release": "parcel build app.ts -d ../wwwroot/content --no-cache",
     "watch": "parcel watch app.ts -d ../wwwroot/content"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "mithril": "2.0.0-rc.1",
+    "mithril": "2.0.0-rc.3",
     "purecss": "1.0.0"
   },
   "devDependencies": {
