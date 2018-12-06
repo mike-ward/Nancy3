@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build-Debug": "parcel build app.ts -d ../wwwroot/content --no-minify",
-    "build-Release": "parcel build app.ts -d ../wwwroot/content --no-cache",
-    "watch": "parcel watch app.ts -d ../wwwroot/content"
+    "build-Debug": "npx parcel build app.ts -d ../wwwroot/content --no-minify",
+    "build-Release": "npx parcel build app.ts -d ../wwwroot/content --no-cache",
+    "watch": "npx parcel watch app.ts -d ../wwwroot/content"
   },
   "keywords": [],
   "author": "",
@@ -22,6 +22,7 @@
     "glob": "7.1.3",
     "jest": "23.6.0",
     "mithril-query": "2.5.2",
+    "parcel-bundler": "1.10.3",
     "ts-jest": "23.10.5",
     "typescript": "3.2.1"
   }

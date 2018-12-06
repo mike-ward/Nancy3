@@ -1,7 +1,7 @@
 ﻿import m from 'mithril';
 
 export const splash: m.FactoryComponent = () => {
-  let timer: number;
+  let timer: any;
 
   return {
     view: view,
