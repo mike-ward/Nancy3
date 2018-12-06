@@ -1,10 +1,10 @@
 ﻿export interface IGridModel {
   columns: IGridColumn[];
-  data: IDataRow[];
+  data: IGridDataRow[];
   key?: string | Function;
 }
 
-export interface IDataRow {
+export interface IGridDataRow {
   [columnId: string] : string | number | Date
 }
 

@@ -1,5 +1,5 @@
 ﻿import m from 'mithril';
-import { IGridModel, IGridColumn } from './IGridModel';
+import { IGridModel, IGridDataRow, IGridColumn } from './IGridModel';
 import { gridViewModel } from './gridViewModel';
 import { cssStylesAdd } from '../../services/css-service';
 
@@ -8,7 +8,8 @@ cssStylesAdd(`
   .grid th, .grid td{white-space:nowrap;}
   .grid-cell-click-action{cursor:pointer;}
   .grid-cell-click:hover{text-decoration:underline;}
-  .grid-sort-title:hover, .grid-sort-indicator-up, .grid-sort-indicator-dn{cursor:pointer;}
+  .grid-sort-indicator:hover, .grid-sort-indicator-up, .grid-sort-indicator-dn{cursor:pointer;}
+  .grid-sort-indicator-hi:after{content:'▲';visibility:hidden}
   .grid-sort-indicator-up:after{content:'▲'}
   .grid-sort-indicator-dn:after{content:'▼'}
 `);
@@ -25,12 +26,9 @@ export const grid: m.FactoryComponent<IGridAttrs> = () => {
       const model = vm.viewModel(v.attrs.model);
       if (!model) return null;
 
-      return m('.grid', v.attrs,
-        m('table.pure-table.pure-table-bordered',
-          thead(model),
-          tbody(model)
-        )
-      );
+      return m('table.grid.pure-table.pure-table-bordered', v.attrs,
+        thead(model),
+        tbody(model));
     }
   }
 
@@ -43,42 +41,38 @@ export const grid: m.FactoryComponent<IGridAttrs> = () => {
     const classes = [] as string[];
 
     if (column.allowSort) {
-      classes.push('grid-sort-title');
+      classes.push('grid-sort-indicator');
       const direction = vm.sortByDirection(column.id);
-      if (direction > 0) classes.push('grid-sort-indicator-up');
-      if (direction < 0) classes.push('grid-sort-indicator-dn');
+      if (direction === 0) classes.push('grid-sort-indicator-hi');
+      else if (direction > 0) classes.push('grid-sort-indicator-up');
+      else classes.push('grid-sort-indicator-dn');
     }
-    
+
     return m('th',
       {
         className: classes.join(' '),
         title: column.headTooltip || undefined,
         onclick: column.allowSort ? () => vm.updateSortState(column.id) : undefined
       },
-      column.title
-    );
+      column.title);
   }
 
   function tbody(model: IGridModel) {
-    const data = model.data;
-    const columns = model.columns;
-    const key = model.key;
-
-    const getKey = key
-      ? (key instanceof Function)
-        ? (row: any) => (key as Function)(row)
-        : (row: any) => row[key]
+    // see https://mithril.js.org/keys.html
+    const getKey = model.key
+      ? (model.key instanceof Function)
+        ? (row: any) => (model.key as Function)(row)
+        : (row: any) => row[model.key as string]
       : (): undefined => undefined;
 
     return m('tbody',
-      data.map(row =>
+      model.data.map(row =>
         m('tr',
           { key: getKey(row) },
-          columns.map(column => td(row, column))))
-    );
+          model.columns.map(column => td(column, row)))));
   }
 
-  function td(row: { [idx: string]: any }, column: IGridColumn) {
+  function td(column: IGridColumn, row: IGridDataRow, ) {
     const val = row[column.id];
     const value: any = val === null || val === undefined ? column.contentIfNull : val;
     const renderedValue = column.cellRenderer ? column.cellRenderer(value, column) : value;
