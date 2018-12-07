@@ -7,35 +7,36 @@ interface ISortByColumn {
   direction: number;
 }
 
-export interface IGridViewModel {
-  model: stream.Stream<stream.Stream<IGridModel>>;
+export interface IGridViewModel extends IGridModel {
   sortByDirection: (columnId: string) => number;
   updateSortState: (columnId: string) => void;
 }
 
-export function gridViewModel(model: stream.Stream<IGridModel>) {
-  const update = stream() as stream.Stream<IGridModel>;
-  const models = stream.scan((a, v) => stream(viewModel(v)), model, update);
+export function gridViewModel(gridModel: stream.Stream<IGridModel>) {
   let sortByState = [] as ISortByColumn[];
+  const gridModels = stream.scan((_, v) => updateGridModel(v), gridModel(), gridModel);
+  return gridModels.map<IGridViewModel>(model => updateGridViewModel(model));
 
-  return {
-    model: models,
-    sortByDirection: sortByDirection,
-    updateSortState: updateSortState
-  } as IGridViewModel;
-
-  function viewModel(model: IGridModel) {
-    if (!model || !model.columns || !model.data) return null;
-    const columns = visibleColumns(model.columns);
-    const data = sortByColumns(model);
+  function updateGridModel(gridModel: IGridModel) {
+    if (!gridModel || !gridModel.columns || !gridModel.data) return null;
+    const columns = visibleColumns(gridModel.columns);
+    const data = sortByColumns(gridModel);
 
     const nm = {
       columns: columns,
       data: data,
-      key: model.key
+      key: gridModel.key
     } as IGridModel;
 
     return nm;
+  }
+
+  function updateGridViewModel(gridModel: IGridModel) {
+    return {
+      ...gridModel,
+      sortByDirection: sortByDirection,
+      updateSortState: updateSortState
+    }
   }
 
   function sortByDirection(columnId: string) {
@@ -48,7 +49,7 @@ export function gridViewModel(model: stream.Stream<IGridModel>) {
     if (!sortBy) sortByState = [{ id: columnId, direction: 1 }];
     else if (sortBy.direction > 0) sortBy.direction = -1;
     else if (sortBy.direction < 0) sortByState = [];
-    update(model());
+    gridModel(gridModel());
   }
 
   function visibleColumns(columns: IGridColumn[]) {

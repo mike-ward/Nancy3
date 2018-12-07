@@ -20,21 +20,21 @@ export interface IGridAttrs extends m.Attributes {
 }
 
 export const grid: m.FactoryComponent<IGridAttrs> = () => {
-  let vm = null as IGridViewModel;
+  let vm: stream.Stream<IGridViewModel>;
 
   return {
     oninit: vn => vm = gridViewModel(vn.attrs.model),
 
-    view: vn => vm.model()()
+    view: vn => vm().data
       ? m('table.grid.pure-table.pure-table-bordered', vn.attrs,
-        thead(vm),
-        tbody(vm))
+        thead(vm()),
+        tbody(vm()))
       : null
   }
 }
 
 function thead(vm: IGridViewModel) {
-  const columns = vm.model()().columns;
+  const columns = vm.columns;
   return m('thead', m('tr', columns.map(column => th(column, vm))));
 }
 
@@ -60,7 +60,7 @@ function th(column: IGridColumn, vm: IGridViewModel) {
 
 function tbody(vm: IGridViewModel) {
   // see https://mithril.js.org/keys.html
-  const model = vm.model()();
+  const model = vm;
   const key = model.key;
   const getKey = key
     ? (key instanceof Function)

@@ -36,9 +36,9 @@ function oninit() {
 }
 
 function onremove() {
-  model.mostActive.model(null);
-  model.gainers.model(null);
-  model.losers.model(null);
+  //model.mostActive.model(null);
+  //model.gainers.model(null);
+  //model.losers.model(null);
 }
 
 function initModel() {
