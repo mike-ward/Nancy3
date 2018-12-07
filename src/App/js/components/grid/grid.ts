@@ -43,8 +43,8 @@ function th(column: IGridColumn, vm: IGridViewModel) {
 
   if (column.allowSort) {
     classes.push('grid-sort-indicator');
-    const direction = vm.sortByDirection(column.id);
-    if (direction === 0) classes.push('grid-sort-indicator-hi');
+    const direction = vm.sortedBy[column.id];
+    if (!direction) classes.push('grid-sort-indicator-hi');
     else if (direction > 0) classes.push('grid-sort-indicator-up');
     else classes.push('grid-sort-indicator-dn');
   }
@@ -53,7 +53,7 @@ function th(column: IGridColumn, vm: IGridViewModel) {
     {
       className: classes.join(' '),
       title: column.headTooltip || undefined,
-      onclick: column.allowSort ? () => vm.updateSortState(column.id) : undefined
+      onclick: column.allowSort ? () => vm.updateSort(column.id) : undefined
     },
     column.title);
 }

@@ -8,20 +8,28 @@ interface ISortByColumn {
 }
 
 export interface IGridViewModel extends IGridModel {
-  sortByDirection: (columnId: string) => number;
-  updateSortState: (columnId: string) => void;
+  sortedBy: { [id:string]: number };
+  updateSort: (columnId: string) => void;
 }
 
 export function gridViewModel(gridModel: stream.Stream<IGridModel>) {
   let sortByState = [] as ISortByColumn[];
-  const gridModels = stream.scan((_, v) => updateGridModel(v), gridModel(), gridModel);
+  const gridModels = stream.scan((_, gm) => updateGridModel(gm), gridModel(), gridModel);
   return gridModels.map<IGridViewModel>(model => updateGridViewModel(model));
+
+  function updateGridViewModel(gridModel: IGridModel) {
+    return {
+      ...gridModel,
+      sortedBy: sortedByMap(),
+      updateSort: updateSortState
+    }
+  }
 
   function updateGridModel(gridModel: IGridModel) {
     if (!gridModel || !gridModel.columns || !gridModel.data) return null;
     const columns = visibleColumns(gridModel.columns);
     const data = sortByColumns(gridModel);
-
+    
     const nm = {
       columns: columns,
       data: data,
@@ -31,17 +39,13 @@ export function gridViewModel(gridModel: stream.Stream<IGridModel>) {
     return nm;
   }
 
-  function updateGridViewModel(gridModel: IGridModel) {
-    return {
-      ...gridModel,
-      sortByDirection: sortByDirection,
-      updateSortState: updateSortState
-    }
-  }
-
-  function sortByDirection(columnId: string) {
-    const sortByColumn = sortByState.reduce((a, c) => c.id === columnId ? c : a, null);
-    return sortByColumn ? sortByColumn.direction : 0;
+  function sortedByMap() {
+    const map = sortByState.reduce<{ [id: string]: number }>(
+      (a, c) => {
+        a[c.id] = c.direction;
+        return a;
+      }, {});
+      return map;
   }
 
   function updateSortState(columnId: string) {
