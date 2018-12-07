@@ -7,11 +7,12 @@ namespace Test.Infrastructure.Extensions
 {
     public class ObjectExtensionTests
     {
-        [Fact]
-        public void DoubleToStringTests()
+        [Theory]
+        [InlineData(7e5, "700000")]
+        [InlineData(7e-10, "0.0000000007")]
+        public void DoubleToStringTests(double value, string expected)
         {
-            7e-10.ToStringInvariant().Should().Be("0.0000000007");
-            7e5.ToStringInvariant().Should().Be("700000");
+            value.ToStringInvariant().Should().Be(expected);
         }
 
         [Fact]
