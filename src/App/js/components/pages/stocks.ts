@@ -1,5 +1,6 @@
 ﻿import m from 'mithril';
-import { grid, IGridAttrs } from '../grid/grid';
+import stream from 'mithril/stream';
+import { grid } from '../grid/grid';
 import { loading } from '../loading/loading'
 import { IGridModel, IGridColumn } from '../grid/IGridModel';
 import { camelIdentifierToTitle } from '../../services/convert-service';
@@ -11,7 +12,7 @@ export const stocks: m.Component = {
 }
 
 interface IModel {
-  stocks: IGridModel;
+  stocks: stream.Stream<IGridModel>;
 }
 
 let model: IModel;
@@ -19,26 +20,26 @@ let model: IModel;
 function view() {
   return m('div',
     m('h2', `Stocks`),
-    m('p', `Count: ${model.stocks ? model.stocks.data.length : 0}`),
-    model.stocks
-    ? m(grid, { model: model.stocks, style: { 'font-size': 'smaller' } } as IGridAttrs)
+    m('p', `Count: ${model.stocks() ? model.stocks().data.length : 0}`),
+    model.stocks()
+    ? m(grid, { model: model.stocks, style: { 'font-size': 'smaller' } })
     : m(loading));
 }
 
 function oninit() {
   model = initModel();
   getStocks()
-    .then(r => { model.stocks = gridModelFactory(r) });
+    .then(r => { model.stocks(gridModelFactory(r)) });
 }
 
 function onremove() {
-  model = initModel();
+  model.stocks(null);
 }
 
 function initModel() {
   return {
-    stocks: null as IGridModel
-  }
+    stocks: stream()
+  } as IModel
 }
 
 function getStocks() {

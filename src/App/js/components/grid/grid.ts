@@ -1,4 +1,5 @@
 ﻿import m from 'mithril';
+import stream from 'mithril/stream';
 import { IGridModel, IGridDataRow, IGridColumn } from './IGridModel';
 import { gridViewModel } from './gridViewModel';
 import { cssStylesAdd } from '../../services/css-service';
@@ -15,7 +16,7 @@ cssStylesAdd(`
 `);
 
 export interface IGridAttrs extends m.Attributes {
-  model: IGridModel
+  model: stream.Stream<IGridModel>
 }
 
 export const grid: m.FactoryComponent<IGridAttrs> = () => {
@@ -23,7 +24,7 @@ export const grid: m.FactoryComponent<IGridAttrs> = () => {
 
   return {
     view: v => {
-      const model = vm.viewModel(v.attrs.model);
+      const model = vm.viewModel(v.attrs.model());
       if (!model) return null;
 
       return m('table.grid.pure-table.pure-table-bordered', v.attrs,

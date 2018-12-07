@@ -1,5 +1,6 @@
 ﻿import m from 'mithril';
-import { grid, IGridAttrs } from '../grid/grid';
+import stream from 'mithril/stream';
+import { grid } from '../grid/grid';
 import { loading } from '../loading/loading';
 import { IGridModel, IGridColumn } from '../grid/IGridModel';
 import { camelIdentifierToTitle } from '../../services/convert-service';
@@ -16,7 +17,7 @@ export const markets: m.Component = {
 
 interface IMarket {
   title: string;
-  model: IGridModel;
+  model: stream.Stream<IGridModel>;
 }
 
 interface IModel {
@@ -35,14 +36,16 @@ function oninit() {
 }
 
 function onremove() {
-  model = initModel();
+  model.mostActive.model(null);
+  model.gainers.model(null);
+  model.losers.model(null);
 }
 
 function initModel() {
   return {
-    mostActive: { title: 'Most Active Stocks', model: null } as IMarket,
-    gainers: { title: 'Gainers', model: null } as IMarket,
-    losers: { title: 'Losers', model: null } as IMarket
+    mostActive: { title: 'Most Active Stocks', model: stream() } as IMarket,
+    gainers: { title: 'Gainers', model: stream() } as IMarket,
+    losers: { title: 'Losers', model: stream() } as IMarket
   }
 }
 
@@ -52,10 +55,10 @@ function view() {
     m('h2', 'Markets'),
     markets.map(market => [
       m('p',
-        market.model
+        market.model()
         ? m('span.bold', market.title)
         : m(loading)),
-      m(grid, { model: market.model } as IGridAttrs)
+      m(grid, { model: market.model })
     ])
   );
 }
@@ -66,17 +69,17 @@ function api(url: string) {
 
 function getMostActive() {
   api('api/markets/most-active')
-    .then(r => { model.mostActive.model = gridModelFactory(r) });
+    .then(r => { model.mostActive.model(gridModelFactory(r)) });
 }
 
 function getGainers() {
   api('api/markets/gainers')
-    .then(r => { model.gainers.model = gridModelFactory(r) });
+    .then(r => { model.gainers.model(gridModelFactory(r)) });
 }
 
 function getLosers() {
   api('api/markets/losers')
-    .then(r => { model.losers.model = gridModelFactory(r) });
+    .then(r => { model.losers.model(gridModelFactory(r)) });
 }
 
 function gridModelFactory(data: any) {
