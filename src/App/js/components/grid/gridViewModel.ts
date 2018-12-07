@@ -1,4 +1,5 @@
-﻿import { IGridModel, IGridColumn } from './IGridModel';
+﻿import stream from 'mithril/stream';
+import { IGridModel, IGridColumn } from './IGridModel';
 import { compareService } from '../../services/compare-service';
 
 interface ISortByColumn {
@@ -7,16 +8,18 @@ interface ISortByColumn {
 }
 
 export interface IGridViewModel {
-  viewModel: (model: IGridModel) => IGridModel;
+  model: stream.Stream<stream.Stream<IGridModel>>;
   sortByDirection: (columnId: string) => number;
   updateSortState: (columnId: string) => void;
 }
 
-export function gridViewModel() {
+export function gridViewModel(model: stream.Stream<IGridModel>) {
+  const update = stream() as stream.Stream<IGridModel>;
+  const models = stream.scan((a, v) => stream(viewModel(v)), model, update);
   let sortByState = [] as ISortByColumn[];
 
   return {
-    viewModel: viewModel,
+    model: models,
     sortByDirection: sortByDirection,
     updateSortState: updateSortState
   } as IGridViewModel;
@@ -26,11 +29,13 @@ export function gridViewModel() {
     const columns = visibleColumns(model.columns);
     const data = sortByColumns(model);
 
-    return {
+    const nm = {
       columns: columns,
       data: data,
       key: model.key
     } as IGridModel;
+
+    return nm;
   }
 
   function sortByDirection(columnId: string) {
@@ -43,6 +48,7 @@ export function gridViewModel() {
     if (!sortBy) sortByState = [{ id: columnId, direction: 1 }];
     else if (sortBy.direction > 0) sortBy.direction = -1;
     else if (sortBy.direction < 0) sortByState = [];
+    update(model());
   }
 
   function visibleColumns(columns: IGridColumn[]) {
