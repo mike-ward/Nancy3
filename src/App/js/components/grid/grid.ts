@@ -43,9 +43,9 @@ function th(column: IGridColumn, vm: IGridViewModel) {
 
   if (column.allowSort) {
     classes.push('grid-sort-indicator');
-    const direction = vm.sortedBy[column.id];
-    if (!direction) classes.push('grid-sort-indicator-hi');
-    else if (direction > 0) classes.push('grid-sort-indicator-up');
+    const sortBy = vm.sortedBy[column.id];
+    if (!sortBy) classes.push('grid-sort-indicator-hi');
+    else if (sortBy.direction > 0) classes.push('grid-sort-indicator-up');
     else classes.push('grid-sort-indicator-dn');
   }
 
@@ -60,8 +60,7 @@ function th(column: IGridColumn, vm: IGridViewModel) {
 
 function tbody(vm: IGridViewModel) {
   // see https://mithril.js.org/keys.html
-  const model = vm;
-  const key = model.key;
+  const key = vm.key;
   const getKey = key
     ? (key instanceof Function)
       ? (row: any) => (key as Function)(row)
@@ -69,10 +68,10 @@ function tbody(vm: IGridViewModel) {
     : (): undefined => undefined;
 
   return m('tbody',
-    model.data.map(row =>
+    vm.data.map(row =>
       m('tr',
         { key: getKey(row) },
-        model.columns.map(column => td(column, row)))));
+        vm.columns.map(column => td(column, row)))));
 }
 
 function td(column: IGridColumn, row: IGridDataRow, ) {

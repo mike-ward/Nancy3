@@ -7,8 +7,12 @@ interface ISortByColumn {
   direction: number;
 }
 
+interface ISortByMap {
+  [id: string]: { direction: number, ordinal: number }
+}
+
 export interface IGridViewModel extends IGridModel {
-  sortedBy: { [id:string]: number };
+  sortedBy: ISortByMap;
   updateSort: (columnId: string) => void;
 }
 
@@ -20,7 +24,7 @@ export function gridViewModel(gridModel: stream.Stream<IGridModel>) {
   function updateGridViewModel(gridModel: IGridModel) {
     return {
       ...gridModel,
-      sortedBy: sortedByMap(),
+      sortedBy: sortedBy(),
       updateSort: updateSortState
     }
   }
@@ -29,23 +33,28 @@ export function gridViewModel(gridModel: stream.Stream<IGridModel>) {
     if (!gridModel || !gridModel.columns || !gridModel.data) return null;
     const columns = visibleColumns(gridModel.columns);
     const data = sortByColumns(gridModel);
-    
-    const nm = {
+
+    const gm = {
       columns: columns,
       data: data,
       key: gridModel.key
     } as IGridModel;
 
-    return nm;
+    return gm;
   }
 
-  function sortedByMap() {
-    const map = sortByState.reduce<{ [id: string]: number }>(
-      (a, c) => {
-        a[c.id] = c.direction;
+  function visibleColumns(columns: IGridColumn[]) {
+    const filtered = columns.filter(c => !c.hide);
+    return filtered;
+  }
+
+  function sortedBy() {
+    const map = sortByState.reduce<ISortByMap>(
+      (a, c, i) => {
+        a[c.id] = { direction: c.direction, ordinal: i };
         return a;
       }, {});
-      return map;
+    return map;
   }
 
   function updateSortState(columnId: string) {
@@ -54,11 +63,6 @@ export function gridViewModel(gridModel: stream.Stream<IGridModel>) {
     else if (sortBy.direction > 0) sortBy.direction = -1;
     else if (sortBy.direction < 0) sortByState = [];
     gridModel(gridModel());
-  }
-
-  function visibleColumns(columns: IGridColumn[]) {
-    const filtered = columns.filter(c => !c.hide);
-    return filtered;
   }
 
   function sortByColumns(model: IGridModel) {
@@ -72,11 +76,12 @@ export function gridViewModel(gridModel: stream.Stream<IGridModel>) {
         : compareService.compareAny;
 
       const columnId = column.id;
+      const direction = sortByColumn.direction;
       const data = model.data.slice();
 
       data.sort((l: any, r: any) => {
         const result = comparer(l[columnId], r[columnId]);
-        return sortByColumn.direction >= 0 ? result : -result;
+        return direction >= 0 ? result : -result;
       });
 
       return data;
