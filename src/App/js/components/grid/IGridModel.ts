@@ -1,7 +1,8 @@
 ﻿export interface IGridModel {
   columns: IGridColumn[];
   data: IGridDataRow[];
-  key?: string | Function;
+  key?: string; // column id
+  meta?: any;
 }
 
 export interface IGridDataRow {
@@ -14,9 +15,9 @@ export interface IGridColumn {
   headTooltip?: string;
   hide?: boolean;
   contentIfNull?: string;
-  cellRenderer?: (originalValue: any, column: IGridColumn) => string;
+  cellRenderer?: (originalValue: any, column: IGridColumn, row: IGridDataRow, meta: any) => string;
   allowSort?: boolean;
   comparer?: (a: any, b: any) => number;
-  cellClick?: (originalValue: any, renderedValue: any, column: IGridColumn) => void;
-  cellTooltip?: (originalValue: any, renderedValue: any, column: IGridColumn) => string;
+  cellTooltip?: (value: any, renderedValue: any, column: IGridColumn, row: IGridDataRow, meta: any) => string;
+  cellClick?: (event: Event, value: any, renderedValue: any, column: IGridColumn, row: IGridDataRow, meta: any) => void;
 }

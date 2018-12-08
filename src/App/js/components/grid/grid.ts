@@ -1,7 +1,7 @@
 ﻿import m from 'mithril';
 import stream from 'mithril/stream';
 import { IGridModel, IGridDataRow, IGridColumn } from './IGridModel';
-import { gridViewModelStream, IGridViewModel } from './gridViewModel';
+import { gridViewModelStream, IGridViewModel, IGridViewDataRow, IGridViewDataCell } from './gridViewModel';
 import { cssStylesAdd } from '../../services/css-service';
 
 // language=CSS
@@ -52,41 +52,31 @@ function th(column: IGridColumn, vm: IGridViewModel) {
   return m('th',
     {
       className: classes.join(' '),
-      title: column.headTooltip || undefined,
+      title: column.headTooltip,
       onclick: column.allowSort ? () => vm.updateSort(column.id) : undefined
     },
     column.title);
 }
 
 function tbody(vm: IGridViewModel) {
-  // see https://mithril.js.org/keys.html
-  const key = vm.key;
-  const getKey = key
-    ? (key instanceof Function)
-      ? (row: any) => (key as Function)(row)
-      : (row: any) => row[key as string]
-    : (): undefined => undefined;
+  const key = vm.key
+    ? (row: IGridViewDataRow) => row[vm.key].value
+    : () => null as string;
 
   return m('tbody',
     vm.data.map(row =>
       m('tr',
-        { key: getKey(row) },
-        vm.columns.map(column => td(column, row)))));
+        { key: key(row) },
+        vm.columns.map(column => td(row[column.id])))
+    ));
 }
 
-function td(column: IGridColumn, row: IGridDataRow, ) {
-  const val = row[column.id];
-  const value: any = val === null || val === undefined ? column.contentIfNull : val;
-  const renderedValue = column.cellRenderer ? column.cellRenderer(value, column) : value;
-  const cellClass = column.cellClick ? 'grid-cell-click' : undefined;
-  const tooltip = column.cellTooltip ? column.cellTooltip(value, renderedValue, column) : undefined;
-  const clickHandler = () => column.cellClick ? column.cellClick(value, renderedValue, column) : undefined;
-
+function td(cell: IGridViewDataCell, ) {
   return m('td',
     {
-      className: cellClass,
-      title: tooltip,
-      onclick: clickHandler
+      className: cell.cellClass,
+      title: cell.tooltip,
+      onclick: cell.clickHandler
     },
-    renderedValue);
+    cell.value);
 }
