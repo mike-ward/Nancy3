@@ -25,7 +25,7 @@ export const grid: m.FactoryComponent<IGridAttrs> = () => {
   return {
     oninit: vn => vm = gridViewModel(vn.attrs.model),
 
-    view: vn => vm().data
+    view: vn => vm() && vm().data
       ? m('table.grid.pure-table.pure-table-bordered', vn.attrs,
         thead(vm()),
         tbody(vm()))
