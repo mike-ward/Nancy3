@@ -11,8 +11,7 @@ cssStylesAdd(`div.markets .grid{font-size:smaller;}`);
 
 export const markets: m.Component = {
   view: view,
-  oninit: oninit,
-  onremove: onremove,
+  oninit: oninit
 };
 
 interface IMarket {
@@ -33,12 +32,6 @@ function oninit() {
   getMostActive();
   getGainers();
   getLosers();
-}
-
-function onremove() {
-  //model.mostActive.model(null);
-  //model.gainers.model(null);
-  //model.losers.model(null);
 }
 
 function initModel() {

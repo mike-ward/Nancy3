@@ -31,7 +31,7 @@ let model: IModel;
 
 function initModel() {
   return {
-    news: [] as INews[]
+    news: null as INews[]
   }
 }
 

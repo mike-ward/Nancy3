@@ -7,8 +7,7 @@ import { camelIdentifierToTitle } from '../../services/convert-service';
 
 export const stocks: m.Component = {
   view: view,
-  oninit: oninit,
-  onremove: onremove
+  oninit: oninit
 }
 
 interface IModel {
@@ -30,10 +29,6 @@ function oninit() {
   model = initModel();
   getStocks()
     .then(r => { model.stocks(gridModelFactory(r)) });
-}
-
-function onremove() {
-  model.stocks(null);
 }
 
 function initModel() {
