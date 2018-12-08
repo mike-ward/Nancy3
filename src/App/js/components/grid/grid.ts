@@ -1,7 +1,7 @@
 ﻿import m from 'mithril';
 import stream from 'mithril/stream';
 import { IGridModel, IGridDataRow, IGridColumn } from './IGridModel';
-import { gridViewModel, IGridViewModel } from './gridViewModel';
+import { gridViewModelStream, IGridViewModel } from './gridViewModel';
 import { cssStylesAdd } from '../../services/css-service';
 
 // language=CSS
@@ -20,15 +20,15 @@ export interface IGridAttrs extends m.Attributes {
 }
 
 export const grid: m.FactoryComponent<IGridAttrs> = () => {
-  let vm: stream.Stream<IGridViewModel>;
+  let vms: stream.Stream<IGridViewModel>;
 
   return {
-    oninit: vn => vm = gridViewModel(vn.attrs.model),
+    oninit: vn => vms = gridViewModelStream(vn.attrs.model),
 
-    view: vn => vm() && vm().data
+    view: vn => vms() && vms().columns
       ? m('table.grid.pure-table.pure-table-bordered', vn.attrs,
-        thead(vm()),
-        tbody(vm()))
+        thead(vms()),
+        tbody(vms()))
       : null
   }
 }

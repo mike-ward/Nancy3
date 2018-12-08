@@ -16,17 +16,17 @@ export interface IGridViewModel extends IGridModel {
   updateSort: (columnId: string) => void;
 }
 
-export function gridViewModel(gridModel: stream.Stream<IGridModel>) {
+export function gridViewModelStream(gridModelStream: stream.Stream<IGridModel>) {
   let sortByState = [] as ISortByColumn[];
-  const gridViewModelStream = gridModel
-    .map<IGridViewModel>(gm => gm && ({
+  const gridViewModelStream = gridModelStream.map<IGridViewModel>(gm => gm &&
+    ({
       columns: visibleColumns(gm.columns),
       data: sortByColumns(gm, sortByState),
       key: gm.key,
       sortedBy: sortedBy(sortByState),
       updateSort: (columnId: string) => {
         sortByState = updateSortState(columnId, sortByState);
-        gridModel(gm);
+        gridModelStream(gm);
       }
     }));
   return gridViewModelStream;
