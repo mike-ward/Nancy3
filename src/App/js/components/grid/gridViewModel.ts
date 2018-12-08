@@ -33,7 +33,7 @@ export interface IGridViewModel {
 export function gridViewModelStream(gridModelStream: stream.Stream<IGridModel>) {
   let sortByState = [] as ISortByColumn[];
 
-  const gridViewModelStream = gridModelStream.map<IGridViewModel>(gm => gm &&
+  const viewModelStream = gridModelStream.map<IGridViewModel>(gm => gm &&
     ({
       columns: gm.columns.filter(c => !c.hide),
       data: gridViewDataRows(gm, sortByColumns(gm, sortByState)),
@@ -45,31 +45,41 @@ export function gridViewModelStream(gridModelStream: stream.Stream<IGridModel>) 
       }
     }));
 
-  return gridViewModelStream;
+  return viewModelStream;
 }
 
 function gridViewDataRows(gm: IGridModel, dataRows: IGridDataRow[]) {
   const columns = gm.columns;
+  const meta = gm.meta;
+  return dataRows.map(dataRow => gridDataRow(dataRow, columns, meta));
+}
 
-  const data = dataRows.map(
-    dataRow => columns.reduce((a, col) => {
-      const val = dataRow[col.id];
-      const value = val === null || val === undefined ? col.contentIfNull : val;
-      const renderedValue = col.cellRenderer ? col.cellRenderer(value, col, dataRow, gm.meta) : value;
-      const cellClass = col.cellClick ? 'grid-cell-click' : undefined;
-      const tooltip = col.cellTooltip ? col.cellTooltip(value, renderedValue, col, dataRow, gm.meta) : undefined;
-      const clickHandler = (event: Event) => col.cellClick ? col.cellClick(event, value, renderedValue, col, dataRow, gm.meta) : undefined;
+function gridDataRow(dataRow: IGridDataRow, columns: IGridColumn[], meta: any) {
+  return columns.reduce((a, col) => {
+    const val = dataRow[col.id];
+    const value = val === null || val === undefined
+      ? col.contentIfNull
+      : val;
+    const renderedValue = col.cellRenderer
+      ? col.cellRenderer(value, col, dataRow, meta)
+      : value;
+    const cellClass = col.cellClick
+      ? 'grid-cell-click'
+      : undefined;
+    const tooltip = col.cellTooltip
+      ? col.cellTooltip(value, renderedValue, col, dataRow, meta)
+      : undefined;
+    const clickHandler = (event: Event) => col.cellClick
+      ? col.cellClick(event, value, renderedValue, col, dataRow, meta)
+      : undefined;
 
-      const cell = {
-        value: renderedValue,
-        cellClass: cellClass,
-        tooltip: tooltip,
-        clickHandler: clickHandler
-      }
+    a[col.id] = {
+      value: renderedValue,
+      cellClass: cellClass,
+      tooltip: tooltip,
+      clickHandler: clickHandler
+    }
 
-      a[col.id] = cell;
-      return a;
-    }, Object.create(null) as IGridViewDataRow));
-
-  return data;
+    return a;
+  }, Object.create(null) as IGridViewDataRow);
 }
