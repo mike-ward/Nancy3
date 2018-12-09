@@ -1,7 +1,7 @@
 ﻿import m from 'mithril';
 import stream from 'mithril/stream';
-import { IGridModel, IGridDataRow, IGridColumn } from './IGridModel';
-import { gridViewModelStream, IGridViewModel, IGridViewDataRow, IGridViewDataCell } from './gridViewModel';
+import { IGridModel } from './IGridModel';
+import { gridViewModelStream, IGridViewModel, IGridViewColumn, IGridViewDataCell } from './gridViewModel';
 import { cssStylesAdd } from '../../services/css-service';
 
 // language=CSS
@@ -24,31 +24,30 @@ export const grid: m.FactoryComponent<IGridAttrs> = () => {
 
   return {
     oninit: vn => vms = gridViewModelStream(vn.attrs.model),
-
-    view: vn => vms() && vms().columns
-      ? m('table.grid.pure-table.pure-table-bordered', vn.attrs,
-        thead(vms()),
-        tbody(vms()))
-      : null
+    view: vn => table(vms(), vn.attrs)
   }
+}
+
+function table(vm: IGridViewModel, attrs: IGridAttrs) {
+  return vm && vm.columns && vm.data
+    ? m('table.grid.pure-table.pure-table-bordered', attrs,
+      thead(vm),
+      tbody(vm))
+    : null;
 }
 
 function thead(vm: IGridViewModel) {
   const columns = vm.columns;
-  return m('thead', m('tr', columns.map(column => th(column, vm))));
+  return m('thead', m('tr', columns.map(column => th(vm, column))));
 }
 
-function th(column: IGridColumn, vm: IGridViewModel) {
+function th(vm: IGridViewModel, column: IGridViewColumn, ) {
   const classes = [] as string[];
-
-  if (column.allowSort) {
-    classes.push('grid-sort-indicator');
-    const sortBy = vm.sortedBy[column.id];
-    if (!sortBy) classes.push('grid-sort-indicator-hi');
-    else if (sortBy.direction > 0) classes.push('grid-sort-indicator-up');
-    else classes.push('grid-sort-indicator-dn');
-  }
-
+  if (column.allowSort) classes.push('grid-sort-indicator');
+  if (column.direction === 0) classes.push('grid-sort-indicator-hi');
+  if (column.direction > 0) classes.push('grid-sort-indicator-up');
+  if (column.direction < 0) classes.push('grid-sort-indicator-dn');
+  
   return m('th',
     {
       className: classes.join(' '),
@@ -59,15 +58,11 @@ function th(column: IGridColumn, vm: IGridViewModel) {
 }
 
 function tbody(vm: IGridViewModel) {
-  const key = vm.key
-    ? (row: IGridViewDataRow) => row[vm.key].value
-    : () => null as string;
-
   return m('tbody',
-    vm.data.map(row =>
+    vm.data.map(vdr =>
       m('tr',
-        { key: key(row) },
-        vm.columns.map(column => td(row[column.id])))
+        { key: vdr.key },
+        vm.columns.map(column => td(vdr.row[column.id])))
     ));
 }
 

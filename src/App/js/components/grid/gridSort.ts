@@ -1,14 +1,9 @@
 ﻿import { IGridModel } from "./IGridModel";
-import { ISortByColumn, ISortByMap } from "./gridViewModel";
 import { compareService } from '../../services/compare-service';
 
-export function sortedBy(sortByState: ISortByColumn[]) {
-  const map = sortByState.reduce<ISortByMap>(
-    (a, c, i) => {
-      a[c.id] = { direction: c.direction, ordinal: i };
-      return a;
-    }, {});
-  return map;
+export interface ISortByColumn {
+  id: string;
+  direction: number; // -1, 1
 }
 
 export function updateSortState(columnId: string, sortByState: ISortByColumn[]) {
