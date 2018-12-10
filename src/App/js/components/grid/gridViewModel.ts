@@ -3,14 +3,9 @@ import { IGridModel, IGridColumn, IGridDataRow } from './IGridModel';
 import { sortByColumns, updateSortState, ISortByColumn } from './gridSort';
 
 export interface IGridViewModel {
-  columns: IGridViewColumn[];
+  columns: IGridColumn[];
   data: IGridViewDataRow[];
   updateSort: (columnId: string) => void;
-}
-
-export interface IGridViewColumn extends IGridColumn {
-  direction: number;
-  sortLevel: number;
 }
 
 export interface IGridViewDataRow {
@@ -42,7 +37,7 @@ export function gridViewModelStream(gridModelStream: stream.Stream<IGridModel>) 
 }
 
 function gridViewColumns(columns: IGridColumn[], sortByState: ISortByColumn[]) {
-  return columns.map<IGridViewColumn>(column => {
+  return columns.map(column => {
     const states = sortByState.filter(state => state.id === column.id);
     const direction = states.length ? states[0].direction : 0;
 

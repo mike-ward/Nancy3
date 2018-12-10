@@ -1,7 +1,7 @@
 ﻿import m from 'mithril';
 import stream from 'mithril/stream';
-import { IGridModel } from './IGridModel';
-import { gridViewModelStream, IGridViewModel, IGridViewColumn, IGridViewDataCell } from './gridViewModel';
+import { IGridModel, IGridColumn } from './IGridModel';
+import { gridViewModelStream, IGridViewModel, IGridViewDataCell } from './gridViewModel';
 import { cssStylesAdd } from '../../services/css-service';
 
 // language=CSS
@@ -41,7 +41,7 @@ function thead(vm: IGridViewModel) {
   return m('thead', m('tr', columns.map(column => th(vm, column))));
 }
 
-function th(vm: IGridViewModel, column: IGridViewColumn, ) {
+function th(vm: IGridViewModel, column: IGridColumn, ) {
   const classes = [] as string[];
   if (column.allowSort) classes.push('grid-sort-indicator');
   if (column.direction === 0) classes.push('grid-sort-indicator-hi');

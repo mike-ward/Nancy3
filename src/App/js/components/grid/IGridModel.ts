@@ -12,8 +12,10 @@ export interface IGridDataRow {
 export interface IGridColumn {
   id: string;
   title: string;
-  headTooltip?: string;
   hide?: boolean;
+  headTooltip?: string;
+  direction?: number;
+  sortLevel?: number;
   contentIfNull?: string;
   cellRenderer?: (originalValue: any, column: IGridColumn, row: IGridDataRow, meta: any) => string;
   allowSort?: boolean;
