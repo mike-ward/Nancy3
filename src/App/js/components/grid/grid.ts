@@ -11,6 +11,7 @@ cssStylesAdd(`
   .grid-cell-click:hover{text-decoration:underline;}
   .grid-sort-indicator:hover, .grid-sort-indicator-up, .grid-sort-indicator-dn{cursor:pointer;}
   .grid-sort-indicator-hi:after{content:'▲';visibility:hidden}
+  .grid-sort-indicator-hi:hover:after{visibility:visible;color:#ccd}
   .grid-sort-indicator-up:after{content:'▲'}
   .grid-sort-indicator-dn:after{content:'▼'}
 `);
