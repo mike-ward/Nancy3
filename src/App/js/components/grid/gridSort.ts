@@ -12,12 +12,11 @@ export function updateSortState(gm: IGridModel, columnId: string) {
 export function sortByColumns(gm: IGridModel) {
   const sortByStates = gm.columns
     .filter(col => col.allowSort)
-    .filter(col => col.sortDirection !== 0);
+    .filter(col => col.sortDirection);
     // future: orderby for sort level
 
   for (let column of sortByStates) {
     // future: add multiple column sort
-
     const comparer = column.comparer
       ? column.comparer
       : compareService.compareAny;
@@ -31,6 +30,7 @@ export function sortByColumns(gm: IGridModel) {
       return direction >= 0 ? result : -result;
     });
 
+    console.log('sort')
     return data;
   }
   return gm.data;

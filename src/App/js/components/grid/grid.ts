@@ -6,7 +6,9 @@ import { cssStylesAdd } from '../../services/css-service';
 
 // language=CSS
 cssStylesAdd(`
-  .grid th, .grid td{white-space:nowrap;}
+  table.grid {border:1px;border-collapse:collapse}
+  .grid th {background-color: #ddd}
+  .grid th,.grid td{white-space:nowrap;padding:.2em;text-align:left;border:1px solid #ddd}
   .grid-cell-click-action{cursor:pointer;}
   .grid-cell-click:hover{text-decoration:underline;}
   .grid-sort-indicator:hover, .grid-sort-indicator-up, .grid-sort-indicator-dn{cursor:pointer;}
@@ -31,7 +33,7 @@ export const grid: m.FactoryComponent<IGridAttrs> = () => {
 
 function table(vm: IGridViewModel, attrs: IGridAttrs) {
   return vm && vm.columns && vm.vrows
-    ? m('table.grid.pure-table.pure-table-bordered', attrs,
+    ? m('table.grid', attrs,
       thead(vm),
       tbody(vm))
     : null;
