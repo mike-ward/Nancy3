@@ -1,5 +1,6 @@
-﻿//import 'purecss/build/pure-min.css';
-import 'normalize.css/normalize.css';
+﻿import 'purecss/build/base-min.css';
+import 'purecss/build/buttons-min.css';
+import 'purecss/build/forms-min.css';
 import { cssStylesAdd, cssStylesInject } from './css-service';
 import { buildRoutes } from './route-service';
 
