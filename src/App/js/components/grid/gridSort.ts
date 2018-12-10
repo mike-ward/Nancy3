@@ -1,32 +1,30 @@
 ﻿import { IGridModel } from "./IGridModel";
 import { compareService } from '../../services/compare-service';
 
-export interface ISortByColumn {
-  id: string;
-  direction: number; // -1, 1
+export function updateSortState(gm: IGridModel, columnId: string) {
+  const column = gm.columns.reduce((a, c) => c.id === columnId ? c : a, null);
+  if (!column.sortDirection) gm.columns.forEach(col => col.sortDirection = col.id === columnId ? 1 : 0)
+  else if (column.sortDirection > 0) column.sortDirection = -1;
+  else if (column.sortDirection < 0) column.sortDirection = 0;
+  return gm;
 }
 
-export function updateSortState(columnId: string, sortByState: ISortByColumn[]) {
-  const sortBy = sortByState.reduce((a, c) => c.id === columnId ? c : a, null);
-  if (!sortBy) sortByState = [{ id: columnId, direction: 1 }];
-  else if (sortBy.direction > 0) sortBy.direction = -1;
-  else if (sortBy.direction < 0) sortByState = [];
-  return sortByState;
-}
+export function sortByColumns(gm: IGridModel) {
+  const sortByStates = gm.columns
+    .filter(col => col.allowSort)
+    .filter(col => col.sortDirection !== 0);
+    // future: orderby for sort level
 
-export function sortByColumns(model: IGridModel, sortByState: ISortByColumn[]) {
-  for (let sortByColumn of sortByState) {
+  for (let column of sortByStates) {
     // future: add multiple column sort
-    const column = model.columns.reduce((a, c) => c.id === sortByColumn.id ? c : a, null);
-    if (!column) return model.data;
 
     const comparer = column.comparer
       ? column.comparer
       : compareService.compareAny;
 
     const columnId = column.id;
-    const direction = sortByColumn.direction;
-    const data = model.data.slice();
+    const direction = column.sortDirection;
+    const data = gm.data.slice();
 
     data.sort((l: any, r: any) => {
       const result = comparer(l[columnId], r[columnId]);
@@ -35,5 +33,5 @@ export function sortByColumns(model: IGridModel, sortByState: ISortByColumn[]) {
 
     return data;
   }
-  return model.data;
+  return gm.data;
 }

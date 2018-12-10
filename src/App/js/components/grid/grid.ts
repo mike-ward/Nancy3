@@ -29,7 +29,7 @@ export const grid: m.FactoryComponent<IGridAttrs> = () => {
 }
 
 function table(vm: IGridViewModel, attrs: IGridAttrs) {
-  return vm && vm.columns && vm.data
+  return vm && vm.columns && vm.vrows
     ? m('table.grid.pure-table.pure-table-bordered', attrs,
       thead(vm),
       tbody(vm))
@@ -42,15 +42,19 @@ function thead(vm: IGridViewModel) {
 }
 
 function th(vm: IGridViewModel, column: IGridColumn, ) {
-  const classes = [] as string[];
-  if (column.allowSort) classes.push('grid-sort-indicator');
-  if (column.direction === 0) classes.push('grid-sort-indicator-hi');
-  if (column.direction > 0) classes.push('grid-sort-indicator-up');
-  if (column.direction < 0) classes.push('grid-sort-indicator-dn');
+  let names = undefined as string;
+
+  if (column.allowSort) {
+    const classes = ['grid-sort-indicator'];
+    if (!column.sortDirection) classes.push('grid-sort-indicator-hi');
+    if (column.sortDirection > 0) classes.push('grid-sort-indicator-up');
+    if (column.sortDirection < 0) classes.push('grid-sort-indicator-dn');
+    names = classes.join(' ');
+  }
   
   return m('th',
     {
-      className: classes.join(' '),
+      className: names,
       title: column.headTooltip,
       onclick: column.allowSort ? () => vm.updateSort(column.id) : undefined
     },
@@ -59,10 +63,10 @@ function th(vm: IGridViewModel, column: IGridColumn, ) {
 
 function tbody(vm: IGridViewModel) {
   return m('tbody',
-    vm.data.map(vdr =>
+    vm.vrows.map(vr =>
       m('tr',
-        { key: vdr.key },
-        vm.columns.map(column => td(vdr.row[column.id])))
+        { key: vr.key },
+        vm.columns.map(column => td(vr.data[column.id])))
     ));
 }
 

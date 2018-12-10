@@ -1,16 +1,17 @@
-﻿import stream from 'mithril/stream';
+﻿import m from 'mithril';
+import stream from 'mithril/stream';
 import { IGridModel, IGridColumn, IGridDataRow } from './IGridModel';
-import { sortByColumns, updateSortState, ISortByColumn } from './gridSort';
+import { sortByColumns, updateSortState } from './gridSort';
 
 export interface IGridViewModel {
   columns: IGridColumn[];
-  data: IGridViewDataRow[];
+  vrows: IGridViewDataRow[];
   updateSort: (columnId: string) => void;
 }
 
 export interface IGridViewDataRow {
   key: string;
-  row: { [columnId: string]: IGridViewDataCell };
+  data: { [columnId: string]: IGridViewDataCell };
 }
 
 export interface IGridViewDataCell {
@@ -20,36 +21,18 @@ export interface IGridViewDataCell {
   clickHandler: (event: Event) => void;
 }
 
-export function gridViewModelStream(gridModelStream: stream.Stream<IGridModel>) {
-  let sortByState = [] as ISortByColumn[];
-
-  const viewModelStream = gridModelStream.map<IGridViewModel>(gm => gm &&
+export function gridViewModelStream(gms: stream.Stream<IGridModel>) {
+  const viewModelStream = gms.map<IGridViewModel>(gm => gm &&
     ({
-      columns: gridViewColumns(gm.columns.filter(c => !c.hide), sortByState),
-      data: gridViewDataRows(gm, sortByColumns(gm, sortByState)),
-      updateSort: (columnId: string) => {
-        sortByState = updateSortState(columnId, sortByState);
-        gridModelStream(gm);
-      }
+      columns: gm.columns.filter(c => !c.hide),
+      vrows: gridViewDataRows(gm),
+      updateSort: (columnId: string) => gms(updateSortState(gm, columnId))
     }));
-
   return viewModelStream;
 }
 
-function gridViewColumns(columns: IGridColumn[], sortByState: ISortByColumn[]) {
-  return columns.map(column => {
-    const states = sortByState.filter(state => state.id === column.id);
-    const direction = states.length ? states[0].direction : 0;
-
-    return {
-      ...column,
-      direction: direction,
-      sortLevel: 0
-    };
-  });
-}
-
-function gridViewDataRows(gm: IGridModel, dataRows: IGridDataRow[]) {
+function gridViewDataRows(gm: IGridModel) {
+  const dataRows = sortByColumns(gm);
   return dataRows.map(dataRow => gridDataRow(gm, dataRow));
 }
 
@@ -60,7 +43,7 @@ function gridDataRow(gm: IGridModel, dataRow: IGridDataRow) {
       ? col.contentIfNull
       : val;
     const renderedValue = col.cellRenderer
-      ? col.cellRenderer(value, col, dataRow, gm.meta)
+      ? m.trust(col.cellRenderer(value, col, dataRow, gm.meta))
       : value;
     const cellClass = col.cellClick
       ? 'grid-cell-click'
@@ -72,7 +55,7 @@ function gridDataRow(gm: IGridModel, dataRow: IGridDataRow) {
       ? col.cellClick(event, value, renderedValue, col, dataRow, gm.meta)
       : undefined;
 
-    a.row[col.id] = {
+    a.data[col.id] = {
       value: renderedValue,
       cellClass: cellClass,
       tooltip: tooltip,
@@ -80,8 +63,8 @@ function gridDataRow(gm: IGridModel, dataRow: IGridDataRow) {
     }
 
     return a;
-  }, { key: null, row: Object.create(null) } as IGridViewDataRow);
+  }, { key: null, data: Object.create(null) } as IGridViewDataRow);
 
-  dr.key = gm.key ? dr.row[gm.key].value : undefined;
+  dr.key = gm.key ? dr.data[gm.key].value : undefined;
   return dr;
 }

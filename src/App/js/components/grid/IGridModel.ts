@@ -6,7 +6,7 @@
 }
 
 export interface IGridDataRow {
-  [columnId: string] : string | number | Date
+  [columnId: string]: any;
 }
 
 export interface IGridColumn {
@@ -14,12 +14,14 @@ export interface IGridColumn {
   title: string;
   hide?: boolean;
   headTooltip?: string;
-  direction?: number;
+
+  allowSort?: boolean;
   sortLevel?: number;
+  sortDirection?: number;
+  comparer?: (a: any, b: any) => number;
+
   contentIfNull?: string;
   cellRenderer?: (originalValue: any, column: IGridColumn, row: IGridDataRow, meta: any) => string;
-  allowSort?: boolean;
-  comparer?: (a: any, b: any) => number;
   cellTooltip?: (value: any, renderedValue: any, column: IGridColumn, row: IGridDataRow, meta: any) => string;
   cellClick?: (event: Event, value: any, renderedValue: any, column: IGridColumn, row: IGridDataRow, meta: any) => void;
 }
