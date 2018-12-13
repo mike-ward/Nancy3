@@ -1,13 +1,13 @@
 ﻿import { IGridViewModel } from 'gridViewModel';
 
 export function exportCsv(gvm: IGridViewModel) {
-  const columns = gvm.columns.map(vm => vm.title)
+  const columns = gvm.columns.map(vm => vm.name)
     .map(sanitize)
     .join(',');
 
   const rows = gvm.vrows.map(
     vr => gvm.columns.map(col =>
-      vr.data[col.id].value)
+      vr.data.get(col.id).value)
       .map(sanitize)
       .join(','))
     .join('\n');

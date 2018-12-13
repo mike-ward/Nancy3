@@ -1,8 +1,7 @@
 ﻿import m from 'mithril';
 import stream from 'mithril/stream';
 import { IGridModel, IGridColumn } from './IGridModel';
-import { gridViewModelStream, IGridViewModel, IGridViewDataCell } from './gridViewModel';
-import { exportCsv, downloadCsv } from './gridExport';
+import { gridViewModelStream, IGridViewModel, IGridViewCell } from './gridViewModel';
 import { cssStylesAdd } from '../../services/css-service';
 
 // language=CSS
@@ -49,7 +48,7 @@ function thead(vm: IGridViewModel) {
 function th(vm: IGridViewModel, column: IGridColumn, ) {
   let names = undefined as string;
 
-  if (column.allowSort) {
+  if (column.sortAllow) {
     const classes = ['grid-sort-indicator'];
     if (!column.sortDirection) classes.push('grid-sort-indicator-hi');
     if (column.sortDirection > 0) classes.push('grid-sort-indicator-up');
@@ -60,10 +59,10 @@ function th(vm: IGridViewModel, column: IGridColumn, ) {
   return m('th',
     {
       className: names,
-      title: column.titleTooltip,
-      onclick: column.allowSort ? () => vm.updateSort(column.id) : undefined
+      title: column.tooltip,
+      onclick: column.sortAllow ? () => vm.updateSort(column.id) : undefined
     },
-    column.title);
+    column.name);
 }
 
 function tbody(vm: IGridViewModel) {
@@ -71,11 +70,11 @@ function tbody(vm: IGridViewModel) {
     vm.vrows.map(vr =>
       m('tr',
         { key: vr.key },
-        vm.columns.map(column => td(vr.data[column.id])))
+        vm.columns.map(column => td(vr.data.get(column.id))))
     ));
 }
 
-function td(cell: IGridViewDataCell, ) {
+function td(cell: IGridViewCell, ) {
   return m('td',
     {
       className: cell.cellClass,

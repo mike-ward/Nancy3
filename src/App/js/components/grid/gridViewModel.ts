@@ -5,16 +5,16 @@ import { sortByColumns, updateSortState } from './gridSort';
 
 export interface IGridViewModel {
   columns: IGridColumn[];
-  vrows: IGridViewDataRow[];
+  vrows: IGridViewRow[];
   updateSort: (columnId: string) => void;
 }
 
-export interface IGridViewDataRow {
+export interface IGridViewRow {
   key: string;
-  data: { [columnId: string]: IGridViewDataCell };
+  data: Map<string, IGridViewCell>;
 }
 
-export interface IGridViewDataCell {
+export interface IGridViewCell {
   value: any;
   cellClass: string;
   tooltip: string;
@@ -40,7 +40,7 @@ function gridDataRow(gm: IGridModel, dataRow: IGridDataRow) {
   const dr = gm.columns.reduce((a, col) => {
     const val = dataRow[col.id];
     const value = val === null || val === undefined
-      ? col.contentIfNull
+      ? col.cellContentIfNull
       : val;
     const renderedValue = col.cellRenderer
       ? m.trust(col.cellRenderer(value, col, dataRow, gm.meta))
@@ -55,16 +55,17 @@ function gridDataRow(gm: IGridModel, dataRow: IGridDataRow) {
       ? col.cellClick(event, value, renderedValue, col, dataRow, gm.meta)
       : undefined;
 
-    a.data[col.id] = {
+    const column = {
       value: renderedValue,
       cellClass: cellClass,
       tooltip: tooltip,
       clickHandler: clickHandler
-    }
+    };
 
+    a.data.set(col.id, column);
     return a;
-  }, { key: null, data: Object.create(null) } as IGridViewDataRow);
+  }, { key: null, data: new Map<string, IGridViewCell>() } );
 
-  dr.key = gm.key ? dr.data[gm.key].value : undefined;
+  dr.key = gm.key ? dr.data.get(gm.key).value : undefined;
   return dr;
 }

@@ -47,8 +47,8 @@ function gridModelFactory(data: any) {
   const columns: IGridColumn[] = fields
     .map(field => ({
       id: field,
-      title: camelIdentifierToTitle(field),
-      allowSort: true,
+      name: camelIdentifierToTitle(field),
+      sortAllow: true,
     }));
 
   return {

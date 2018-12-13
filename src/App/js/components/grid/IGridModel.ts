@@ -11,16 +11,17 @@ export interface IGridDataRow {
 
 export interface IGridColumn {
   id: string;
-  title: string;
+  name: string;
   hide?: boolean;
-  titleTooltip?: string;
+  tooltip?: string;
+  ordinal?: number;
 
-  allowSort?: boolean;
+  sortAllow?: boolean;
   sortLevel?: number;
   sortDirection?: number;
-  comparer?: (a: any, b: any) => number;
+  sortComparer?: (a: any, b: any) => number;
 
-  contentIfNull?: string;
+  cellContentIfNull?: string;
   cellRenderer?: (originalValue: any, column: IGridColumn, row: IGridDataRow, meta: any) => string;
   cellTooltip?: (value: any, renderedValue: any, column: IGridColumn, row: IGridDataRow, meta: any) => string;
   cellClick?: (event: Event, value: any, renderedValue: any, column: IGridColumn, row: IGridDataRow, meta: any) => void;
