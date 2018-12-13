@@ -12,6 +12,7 @@ export interface IGridDataRow {
 export interface IGridColumn {
   id: string;
   name: string;
+  css?: string | object;
   hide?: boolean;
   tooltip?: string;
   ordinal?: number;

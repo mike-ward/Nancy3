@@ -92,15 +92,14 @@ function getLosers() {
 }
 
 function gridModelFactory(data: any) {
-  const fields = [
-    'symbol', 'companyName', 'primaryExchange', 'sector', 'latestPrice',
-    'open', 'close', 'high', 'low', 'week52High', 'week52Low'
-  ];
+  const stringFields = ['symbol', 'companyName', 'primaryExchange', 'sector'];
+  const numberFields = ['latestPrice', 'open', 'close', 'high', 'low', 'week52High', 'week52Low']
 
-  const columns: IGridColumn[] = fields
+  const columns: IGridColumn[] = stringFields.concat(numberFields)
     .map(field => ({
       id: field,
       name: camelIdentifierToTitle(field),
+      css: numberFields.some(nf => nf === field) ? { 'text-align': 'right' } : null,
       sortAllow: true,
     }));
 

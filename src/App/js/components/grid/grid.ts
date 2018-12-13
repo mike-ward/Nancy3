@@ -74,15 +74,16 @@ function tbody(vm: IGridViewModel) {
     vm.vrows.map(vr =>
       m('tr',
         { key: vr.key },
-        vm.columns.map(column => td(vr.data.get(column.id))))
+        vm.columns.map(column => td(vr.data.get(column.id), column.css)))
     ));
 }
 
-function td(cell: IGridViewCell, ) {
+function td(cell: IGridViewCell, css: string | object) {
   return m('td',
     {
-      className: cell.cellClass,
+      style: css,
       title: cell.tooltip,
+      className: cell.cellClass,
       onclick: cell.clickHandler
     },
     cell.value);
