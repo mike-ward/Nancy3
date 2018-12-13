@@ -3,6 +3,7 @@ import stream from 'mithril/stream';
 import { IGridModel, IGridColumn } from './IGridModel';
 import { gridViewModelStream, IGridViewModel, IGridViewCell } from './gridViewModel';
 import { cssStylesAdd } from '../../services/css-service';
+import { exportCsv } from './gridExportCsv';
 
 // language=CSS
 cssStylesAdd(`
@@ -20,14 +21,17 @@ cssStylesAdd(`
 
 export interface IGridAttrs extends m.Attributes {
   model: stream.Stream<IGridModel>
-  downloadCsv?: () => string;
+  csv?: stream.Stream<string>;
 }
 
 export const grid: m.FactoryComponent<IGridAttrs> = () => {
   let vms: stream.Stream<IGridViewModel>;
 
   return {
-    oninit: vn => vms = gridViewModelStream(vn.attrs.model),
+    oninit: vn => {
+      vms = gridViewModelStream(vn.attrs.model);
+      if (vn.attrs.csv) vms.map(vm => vn.attrs.csv(exportCsv(vm)));
+    },
     view: vn => table(vms(), vn.attrs),
   }
 }

@@ -5,6 +5,7 @@ import { loading } from '../loading/loading';
 import { IGridModel, IGridColumn } from '../grid/IGridModel';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 import { cssStylesAdd } from '../../services/css-service';
+import { downloadCsv } from '../../services/downloadService';
 
 // language=css
 cssStylesAdd(`div.markets .grid{font-size:smaller;}`);
@@ -17,6 +18,7 @@ export const markets: m.Component = {
 interface IMarket {
   title: string;
   model: stream.Stream<IGridModel>;
+  csv: stream.Stream<string>;
 }
 
 interface IModel {
@@ -36,9 +38,9 @@ function oninit() {
 
 function initModel() {
   return {
-    mostActive: { title: 'Most Active Stocks', model: stream() } as IMarket,
-    gainers: { title: 'Gainers', model: stream() } as IMarket,
-    losers: { title: 'Losers', model: stream() } as IMarket
+    mostActive: { title: 'Most Active Stocks', model: stream(), csv: stream() } as IMarket,
+    gainers: { title: 'Gainers', model: stream(), csv: stream() } as IMarket,
+    losers: { title: 'Losers', model: stream(), csv: stream() } as IMarket
   }
 }
 
@@ -49,11 +51,25 @@ function view() {
     markets.map(market => [
       m('p',
         market.model()
-        ? m('span.bold', market.title)
-        : m(loading)),
-      m(grid, { model: market.model })
+          ? m('span.bold', market.title)
+          : m(loading)),
+      m(grid, { model: market.model, csv: market.csv }),
+      exportButton(market)
     ])
   );
+}
+
+function exportButton(market: IMarket) {
+  return m('button.pure-button',
+    {
+      style: {
+        'margin-top': '1em',
+        'font-size': 'smaller',
+        visibility: market.model() ? 'visible' : 'hidden'
+      },
+      onclick: () => downloadCsv(market.csv(), market.title + '.csv')
+    },
+    'Export to CSV');
 }
 
 function api(url: string) {

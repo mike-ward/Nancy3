@@ -28,6 +28,7 @@ export function gridViewModelStream(gms: stream.Stream<IGridModel>) {
       vrows: gridViewDataRows(gm),
       updateSort: (columnId: string) => gms(updateSortState(gm, columnId))
     }));
+
   return viewModelStream;
 }
 
