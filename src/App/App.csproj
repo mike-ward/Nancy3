@@ -31,6 +31,7 @@
   <ItemGroup>
     <None Remove="js\app.ts" />
     <None Remove="js\components\grid\grid.ts" />
+    <None Remove="js\components\grid\gridExport.ts" />
     <None Remove="js\components\grid\gridSort.ts" />
     <None Remove="js\components\grid\gridViewModel.ts" />
     <None Remove="js\components\grid\IGridModel.ts" />
@@ -77,6 +78,7 @@
   <ItemGroup>
     <TypeScriptCompile Include="js\app.ts" />
     <TypeScriptCompile Include="js\components\grid\grid.ts" />
+    <TypeScriptCompile Include="js\components\grid\gridExport.ts" />
     <TypeScriptCompile Include="js\components\grid\gridSort.ts" />
     <TypeScriptCompile Include="js\components\grid\gridViewModel.ts" />
     <TypeScriptCompile Include="js\components\grid\IGridModel.ts" />

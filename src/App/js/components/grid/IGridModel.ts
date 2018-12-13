@@ -13,7 +13,7 @@ export interface IGridColumn {
   id: string;
   title: string;
   hide?: boolean;
-  headTooltip?: string;
+  titleTooltip?: string;
 
   allowSort?: boolean;
   sortLevel?: number;

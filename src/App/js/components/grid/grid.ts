@@ -2,6 +2,7 @@
 import stream from 'mithril/stream';
 import { IGridModel, IGridColumn } from './IGridModel';
 import { gridViewModelStream, IGridViewModel, IGridViewDataCell } from './gridViewModel';
+import { exportCsv, downloadCsv } from './gridExport';
 import { cssStylesAdd } from '../../services/css-service';
 
 // language=CSS
@@ -20,6 +21,7 @@ cssStylesAdd(`
 
 export interface IGridAttrs extends m.Attributes {
   model: stream.Stream<IGridModel>
+  downloadCsv?: () => string;
 }
 
 export const grid: m.FactoryComponent<IGridAttrs> = () => {
@@ -27,7 +29,7 @@ export const grid: m.FactoryComponent<IGridAttrs> = () => {
 
   return {
     oninit: vn => vms = gridViewModelStream(vn.attrs.model),
-    view: vn => table(vms(), vn.attrs)
+    view: vn => table(vms(), vn.attrs),
   }
 }
 
@@ -58,7 +60,7 @@ function th(vm: IGridViewModel, column: IGridColumn, ) {
   return m('th',
     {
       className: names,
-      title: column.headTooltip,
+      title: column.titleTooltip,
       onclick: column.allowSort ? () => vm.updateSort(column.id) : undefined
     },
     column.title);
