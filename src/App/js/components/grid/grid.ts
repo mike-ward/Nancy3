@@ -24,6 +24,21 @@ export interface IGridAttrs extends m.Attributes {
   csv?: stream.Stream<string>;
 }
 
+/**Creates an HTML table with data from the given model.
+ * Optional features such as sorting, filtering and custom
+ * rendering are controlled by the individual column models
+ * 
+ * Exported formats like csv and excel can be retrieved by
+ * giving the grid additional attribute streams. The streams
+ * are updated when the model is updated. The csv and excel
+ * streams should be treated as readonly
+ * 
+ * Updating the model does not trigger a redraw 
+ * 
+ * The grid is performant. It guarantees that the view model
+ * is calculated only once per model update. Rendering the
+ * view reads the view model but does not modify it.
+ * */
 export const grid: m.FactoryComponent<IGridAttrs> = () => {
   let vms: stream.Stream<IGridViewModel>;
 
@@ -46,13 +61,14 @@ function table(vm: IGridViewModel, attrs: IGridAttrs) {
 
 function thead(vm: IGridViewModel) {
   const columns = vm.columns;
-  return m('thead', m('tr', columns.map(column => th(vm, column))));
+  return m('thead',
+    m('tr', columns.map(column => th(vm, column))));
 }
 
 function th(vm: IGridViewModel, column: IGridColumn, ) {
   let names = undefined as string;
 
-  if (column.sortAllow) {
+  if (column.sortEnable) {
     const classes = ['grid-sort-indicator'];
     if (!column.sortDirection) classes.push('grid-sort-indicator-hi');
     if (column.sortDirection > 0) classes.push('grid-sort-indicator-up');
@@ -64,7 +80,7 @@ function th(vm: IGridViewModel, column: IGridColumn, ) {
     {
       className: names,
       title: column.tooltip,
-      onclick: column.sortAllow ? () => vm.updateSort(column.id) : undefined
+      onclick: column.sortEnable ? () => vm.updateSort(column.id) : undefined
     },
     column.name);
 }

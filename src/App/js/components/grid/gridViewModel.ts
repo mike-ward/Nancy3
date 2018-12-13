@@ -1,6 +1,6 @@
 ﻿import m from 'mithril';
 import stream from 'mithril/stream';
-import { IGridModel, IGridColumn, IGridDataRow } from './IGridModel';
+import { IGridModel, IGridColumn, IGridRow } from './IGridModel';
 import { sortByColumns, updateSortState } from './gridSort';
 
 export interface IGridViewModel {
@@ -37,12 +37,9 @@ function gridViewDataRows(gm: IGridModel) {
   return dataRows.map(dataRow => gridDataRow(gm, dataRow));
 }
 
-function gridDataRow(gm: IGridModel, dataRow: IGridDataRow) {
+function gridDataRow(gm: IGridModel, dataRow: IGridRow) {
   const dr = gm.columns.reduce((a, col) => {
-    const val = dataRow[col.id];
-    const value = val === null || val === undefined
-      ? col.cellContentIfNull
-      : val;
+    const value = dataRow[col.id];
     const renderedValue = col.cellRenderer
       ? m.trust(col.cellRenderer(value, col, dataRow, gm.meta))
       : value;

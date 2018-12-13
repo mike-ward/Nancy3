@@ -1,4 +1,4 @@
-﻿import { IGridModel } from "./IGridModel";
+﻿import { IGridModel, IGridRow } from "./IGridModel";
 import { compareService } from '../../services/compare-service';
 
 export function updateSortState(gm: IGridModel, columnId: string) {
@@ -11,7 +11,7 @@ export function updateSortState(gm: IGridModel, columnId: string) {
 
 export function sortByColumns(gm: IGridModel) {
   const sortByStates = gm.columns
-    .filter(col => col.sortAllow)
+    .filter(col => col.sortEnable)
     .filter(col => col.sortDirection);
     // future: orderby for sort level
 
@@ -22,12 +22,12 @@ export function sortByColumns(gm: IGridModel) {
       : compareService.compareAny;
 
     const columnId = column.id;
-    const direction = column.sortDirection;
+    const sortDirection = column.sortDirection;
     const data = gm.data.slice();
 
-    data.sort((l: any, r: any) => {
-      const result = comparer(l[columnId], r[columnId]);
-      return direction >= 0 ? result : -result;
+    data.sort((a: IGridRow, b: IGridRow) => {
+      const result = comparer(a[columnId], b[columnId]);
+      return sortDirection >= 0 ? result : -result;
     });
 
     console.log('sort')

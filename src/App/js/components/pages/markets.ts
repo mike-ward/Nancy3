@@ -99,9 +99,11 @@ function gridModelFactory(data: any) {
     .map(field => ({
       id: field,
       name: camelIdentifierToTitle(field),
-      css: numberFields.some(nf => nf === field) ? { 'text-align': 'right' } : null,
-      sortAllow: true,
-    }));
+      css: numberFields.some(nf => nf === field)
+        ? { 'text-align': 'right' }
+        : null,
+      sortEnable: true,
+    }) as IGridColumn);
 
   return { columns: columns, data: data };
 }
