@@ -2,7 +2,7 @@
 import stream from 'mithril/stream';
 import { grid } from '../grid/grid';
 import { loading } from '../loading/loading'
-import { IGridModel, IGridColumn } from '../grid/IGridModel';
+import { IGridModel, IGridColumn } from '../grid/grid-model-interfaces';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 
 export const stocks: m.Component = {
@@ -44,11 +44,11 @@ function getStocks() {
 function gridModelFactory(data: any) {
   const fields = ['symbol', 'name', 'date', 'type'];
 
-  const columns: IGridColumn[] = fields
-    .map(field => ({
+  const columns = fields
+    .map<IGridColumn>(field => ({
       id: field,
       name: camelIdentifierToTitle(field),
-      sortAllow: true,
+      sortEnable: true
     }));
 
   return {

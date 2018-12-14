@@ -1,10 +1,9 @@
 ﻿import m from 'mithril';
 import stream from 'mithril/stream';
-import { IGridModel, IGridColumn } from './IGridModel';
-import { gridViewModelStream, IGridViewModel, IGridViewCell } from './gridViewModel';
+import { IGridAttrs, IGridColumn } from './grid-model-interfaces';
+import { gridViewModelStream, IGridViewModel, IGridViewCell } from './grid-view-model';
 import { cssStylesAdd } from '../../services/css-service';
-import { exportCsv } from './gridExportCsv';
-import { exportExcel } from './grid-export-excel';
+import { exportCsv } from './grid-export-csv';
 
 // language=CSS
 cssStylesAdd(`
@@ -19,12 +18,6 @@ cssStylesAdd(`
   .grid-sort-indicator-up:after{content:'▲'}
   .grid-sort-indicator-dn:after{content:'▼'}
 `);
-
-export interface IGridAttrs extends m.Attributes {
-  model: stream.Stream<IGridModel>
-  csv?: stream.Stream<string>;
-  excel?: stream.Stream<object>;
-}
 
 /**Creates an HTML table with data from the given model.
  * Optional features such as sorting, filtering and custom

@@ -1,7 +1,7 @@
 ﻿import m from 'mithril';
 import stream from 'mithril/stream';
-import { IGridModel, IGridColumn, IGridRow } from './IGridModel';
-import { sortByColumns, updateSortState } from './gridSort';
+import { IGridModel, IGridColumn, IGridRow } from './grid-model-interfaces';
+import { sortByColumns, updateSortState } from './grid-sort';
 
 export interface IGridViewModel {
   columns: IGridColumn[];

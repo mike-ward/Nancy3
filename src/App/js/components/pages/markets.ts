@@ -2,7 +2,7 @@
 import stream from 'mithril/stream';
 import { grid } from '../grid/grid';
 import { loading } from '../loading/loading';
-import { IGridModel, IGridColumn } from '../grid/IGridModel';
+import { IGridModel, IGridColumn } from '../grid/grid-model-interfaces';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 import { cssStylesAdd } from '../../services/css-service';
 import { downloadCsv, tableToExcel } from '../../services/download-service';

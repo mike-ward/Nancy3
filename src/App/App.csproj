@@ -30,12 +30,11 @@
 
   <ItemGroup>
     <None Remove="js\app.ts" />
-    <None Remove="js\components\grid\grid-export-excel.ts" />
+    <None Remove="js\components\grid\grid-export-csv.ts" />
+    <None Remove="js\components\grid\grid-model-interfaces.ts" />
+    <None Remove="js\components\grid\grid-sort.ts" />
+    <None Remove="js\components\grid\grid-view-model.ts" />
     <None Remove="js\components\grid\grid.ts" />
-    <None Remove="js\components\grid\gridExportCsv.ts" />
-    <None Remove="js\components\grid\gridSort.ts" />
-    <None Remove="js\components\grid\gridViewModel.ts" />
-    <None Remove="js\components\grid\IGridModel.ts" />
     <None Remove="js\components\layout\footer.ts" />
     <None Remove="js\components\layout\header.ts" />
     <None Remove="js\components\layout\layout.ts" />
@@ -80,11 +79,10 @@
   <ItemGroup>
     <TypeScriptCompile Include="js\app.ts" />
     <TypeScriptCompile Include="js\components\grid\grid.ts" />
-    <TypeScriptCompile Include="js\components\grid\gridExportCsv.ts" />
-    <TypeScriptCompile Include="js\components\grid\grid-export-excel.ts" />
-    <TypeScriptCompile Include="js\components\grid\gridSort.ts" />
-    <TypeScriptCompile Include="js\components\grid\gridViewModel.ts" />
-    <TypeScriptCompile Include="js\components\grid\IGridModel.ts" />
+    <TypeScriptCompile Include="js\components\grid\grid-export-csv.ts" />
+    <TypeScriptCompile Include="js\components\grid\grid-sort.ts" />
+    <TypeScriptCompile Include="js\components\grid\grid-view-model.ts" />
+    <TypeScriptCompile Include="js\components\grid\grid-model-interfaces.ts" />
     <TypeScriptCompile Include="js\components\layout\footer.ts" />
     <TypeScriptCompile Include="js\components\layout\header.ts" />
     <TypeScriptCompile Include="js\components\layout\layout.ts" />

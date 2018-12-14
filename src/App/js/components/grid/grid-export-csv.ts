@@ -1,4 +1,4 @@
-﻿import { IGridViewModel } from 'gridViewModel';
+﻿import { IGridViewModel } from 'grid-view-model';
 
 export function exportCsv(gvm: IGridViewModel) {
   const columns = gvm.columns.map(vm => vm.name)

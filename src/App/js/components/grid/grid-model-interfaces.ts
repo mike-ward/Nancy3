@@ -1,4 +1,13 @@
-﻿export interface IGridModel {
+﻿import m from 'mithril';
+import stream from 'mithril/stream';
+
+export interface IGridAttrs extends m.Attributes {
+  model: stream.Stream<IGridModel>
+  csv?: stream.Stream<string>;
+  excel?: stream.Stream<object>;
+}
+
+export interface IGridModel {
   columns: IGridColumn[];
   data: IGridRow[];
   /** Used to assoicate DOM elements with data array items. If specified, must be a column id. Typically not needed.*/
