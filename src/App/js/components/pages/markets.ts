@@ -5,7 +5,7 @@ import { loading } from '../loading/loading';
 import { IGridModel, IGridColumn } from '../grid/IGridModel';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 import { cssStylesAdd } from '../../services/css-service';
-import { downloadCsv } from '../../services/downloadService';
+import { downloadCsv, tableToExcel } from '../../services/download-service';
 
 // language=css
 cssStylesAdd(`div.markets .grid{font-size:smaller;}`);
@@ -16,6 +16,7 @@ export const markets: m.Component = {
 };
 
 interface IMarket {
+  id: string;
   title: string;
   model: stream.Stream<IGridModel>;
   csv: stream.Stream<string>;
@@ -38,9 +39,9 @@ function oninit() {
 
 function initModel() {
   return {
-    mostActive: { title: 'Most Active Stocks', model: stream(), csv: stream() } as IMarket,
-    gainers: { title: 'Gainers', model: stream(), csv: stream() } as IMarket,
-    losers: { title: 'Losers', model: stream(), csv: stream() } as IMarket
+    mostActive: { id: 'ma',  title: 'Most Active Stocks', model: stream(), csv: stream() } as IMarket,
+    gainers: { id: 'ga', title: 'Gainers', model: stream(), csv: stream() } as IMarket,
+    losers: { id: 'lo', title: 'Losers', model: stream(), csv: stream() } as IMarket
   }
 }
 
@@ -53,13 +54,15 @@ function view() {
         market.model()
           ? m('span.bold', market.title)
           : m(loading)),
-      m(grid, { model: market.model, csv: market.csv }),
-      exportButton(market)
+      m(grid, { id: market.id, model: market.model, csv: market.csv }),
+      exportCsvButton(market),
+      ' ',
+      exportExcelButton(market)
     ])
   );
 }
 
-function exportButton(market: IMarket) {
+function exportCsvButton(market: IMarket) {
   return m('button.pure-button',
     {
       style: {
@@ -70,6 +73,19 @@ function exportButton(market: IMarket) {
       onclick: () => downloadCsv(market.csv(), market.title + '.csv')
     },
     'Export to CSV');
+}
+
+function exportExcelButton(market: IMarket) {
+  return m('button.pure-button',
+    {
+      style: {
+        'margin-top': '1em',
+        'font-size': 'smaller',
+        visibility: market.model() ? 'visible' : 'hidden'
+      },
+      onclick: () => tableToExcel(document.getElementById(market.id), market.title, market.title)
+    },
+    'Export to Excel');
 }
 
 function api(url: string) {

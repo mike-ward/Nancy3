@@ -4,6 +4,7 @@ import { IGridModel, IGridColumn } from './IGridModel';
 import { gridViewModelStream, IGridViewModel, IGridViewCell } from './gridViewModel';
 import { cssStylesAdd } from '../../services/css-service';
 import { exportCsv } from './gridExportCsv';
+import { exportExcel } from './grid-export-excel';
 
 // language=CSS
 cssStylesAdd(`
@@ -22,6 +23,7 @@ cssStylesAdd(`
 export interface IGridAttrs extends m.Attributes {
   model: stream.Stream<IGridModel>
   csv?: stream.Stream<string>;
+  excel?: stream.Stream<object>;
 }
 
 /**Creates an HTML table with data from the given model.
