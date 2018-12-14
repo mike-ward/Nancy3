@@ -1,4 +1,5 @@
-﻿export function downloadCsv(csv: string, filename: string) {
+﻿
+export function downloadCsv(csv: string, filename: string) {
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
 
   if (navigator.msSaveBlob) { // IE 10+
@@ -19,27 +20,49 @@
   }
 }
 
-export function tableToExcel(table: any, name: string, filename: string) {
-  const uri = 'data:application/vnd.ms-excel;base64,'
+export function tableToExcel(tableNode: any, name: string, filename: string) {
+  const worksheet = name || 'Worksheet';
+
+  const table = tableNode
+    .innerHTML
+    .replace(/(<\s*(?:tr|thead|tbody|table).*?>)/g, '\n$1')
+    .replace(/(<\s*(?:th|td).*?>)/g, '\n  $1');
 
   // language=html
-  const template = `
-    <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]>
-    <xml><o:DocumentProperties xmlns="urn:schemas-microsoft-com:office:office"><o:Author>Dominik Dumaine</o:Author><o:Created>${(new Date()).getTime()}</o:Created></o:DocumentProperties>
-    <x:ExcelWorkbook><x:ExcelWorksheets>
-    <x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet>
-    </x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--><meta http-equiv="content-type" content="text/plain; charset=UTF-8"/></head><body>
-    <table>{table}</table>
-    </body>
-    </html>`;
-
-  const base64 = function (s: string) { return window.btoa(unescape(encodeURIComponent(s))) }
-  const format = function (s: string, c: any) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
-  const ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+  const template = `<html 
+  xmlns:o="urn:schemas-microsoft-com:office:office" 
+  xmlns:x="urn:schemas-microsoft-com:office:excel" 
+  xmlns="http://www.w3.org/TR/REC-html40">
+  <head>
+    <meta charset="UTF-8">
+    <!--[if gte mso 9]>
+      <xml>
+        <o:DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+          <o:Author>My Application</o:Author>
+          <o:Created>${(new Date()).getTime()}</o:Created>
+        </o:DocumentProperties>
+        <x:ExcelWorkbook>
+          <x:ExcelWorksheets>
+            <x:ExcelWorksheet>
+              <x:Name>${worksheet}</x:Name>
+              <x:WorksheetOptions>
+                <x:DisplayGridlines/>
+              </x:WorksheetOptions>
+            </x:ExcelWorksheet>
+          </x:ExcelWorksheets>
+        </x:ExcelWorkbook>
+      </xml><![endif]-->
+    </head>
+  <body>
+    <table>${table}</table>
+  </body>
+  </html>`;
 
   const a = document.createElement('a');
-  const formattedXML = format(template, ctx);
-  a.href = uri + base64(formattedXML);
+  const uri = 'data:application/vnd.ms-excel;base64,'
+  const base64 = function (s: string) { return window.btoa(unescape(encodeURIComponent(s))) }
+
+  a.href = uri + base64(template);
   a.download = filename + '.xls';
   a.click();
 

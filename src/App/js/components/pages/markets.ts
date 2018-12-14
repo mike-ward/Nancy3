@@ -1,6 +1,6 @@
 ﻿import m from 'mithril';
 import stream from 'mithril/stream';
-import { grid } from '../grid/grid';
+import { grid as gridControl } from '../grid/grid';
 import { loading } from '../loading/loading';
 import { IGridModel, IGridColumn } from '../grid/grid-model-interfaces';
 import { camelIdentifierToTitle } from '../../services/convert-service';
@@ -50,19 +50,26 @@ function view() {
   return m('.markets',
     m('h2', 'Markets'),
     markets.map(market => [
-      m('p',
-        market.model()
-          ? m('span.bold', market.title)
-          : m(loading)),
-      m(grid, { id: market.id, model: market.model, csv: market.csv }),
-      exportCsvButton(market),
-      ' ',
-      exportExcelButton(market)
+      title(market),
+      grid(market),
+      csvButton(market),
+      excelButton(market)
     ])
   );
 }
 
-function exportCsvButton(market: IMarket) {
+function title(market: IMarket) {
+  return m('p',
+    market.model()
+      ? m('span.bold', market.title)
+      : m(loading));
+}
+
+function grid(market: IMarket) {
+  return m(gridControl, { id: market.id, model: market.model, csv: market.csv });
+}
+
+function csvButton(market: IMarket) {
   return m('button.pure-button',
     {
       style: {
@@ -75,11 +82,12 @@ function exportCsvButton(market: IMarket) {
     'Export to CSV');
 }
 
-function exportExcelButton(market: IMarket) {
+function excelButton(market: IMarket) {
   return m('button.pure-button',
     {
       style: {
         'margin-top': '1em',
+        'margin-left': '1em',
         'font-size': 'smaller',
         visibility: market.model() ? 'visible' : 'hidden'
       },
@@ -110,15 +118,19 @@ function getLosers() {
 function gridModelFactory(data: any) {
   const stringFields = ['symbol', 'companyName', 'primaryExchange', 'sector'];
   const numberFields = ['latestPrice', 'open', 'close', 'high', 'low', 'week52High', 'week52Low']
+  const isNumberField = (field:string) => numberFields.some(nf => nf === field);
 
   const columns: IGridColumn[] = stringFields.concat(numberFields)
     .map(field => ({
       id: field,
       name: camelIdentifierToTitle(field),
-      css: numberFields.some(nf => nf === field)
+      css: isNumberField(field)
         ? { 'text-align': 'right' }
         : null,
       sortEnable: true,
+      cellRenderer: isNumberField(field)
+        ? val => val.toFixed(2)
+        : null
     }) as IGridColumn);
 
   return { columns: columns, data: data };
