@@ -25,7 +25,7 @@ export function tableToExcel(tableNode: any, name: string, filename: string) {
 
   const table = tableNode
     .innerHTML
-    .replace(/(<\s*(?:tr|thead|tbody|table).*?>)/g, '\n$1')
+    .replace(/(<\s*(?:tr|thead|tbody).*?>)/g, '\n$1')
     .replace(/(<\s*(?:th|td).*?>)/g, '\n  $1');
 
   // language=html

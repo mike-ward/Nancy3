@@ -57,7 +57,6 @@
     <None Remove="js\services\dom-service.ts" />
     <None Remove="js\services\download-service.ts" />
     <None Remove="js\services\route-service.ts" />
-    <None Remove="js\typings\html-formatter.d.ts" />
     <None Remove="Views\index.html" />
   </ItemGroup>
 
@@ -106,7 +105,6 @@
     <TypeScriptCompile Include="js\services\dom-service.ts" />
     <TypeScriptCompile Include="js\services\download-service.ts" />
     <TypeScriptCompile Include="js\services\route-service.ts" />
-    <TypeScriptCompile Include="js\typings\html-formatter.d.ts" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(DeployOnBuild)' != 'true'">
