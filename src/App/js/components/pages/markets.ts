@@ -5,7 +5,7 @@ import { loading } from '../loading/loading';
 import { IGridModel, IGridColumn } from '../grid/grid-model-interfaces';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 import { cssStylesAdd } from '../../services/css-service';
-import { downloadCsv, tableToExcel } from '../../services/download-service';
+import { tableToCsv, tableToExcel } from '../../services/export-service';
 
 // language=css
 cssStylesAdd(`div.markets .grid{font-size:smaller;}`);
@@ -39,9 +39,9 @@ function oninit() {
 
 function initModel() {
   return {
-    mostActive: { id: 'ma', title: 'Most Active Stocks', model: stream(), csv: stream() } as IMarket,
-    gainers: { id: 'ga', title: 'Gainers', model: stream(), csv: stream() } as IMarket,
-    losers: { id: 'lo', title: 'Losers', model: stream(), csv: stream() } as IMarket
+    mostActive: { id: 'ma', title: 'Most Active Stocks', model: stream() } as IMarket,
+    gainers: { id: 'ga', title: 'Gainers', model: stream() } as IMarket,
+    losers: { id: 'lo', title: 'Losers', model: stream() } as IMarket
   }
 }
 
@@ -77,7 +77,7 @@ function csvButton(market: IMarket) {
         'font-size': 'smaller',
         visibility: market.model() ? 'visible' : 'hidden'
       },
-      onclick: () => downloadCsv(market.csv(), market.title + '.csv')
+      onclick: () => tableToCsv(document.getElementById(market.id) as any, market.title + '.csv')
     },
     'Export to CSV');
 }
@@ -91,7 +91,7 @@ function excelButton(market: IMarket) {
         'font-size': 'smaller',
         visibility: market.model() ? 'visible' : 'hidden'
       },
-      onclick: () => tableToExcel(document.getElementById(market.id), market.title, market.title)
+      onclick: () => tableToExcel(document.getElementById(market.id) as any, market.title, market.title + '.xls')
     },
     'Export to Excel');
 }

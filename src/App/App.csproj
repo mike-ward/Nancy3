@@ -55,7 +55,7 @@
     <None Remove="js\services\css-service.ts" />
     <None Remove="js\services\dialog-service.ts" />
     <None Remove="js\services\dom-service.ts" />
-    <None Remove="js\services\download-service.ts" />
+    <None Remove="js\services\export-service.ts" />
     <None Remove="js\services\route-service.ts" />
     <None Remove="Views\index.html" />
   </ItemGroup>
@@ -103,7 +103,7 @@
     <TypeScriptCompile Include="js\services\css-service.ts" />
     <TypeScriptCompile Include="js\services\dialog-service.ts" />
     <TypeScriptCompile Include="js\services\dom-service.ts" />
-    <TypeScriptCompile Include="js\services\download-service.ts" />
+    <TypeScriptCompile Include="js\services\export-service.ts" />
     <TypeScriptCompile Include="js\services\route-service.ts" />
   </ItemGroup>
 
