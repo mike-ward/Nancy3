@@ -62,7 +62,7 @@ function gridDataRow(gm: IGridModel, dataRow: IGridRow) {
 
     a.data.set(col.id, column);
     return a;
-  }, { key: null, data: new Map<string, IGridViewCell>() } );
+  }, { key: null, data: new Map<string, IGridViewCell>() });
 
   dr.key = gm.key ? dr.data.get(gm.key).value : undefined;
   return dr;

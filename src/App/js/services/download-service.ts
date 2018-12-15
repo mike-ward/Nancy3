@@ -1,5 +1,4 @@
-﻿
-export function downloadCsv(csv: string, filename: string) {
+﻿export function downloadCsv(csv: string, filename: string) {
   const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
 
   if (navigator.msSaveBlob) { // IE 10+
@@ -29,9 +28,9 @@ export function tableToExcel(tableNode: any, name: string, filename: string) {
     .replace(/(<\s*(?:th|td).*?>)/g, '\n  $1');
 
   // language=html
-  const template = `<html 
-  xmlns:o="urn:schemas-microsoft-com:office:office" 
-  xmlns:x="urn:schemas-microsoft-com:office:excel" 
+  const template = `<html
+  xmlns:o="urn:schemas-microsoft-com:office:office"
+  xmlns:x="urn:schemas-microsoft-com:office:excel"
   xmlns="http://www.w3.org/TR/REC-html40">
   <head>
     <meta charset="UTF-8">

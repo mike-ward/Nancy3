@@ -18,7 +18,7 @@ namespace App.Infrastructure.Extensions
             {
                 return date.ToUniversalTime().ToString("u", CultureInfo.InvariantCulture);
             }
-            
+
             // Other stuff is just invariant culture
             return Convert.ToString(item, CultureInfo.InvariantCulture);
         }

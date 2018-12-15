@@ -53,7 +53,6 @@ function onremove() {
   model = initModel();
 }
 
-
 function updateNews() {
   m.request({ url: 'api/markets/news', data: Date.now() })
     .then(r => model.news = r as any);

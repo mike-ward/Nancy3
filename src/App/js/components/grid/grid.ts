@@ -22,14 +22,14 @@ cssStylesAdd(`
 /**Creates an HTML table with data from the given model.
  * Optional features such as sorting, filtering and custom
  * rendering are controlled by the individual column models
- * 
+ *
  * Exported formats like csv and excel can be retrieved by
  * giving the grid additional attribute streams. The streams
  * are updated when the model is updated. The csv and excel
  * streams should be treated as readonly
- * 
- * Updating the model does not trigger a redraw 
- * 
+ *
+ * Updating the model does not trigger a redraw
+ *
  * The grid is performant. It guarantees that the view model
  * is calculated only once per model update. Rendering the
  * view reads the view model but does not modify it.
@@ -70,7 +70,7 @@ function th(vm: IGridViewModel, column: IGridColumn, ) {
     if (column.sortDirection < 0) classes.push('grid-sort-indicator-dn');
     names = classes.join(' ');
   }
-  
+
   return m('th',
     {
       className: names,

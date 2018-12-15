@@ -13,7 +13,7 @@ export function sortByColumns(gm: IGridModel) {
   const sortByStates = gm.columns
     .filter(col => col.sortEnable)
     .filter(col => col.sortDirection);
-    // future: orderby for sort level
+  // future: orderby for sort level
 
   for (let column of sortByStates) {
     // future: add multiple column sort

@@ -39,7 +39,7 @@ function oninit() {
 
 function initModel() {
   return {
-    mostActive: { id: 'ma',  title: 'Most Active Stocks', model: stream(), csv: stream() } as IMarket,
+    mostActive: { id: 'ma', title: 'Most Active Stocks', model: stream(), csv: stream() } as IMarket,
     gainers: { id: 'ga', title: 'Gainers', model: stream(), csv: stream() } as IMarket,
     losers: { id: 'lo', title: 'Losers', model: stream(), csv: stream() } as IMarket
   }
@@ -118,7 +118,7 @@ function getLosers() {
 function gridModelFactory(data: any) {
   const stringFields = ['symbol', 'companyName', 'primaryExchange', 'sector'];
   const numberFields = ['latestPrice', 'open', 'close', 'high', 'low', 'week52High', 'week52Low']
-  const isNumberField = (field:string) => numberFields.some(nf => nf === field);
+  const isNumberField = (field: string) => numberFields.some(nf => nf === field);
 
   const columns: IGridColumn[] = stringFields.concat(numberFields)
     .map(field => ({

@@ -14,7 +14,7 @@ import { login } from '../components/pages/account/login';
 
 export function buildRoutes() {
   const root = document.getElementById('app') as Element;
-  m.route(root,'',
+  m.route(root, '',
     {
       // Pages
       '': page(splash, 'Splash'),

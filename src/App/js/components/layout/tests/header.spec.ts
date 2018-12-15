@@ -1,4 +1,4 @@
-﻿import '../../../browserMock';
+﻿import '../../../browser-mock';
 import mq from 'mithril-query';
 import { header } from '../header';
 

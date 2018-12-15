@@ -31,4 +31,3 @@ function sanitize(value: any) {
 
   return sanitized;
 }
-
