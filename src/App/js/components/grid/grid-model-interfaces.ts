@@ -3,8 +3,6 @@ import stream from 'mithril/stream';
 
 export interface IGridAttrs extends m.Attributes {
   model: stream.Stream<IGridModel>
-  csv?: stream.Stream<string>;
-  excel?: stream.Stream<object>;
 }
 
 export interface IGridModel {

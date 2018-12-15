@@ -5,7 +5,8 @@ import { loading } from '../loading/loading';
 import { IGridModel, IGridColumn } from '../grid/grid-model-interfaces';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 import { cssStylesAdd } from '../../services/css-service';
-import { tableToCsv, tableToExcel } from '../../services/export-service';
+import { tableToCsv } from '../../services/export-csv-service';
+import { tableToExcel } from '../../services/export-excel-service';
 
 // language=css
 cssStylesAdd(`div.markets .grid{font-size:smaller;}`);
@@ -19,7 +20,6 @@ interface IMarket {
   id: string;
   title: string;
   model: stream.Stream<IGridModel>;
-  csv: stream.Stream<string>;
 }
 
 interface IModel {
@@ -66,7 +66,7 @@ function title(market: IMarket) {
 }
 
 function grid(market: IMarket) {
-  return m(gridControl, { id: market.id, model: market.model, csv: market.csv });
+  return m(gridControl, { id: market.id, model: market.model });
 }
 
 function csvButton(market: IMarket) {

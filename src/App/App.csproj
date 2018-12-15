@@ -30,7 +30,6 @@
 
   <ItemGroup>
     <None Remove="js\app.ts" />
-    <None Remove="js\components\grid\grid-export-csv.ts" />
     <None Remove="js\components\grid\grid-model-interfaces.ts" />
     <None Remove="js\components\grid\grid-sort.ts" />
     <None Remove="js\components\grid\grid-view-model.ts" />
@@ -55,7 +54,9 @@
     <None Remove="js\services\css-service.ts" />
     <None Remove="js\services\dialog-service.ts" />
     <None Remove="js\services\dom-service.ts" />
-    <None Remove="js\services\export-service.ts" />
+    <None Remove="js\services\download-service.ts" />
+    <None Remove="js\services\export-csv-service.ts" />
+    <None Remove="js\services\export-excel-service.ts" />
     <None Remove="js\services\route-service.ts" />
     <None Remove="Views\index.html" />
   </ItemGroup>
@@ -79,7 +80,6 @@
   <ItemGroup>
     <TypeScriptCompile Include="js\app.ts" />
     <TypeScriptCompile Include="js\components\grid\grid.ts" />
-    <TypeScriptCompile Include="js\components\grid\grid-export-csv.ts" />
     <TypeScriptCompile Include="js\components\grid\grid-sort.ts" />
     <TypeScriptCompile Include="js\components\grid\grid-view-model.ts" />
     <TypeScriptCompile Include="js\components\grid\grid-model-interfaces.ts" />
@@ -103,7 +103,9 @@
     <TypeScriptCompile Include="js\services\css-service.ts" />
     <TypeScriptCompile Include="js\services\dialog-service.ts" />
     <TypeScriptCompile Include="js\services\dom-service.ts" />
-    <TypeScriptCompile Include="js\services\export-service.ts" />
+    <TypeScriptCompile Include="js\services\download-service.ts" />
+    <TypeScriptCompile Include="js\services\export-csv-service.ts" />
+    <TypeScriptCompile Include="js\services\export-excel-service.ts" />
     <TypeScriptCompile Include="js\services\route-service.ts" />
   </ItemGroup>
 
