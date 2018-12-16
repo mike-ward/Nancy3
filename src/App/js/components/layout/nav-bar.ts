@@ -1,17 +1,7 @@
 ﻿import m from 'mithril';
-import { cssStylesAdd } from '../../services/css-service';
+import { userBar } from './user-bar';
 
 // language=css
-cssStylesAdd(`
-  .nav-bar {
-    margin: .25em auto;
-  }
-  .nav-bar a {
-    margin: 0 1em;
-    white-space: nowrap;
-  }`
-);
-
 export interface INavbarOptions {
   items: { name: string, link: string }[];
 }
@@ -23,11 +13,18 @@ export const navBar = {
 function view(v: m.Vnode) {
   const options = (v.attrs as any).options as INavbarOptions;
   return options
-    ? m('.nav-bar', links(options))
+    ? m('ul.nav-links',
+        links(options),
+        m(userBar))
     : null;
 }
 
 function links(options: INavbarOptions) {
   return options.items
-    .map((item: any) => m('a', { href: item.link, oncreate: m.route.link }, item.name));
+    .map((item: any) => m('li', m('a',
+      {
+        href: item.link,
+        oncreate: m.route.link,
+        className: m.route.get().toLowerCase().indexOf(item.name.toLowerCase()) >= 0 ? 'active' : null
+      }, item.name)));
 }

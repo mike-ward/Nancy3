@@ -7,7 +7,7 @@ import { loading } from '../loading/loading';
 // language=css
 cssStylesAdd(`
   .news-item{margin-bottom:2rem;max-width:60rem}
-  .home-date-time{font-weight:bold;margin:-1rem 0 1rem 0;}`);
+  .home-date-time{font-weight:bold;margin-bottom:0.5rem}`);
 
 export const news = {
   view: view,
