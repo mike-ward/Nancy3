@@ -16,7 +16,6 @@ export interface IGridViewRow {
 
 export interface IGridViewCell {
   value: any;
-  cellClass: string;
   tooltip: string;
   clickHandler: (event: Event) => void;
 }
@@ -43,9 +42,6 @@ function gridDataRow(gm: IGridModel, dataRow: IGridRow) {
     const renderedValue = col.cellRenderer
       ? m.trust(col.cellRenderer(value, col, dataRow, gm.meta))
       : value;
-    const cellClass = col.cellClick
-      ? 'grid-cell-click'
-      : undefined;
     const tooltip = col.cellTooltip
       ? col.cellTooltip(value, renderedValue, col, dataRow, gm.meta)
       : undefined;
@@ -55,7 +51,6 @@ function gridDataRow(gm: IGridModel, dataRow: IGridRow) {
 
     const column = {
       value: renderedValue,
-      cellClass: cellClass,
       tooltip: tooltip,
       clickHandler: clickHandler
     };

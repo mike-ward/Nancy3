@@ -1,10 +1,11 @@
 ﻿import constants from './constants-service';
 import { download } from './download-service';
+import { gridStyles } from '../components/grid/grid';
 
-export function tableToExcel(tableNode: HTMLTableElement, name: string, filename: string) {
-  const table = tableToHtml(tableNode);
+export function tableToExcel(tableElement: HTMLTableElement, name: string, filename: string) {
+  const table = tableToHtml(tableElement);
   const worksheet = name || 'Worksheet';
-  const data = template(worksheet, table);
+  const data = template(worksheet, table, gridStyles);
   download(data, 'application/vnd.ms-excel', filename);
   // for multiple sheets, check: https://stackoverflow.com/questions/29698796/how-to-convert-html-table-to-excel-with-multiple-sheet
 }
@@ -17,7 +18,7 @@ function tableToHtml(table: HTMLTableElement) {
     .replace(/(<\s*(?:th|td).*?>)/g, '\n  $1');
 }
 
-function template(worksheet: string, table: string) {
+function template(worksheet: string, table: string, styles: string) {
   // language=html
   return `<html
   xmlns:o="urn:schemas-microsoft-com:office:office"
@@ -42,9 +43,12 @@ function template(worksheet: string, table: string) {
           </x:ExcelWorksheets>
         </x:ExcelWorkbook>
       </xml><![endif]-->
+      <style type="text/css">
+        ${styles}
+      </style>
     </head>
   <body>
-    <table>${table}</table>
+    <table class="grid">${table}</table>
   </body>
   </html>`;
 }

@@ -4,7 +4,7 @@ import { IGridAttrs, IGridColumn } from './grid-model-interfaces';
 import { gridViewModelStream, IGridViewModel, IGridViewCell } from './grid-view-model';
 import { cssStylesAdd } from '../../services/css-service';
 
-cssStylesAdd(/*css*/`
+export const gridStyles = `
   table.grid {border:1px;border-collapse:collapse}
   .grid th {background-color:#ddd;color:#333!important}
   .grid th,.grid td{white-space:nowrap;padding:.2em;text-align:left;border:1px solid #eee}
@@ -14,24 +14,10 @@ cssStylesAdd(/*css*/`
   .grid-sort-indicator-hi:after{content:'▲';color:#ccd;visibility:hidden;}
   .grid-sort-indicator-hi:hover:after{visibility:visible}
   .grid-sort-indicator-up:after{content:'▲'}
-  .grid-sort-indicator-dn:after{content:'▼'}
-`);
+  .grid-sort-indicator-dn:after{content:'▼'}`;
 
-/**Creates an HTML table with data from the given model.
- * Optional features such as sorting, filtering and custom
- * rendering are controlled by the individual column models
- *
- * Exported formats like csv and excel can be retrieved by
- * giving the grid additional attribute streams. The streams
- * are updated when the model is updated. The csv and excel
- * streams should be treated as readonly
- *
- * Updating the model does not trigger a redraw
- *
- * The grid is performant. It guarantees that the view model
- * is calculated only once per model update. Rendering the
- * view reads the view model but does not modify it.
- * */
+cssStylesAdd(gridStyles);
+
 export const grid: m.FactoryComponent<IGridAttrs> = () => {
   let vms: stream.Stream<IGridViewModel>;
 
@@ -89,7 +75,7 @@ function td(cell: IGridViewCell, css: string | object) {
     {
       style: css,
       title: cell.tooltip,
-      className: cell.cellClass,
+      className: cell.clickHandler ? 'grid-cell-click' : undefined,
       onclick: cell.clickHandler
     },
     cell.value);
