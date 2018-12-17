@@ -1,11 +1,17 @@
 ﻿import m from 'mithril';
 import constants from '../../services/constants-service';
 import { cssStylesAdd } from '../../services/css-service';
-import { userBar } from './user-bar';
 import { navBar, INavbarOptions } from './nav-bar';
 
-// language=CSS
-cssStylesAdd(`nav{margin-bottom:0.5rem}`);
+cssStylesAdd(/*css*/
+  `nav{margin-bottom:0.5rem}
+  .mobile-menu {
+    display: none;
+    position: absolute;
+    top: 15px;
+    right: 30px;
+    z-index: 10;
+}`);
 
 const navbarOptions: INavbarOptions = {
   items: [
@@ -24,8 +30,14 @@ function view() {
   return m('nav',
     m('.nav-container]',
       m('.nav-logo', constants.appTitle),
-      //m(userBar),
-      m(navBar, { 'options': navbarOptions } as any),
-    )
+      m(navBar, { options: navbarOptions, menuType: 'nav-links' } as any),
+      m('a.mobile-menu-toggle', { onclick: click },
+      m(navBar, { options: navbarOptions, menuType: 'mobile-menu.menu' } as any)
+    ))
   );
+}
+
+function click() {
+  const mobileMenu = document.getElementsByClassName('mobile-menu')[0] as any;
+  mobileMenu.style.display = !mobileMenu.style.display ? 'block' : '';
 }

@@ -7,7 +7,8 @@ import { loading } from '../loading/loading';
 // language=css
 cssStylesAdd(`
   .news-item{margin-bottom:2rem;max-width:60rem}
-  .home-date-time{font-weight:bold;margin-bottom:0.5rem}`);
+  .news-date-time{font-weight:bold;margin-bottom:0.5rem}
+  .news-title{font-size:large;font-weight:bold}`);
 
 export const news = {
   view: view,
@@ -37,7 +38,7 @@ function initModel() {
 
 function view(): m.Vnode {
   return m('div',
-    m('h2', 'News'),
+    m('.page-title', 'News'),
     m('div', model.news
       ? model.news.map((item: any) => newsNode(item))
       : m(loading))
@@ -60,8 +61,8 @@ function updateNews() {
 
 function newsNode(item: any): m.Vnode {
   const vn = m('.news-item',
-    m('h3', [m('a', { href: item.url, target: '_blank' } as any, decodeHtml(item.headline))]),
-    m('div.home-date-time', dateToLocaleString(item.datetime)),
+    m('', [m('a.news-title', { href: item.url, target: '_blank' } as any, decodeHtml(item.headline))]),
+    m('div.news-date-time', dateToLocaleString(item.datetime)),
     m('p', decodeHtml(item.summary)),
     m('p', 'source: ', m('em', decodeHtml(item.source)))
   );

@@ -1,7 +1,6 @@
 ﻿import m from 'mithril';
 import { userBar } from './user-bar';
 
-// language=css
 export interface INavbarOptions {
   items: { name: string, link: string }[];
 }
@@ -12,8 +11,9 @@ export const navBar = {
 
 function view(v: m.Vnode) {
   const options = (v.attrs as any).options as INavbarOptions;
+  const menuType = (v.attrs as any).menuType as string;
   return options
-    ? m('ul.nav-links',
+    ? m('ul.' + menuType,
         links(options),
         m(userBar))
     : null;
@@ -25,6 +25,10 @@ function links(options: INavbarOptions) {
       {
         href: item.link,
         oncreate: m.route.link,
-        className: m.route.get().toLowerCase().indexOf(item.name.toLowerCase()) >= 0 ? 'active' : null
+        className: isActiveLink(m.route.get(), item.name) ? 'active' : null
       }, item.name)));
+}
+
+function isActiveLink(route: string, name: string) {
+  return route.toLowerCase().indexOf(name.toLowerCase()) >= 0
 }

@@ -18,7 +18,7 @@ let model: IModel;
 
 function view() {
   return m('div',
-    m('h2', `Stocks`),
+    m('.page-title', `Stocks`),
     m('p', `Count: ${model.stocks() ? model.stocks().data.length : 0}`),
     model.stocks()
       ? m(grid, { model: model.stocks, style: { 'font-size': 'smaller' } })

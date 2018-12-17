@@ -48,7 +48,7 @@ function initModel() {
 function view() {
   const markets = [model.mostActive, model.gainers, model.losers];
   return m('.markets',
-    m('h2', 'Markets'),
+    m('.page-title', 'Markets'),
     markets.map(market => [
       title(market),
       grid(market),
@@ -70,7 +70,7 @@ function grid(market: IMarket) {
 }
 
 function csvButton(market: IMarket) {
-  return m('button.pure-button',
+  return m('button.button-small',
     {
       style: {
         'margin-top': '1em',
@@ -83,7 +83,7 @@ function csvButton(market: IMarket) {
 }
 
 function excelButton(market: IMarket) {
-  return m('button.pure-button',
+  return m('button.button-small',
     {
       style: {
         'margin-top': '1em',

@@ -4,8 +4,7 @@ import { IGridAttrs, IGridColumn } from './grid-model-interfaces';
 import { gridViewModelStream, IGridViewModel, IGridViewCell } from './grid-view-model';
 import { cssStylesAdd } from '../../services/css-service';
 
-// language=CSS
-cssStylesAdd(`
+cssStylesAdd(/*css*/`
   table.grid {border:1px;border-collapse:collapse}
   .grid th {background-color:#ddd;color:#333!important}
   .grid th,.grid td{white-space:nowrap;padding:.2em;text-align:left;border:1px solid #eee}
