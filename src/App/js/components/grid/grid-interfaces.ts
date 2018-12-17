@@ -17,7 +17,7 @@ export interface IGridModel {
 export interface IGridColumn {
   id: string;
   name: string;
-  /** Can use mithril's strings https://mithril.js.org/hyperscript.html#style-attribute */
+  /** Can use mithril's style strings https://mithril.js.org/hyperscript.html#style-attribute */
   css?: string | object;
   hide?: boolean;
   tooltip?: string;
@@ -37,8 +37,8 @@ export interface IGridColumn {
   cellTooltip?: (value: any, renderedValue: any, column: IGridColumn, row: IGridRow, meta: any) => string;
   /** Action to take when cell is clicked. If specified, grid changes cursor style to "pointer" */
   cellClick?: (event: Event, value: any, renderedValue: any, column: IGridColumn, row: IGridRow, meta: any) => void;
-  /** Allows custom rendering of values. Commonly used to handle null/empty values  */
-  cellRenderer?: (originalValue: any, column: IGridColumn, row: IGridRow, meta: any) => string;
+  /** Allows custom rendering of values. Commonly used to handle null/empty values. Return string or vnode */
+  cellRenderer?: (value: any, column: IGridColumn, row: IGridRow, meta: any) => string | m.Vnode;
 }
 
 export interface IGridRow {

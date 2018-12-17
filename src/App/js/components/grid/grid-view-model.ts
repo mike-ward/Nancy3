@@ -40,7 +40,7 @@ function gridDataRow(gm: IGridModel, dataRow: IGridRow) {
   const dr = gm.columns.reduce((a, col) => {
     const value = dataRow[col.id];
     const renderedValue = col.cellRenderer
-      ? m.trust(col.cellRenderer(value, col, dataRow, gm.meta))
+      ? col.cellRenderer(value, col, dataRow, gm.meta)
       : value;
     const tooltip = col.cellTooltip
       ? col.cellTooltip(value, renderedValue, col, dataRow, gm.meta)
