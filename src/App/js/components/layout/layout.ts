@@ -8,8 +8,9 @@ export const layout = {
 
 function view(v: m.Vnode) {
   return m('',
-    {style: 'margin:1em'},
     m(header),
-    v.children,
-    m(footer));
+    m('',
+      { style: 'margin: 1em' },
+      v.children,
+      m(footer)));
 }
