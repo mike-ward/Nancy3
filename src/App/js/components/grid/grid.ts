@@ -7,13 +7,13 @@ import { cssStylesAdd } from '../../services/css-service';
 // language=CSS
 cssStylesAdd(`
   table.grid {border:1px;border-collapse:collapse}
-  .grid th {background-color: #ddd}
-  .grid th,.grid td{white-space:nowrap;padding:.2em;text-align:left;border:1px solid #ddd}
+  .grid th {background-color:#ddd;color:#333!important}
+  .grid th,.grid td{white-space:nowrap;padding:.2em;text-align:left;border:1px solid #eee}
   .grid-cell-click-action{cursor:pointer;}
   .grid-cell-click:hover{text-decoration:underline;}
   .grid-sort-indicator:hover, .grid-sort-indicator-up, .grid-sort-indicator-dn{cursor:pointer;}
-  .grid-sort-indicator-hi:after{content:'▲';visibility:hidden}
-  .grid-sort-indicator-hi:hover:after{visibility:visible;color:#ccd}
+  .grid-sort-indicator-hi:after{content:'▲';color:#ccd;visibility:hidden;}
+  .grid-sort-indicator-hi:hover:after{visibility:visible}
   .grid-sort-indicator-up:after{content:'▲'}
   .grid-sort-indicator-dn:after{content:'▼'}
 `);

@@ -17,7 +17,7 @@ export function buildRoutes() {
   m.route(root, '',
     {
       // Pages
-      '': page(splash, 'Splash'),
+      '': bare(splash, 'Splash'),
       'news': auth(page(news, 'News')),
       'markets': auth(page(markets, 'Markets')),
       'stocks': auth(page(stocks, 'Stocks')),
@@ -26,6 +26,14 @@ export function buildRoutes() {
       // Account
       'account/login': login
     });
+}
+
+function bare(component: m.ComponentTypes, title: string): m.Component {
+  return {
+    oncreate: () => document.title = `${constants.appTitle} - ${title}`,
+    onremove: () => document.title = `${constants.appTitle}`,
+    view: () => m(component)
+  }
 }
 
 function page(component: m.ComponentTypes, title: string): m.Component {

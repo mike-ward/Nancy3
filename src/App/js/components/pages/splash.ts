@@ -1,4 +1,5 @@
 ﻿import m from 'mithril';
+import constants from '../../services/constants-service';
 
 export const splash: m.FactoryComponent = () => {
   let timer: any;
@@ -11,7 +12,10 @@ export const splash: m.FactoryComponent = () => {
 }
 
 function view() {
-  return new Date().toUTCString();
+  return m('.header',
+    m('h1', constants.appTitle),
+    m('button.button-primary', {href: 'news', oncreate: m.route.link}, 'Get Started'),
+    new Date().toUTCString());
 }
 
 function updateTime() {

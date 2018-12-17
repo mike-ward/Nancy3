@@ -1,16 +1,14 @@
-﻿import 'purecss/build/base-min.css';
-import 'purecss/build/buttons-min.css';
-import 'purecss/build/forms-min.css';
+﻿import 'mustard-ui/dist/css/mustard-ui.min.css';
 import { cssStylesAdd, cssStylesInject } from './css-service';
 import { buildRoutes } from './route-service';
 
 export function startApp() {
   // language=css
   cssStylesAdd(`
-    body {margin: 1em;font-family:helvetica;line-height:1.25}
-    a {text-decoration:none;border-bottom:1px solid}
+    body {line-height:1.25}
     .bold {font-weight:bold}
     .italic {font-style:italic}
+    .nav-container{max-width:unset;padding:0 1rem}
   `);
 
   cssStylesInject();

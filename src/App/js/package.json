@@ -14,7 +14,7 @@
   "license": "ISC",
   "dependencies": {
     "mithril": "2.0.0-rc.3",
-    "purecss": "1.0.0"
+    "mustard-ui": "0.0.8"
   },
   "devDependencies": {
     "@types/jest": "23.3.10",
