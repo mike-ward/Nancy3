@@ -1,8 +1,8 @@
 ﻿import m from 'mithril';
 import stream from 'mithril/stream';
-import { IGridAttrs, IGridColumn } from './grid-model-interfaces';
-import { gridViewModelStream, IGridViewModel, IGridViewCell } from './grid-view-model';
 import { cssStylesAdd } from '../../services/css-service';
+import { IGridAttrs, IGridColumn } from './grid-interfaces';
+import { gridViewModelStream, IGridViewModel, IGridViewCell } from './grid-view-model';
 
 export const gridStyles = `
   table.grid {border:1px;border-collapse:collapse}
@@ -75,8 +75,8 @@ function td(cell: IGridViewCell, css: string | object) {
     {
       style: css,
       title: cell.tooltip,
-      className: cell.clickHandler ? 'grid-cell-click' : undefined,
-      onclick: cell.clickHandler
+      onclick: cell.clickHandler,
+      className: cell.clickHandler ? 'grid-cell-click' : undefined
     },
     cell.value);
 }

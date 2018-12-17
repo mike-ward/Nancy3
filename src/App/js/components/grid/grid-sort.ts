@@ -1,4 +1,4 @@
-﻿import { IGridModel, IGridRow } from "./grid-model-interfaces";
+﻿import { IGridModel, IGridRow } from "./grid-interfaces";
 import { compareService } from '../../services/compare-service';
 
 export function updateSortState(gm: IGridModel, columnId: string) {

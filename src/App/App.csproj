@@ -30,7 +30,7 @@
 
   <ItemGroup>
     <None Remove="js\app.ts" />
-    <None Remove="js\components\grid\grid-model-interfaces.ts" />
+    <None Remove="js\components\grid\grid-interfaces.ts" />
     <None Remove="js\components\grid\grid-sort.ts" />
     <None Remove="js\components\grid\grid-view-model.ts" />
     <None Remove="js\components\grid\grid.ts" />
@@ -82,7 +82,7 @@
     <TypeScriptCompile Include="js\components\grid\grid.ts" />
     <TypeScriptCompile Include="js\components\grid\grid-sort.ts" />
     <TypeScriptCompile Include="js\components\grid\grid-view-model.ts" />
-    <TypeScriptCompile Include="js\components\grid\grid-model-interfaces.ts" />
+    <TypeScriptCompile Include="js\components\grid\grid-interfaces.ts" />
     <TypeScriptCompile Include="js\components\layout\footer.ts" />
     <TypeScriptCompile Include="js\components\layout\header.ts" />
     <TypeScriptCompile Include="js\components\layout\layout.ts" />
