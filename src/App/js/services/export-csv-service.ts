@@ -1,22 +1,14 @@
-﻿import stream from 'mithril/stream';
+﻿import m from 'mithril';
+import stream from 'mithril/stream';
 import { download } from './download-service';
+import { grid } from '../components/grid/grid';
 import { IGridModel } from '../components/grid/grid-interfaces';
-import { gridViewModelStream, IGridViewRow } from '../components/grid/grid-view-model';
 
 export function gridToCsv(model: stream.Stream<IGridModel>, filename: string) {
-  const vm = gridViewModelStream(model)();
-  const columns = vm
-    .columns
-    .filter(col => !col.hide);
-  const head = columns
-    .map(col => csvValue(col.name))
-    .join(',');
-  const asRow = (vr: IGridViewRow) => columns
-    .map(col => csvValue(vr.data.get(col.id).value))
-    .join(',');
-  const rows = vm.vrows.map(vr => asRow(vr));
-  const csv = [head].concat(rows).join('\n');
-  download(csv, 'text/csv;charset=utf-8;', filename);
+  const hidden = document.createElement('div')
+  m.render(hidden, m(grid, { model: model }));
+  const table = hidden.getElementsByTagName('table')[0]
+  tableToCsv(table, filename);
 }
 
 export function tableToCsv(table: HTMLTableElement, filename: string) {
