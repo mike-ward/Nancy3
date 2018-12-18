@@ -3,15 +3,9 @@ import constants from '../../services/constants-service';
 import { cssStylesAdd } from '../../services/css-service';
 import { navBar, INavbarOptions } from './nav-bar';
 
-cssStylesAdd(/*css*/
+cssStylesAdd(
   `nav{margin-bottom:0.5rem}
-  .mobile-menu {
-    display: none;
-    position: absolute;
-    top: 15px;
-    right: 30px;
-    z-index: 10;
-}`);
+  .mobile-menu{display:none;position:absolute;top:15px;right:15px;z-index:10}`);
 
 const navbarOptions: INavbarOptions = {
   items: [
@@ -32,8 +26,8 @@ function view() {
       m('.nav-logo', constants.appTitle),
       m(navBar, { options: navbarOptions, menuType: 'nav-links' } as any),
       m('a.mobile-menu-toggle', { onclick: click },
-      m(navBar, { options: navbarOptions, menuType: 'mobile-menu.menu' } as any)
-    ))
+        m(navBar, { options: navbarOptions, menuType: 'mobile-menu.menu' } as any)
+      ))
   );
 }
 

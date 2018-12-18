@@ -1,4 +1,4 @@
-﻿export var compareService = {
+﻿export const compareService = {
   compareAny: compareAny,
   naturalStringCompare: naturalStringCompare
 }
