@@ -3,11 +3,7 @@ import constants from '../../../services/constants-service';
 import { cssStylesAdd } from '../../../services/css-service';
 
 // language=css
-cssStylesAdd(`
-  form.login-form { width: 30rem; margin: 5rem auto }
-  form.login-form label { margin-top: 1rem }
-  form.login-form button { margin-top: 1rem }
-`);
+cssStylesAdd(`form.login-form { width: 25rem; margin: 5rem auto }`);
 
 export const login = {
   view: view,
@@ -15,15 +11,15 @@ export const login = {
 }
 
 function view() {
-  return m('form.pure-form.pure-form-stacked.login-form',
-    m('fieldset',
-      m('legend', m('.bold', `${constants.appTitle} Sign In`)),
+  return m('form.login-form',
+    m('.page-title', `${constants.appTitle} Login`),
+    m('.form-control',
       m("label[for='email']", 'Email'),
-      m('input.pure-input-2-3[id="email"][type="email"]'),
-      m('span.pure-form-message', 'This is a required field.'),
+      m('input[id="email"][type="text"]')),
+    m('.form-control',
       m('label[for="password"]', 'Password'),
-      m('input.pure-input-2-3[id="password"][type="password"]'),
-      m('button.pure-button.pure-button-primary[type="submit"]', 'Sign in')
-    )
+      m('input[id="password"][type="password"]')),
+    m('.form-control',
+      m('button.button-primary[type="submit"]', 'Log in'))
   );
 }

@@ -22,7 +22,7 @@ export const header = {
 
 function view() {
   return m('nav',
-    m('.nav-container]',
+    m('.nav-container',
       m('.nav-logo', constants.appTitle),
       m(navBar, { options: navbarOptions, menuType: 'nav-links' } as any),
       m('a.mobile-menu-toggle', { onclick: click },

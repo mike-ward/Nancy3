@@ -3,3 +3,7 @@ $header-bg-color: #dde;
 $nav-bg-color: #dde;
 
 @import './node_modules/mustard-ui/src/scss/mustard-ui.scss';
+
+.nav-container {
+  max-width: none
+}
