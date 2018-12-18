@@ -1,6 +1,17 @@
-﻿import constants from './constants-service';
+﻿import m from 'mithril';
+import stream from 'mithril/stream';
+import constants from './constants-service';
 import { download } from './download-service';
-import { gridStyles } from '../components/grid/grid';
+import { grid, gridStyles } from '../components/grid/grid';
+import { IGridModel } from '../components/grid/grid-interfaces';
+
+export function gridToExcel(model: stream.Stream<IGridModel>, name: string, filename: string) {
+  const hidden = document.createElement('div')
+  m.render(hidden, m(grid, { model: model }));
+  const table = hidden.getElementsByTagName('table')[0]
+  tableToExcel(table, name, filename);
+  hidden.remove();
+}
 
 export function tableToExcel(tableElement: HTMLTableElement, name: string, filename: string) {
   const table = tableToHtml(tableElement);

@@ -4,6 +4,7 @@ import { grid } from '../grid/grid';
 import { loading } from '../loading/loading'
 import { IGridModel, IGridColumn } from '../grid/grid-interfaces';
 import { camelIdentifierToTitle } from '../../services/convert-service';
+import { gridToExcel } from '../../services/export-excel-service';
 
 export const stocks: m.Component = {
   view: view,
@@ -21,7 +22,10 @@ function view() {
     m('.page-title', `Stocks`),
     m('p', `Count: ${model.stocks() ? model.stocks().data.length : 0}`),
     model.stocks()
-      ? m(grid, { model: model.stocks, style: { 'font-size': 'smaller' } })
+      ? [
+        m('button.button-small', { onclick: () => gridToExcel(model.stocks, 'stocks', 'stocks.xls') }, 'Export to Excel'),
+        m(grid, { model: model.stocks, style: { 'font-size': 'smaller' } })
+      ]
       : m(loading));
 }
 

@@ -5,8 +5,8 @@ import { loading } from '../loading/loading';
 import { IGridModel, IGridColumn } from '../grid/grid-interfaces';
 import { camelIdentifierToTitle } from '../../services/convert-service';
 import { cssStylesAdd } from '../../services/css-service';
-import { tableToCsv } from '../../services/export-csv-service';
-import { tableToExcel } from '../../services/export-excel-service';
+import { gridToCsv } from '../../services/export-csv-service';
+import { gridToExcel } from '../../services/export-excel-service';
 
 // language=css
 cssStylesAdd(`div.markets .grid{font-size:smaller;}`);
@@ -77,7 +77,8 @@ function csvButton(market: IMarket) {
         'font-size': 'smaller',
         visibility: market.model() ? 'visible' : 'hidden'
       },
-      onclick: () => tableToCsv(document.getElementById(market.id) as any, market.title + '.csv')
+      //onclick: () => tableToCsv(document.getElementById(market.id) as any, market.title + '.csv'),
+      onclick: () => gridToCsv(market.model, market.title + '.csv'),
     },
     'Export to CSV');
 }
@@ -91,7 +92,8 @@ function excelButton(market: IMarket) {
         'font-size': 'smaller',
         visibility: market.model() ? 'visible' : 'hidden'
       },
-      onclick: () => tableToExcel(document.getElementById(market.id) as any, market.title, market.title + '.xls')
+      //onclick: () => tableToExcel(document.getElementById(market.id) as any, market.title, market.title + '.xls')
+      onclick: () => gridToExcel(market.model, market.title, market.title + '.xls')
     },
     'Export to Excel');
 }
