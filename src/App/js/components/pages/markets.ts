@@ -77,7 +77,6 @@ function csvButton(market: IMarket) {
         'font-size': 'smaller',
         visibility: market.model() ? 'visible' : 'hidden'
       },
-      //onclick: () => tableToCsv(document.getElementById(market.id) as any, market.title + '.csv'),
       onclick: () => gridToCsv(market.model, market.title + '.csv'),
     },
     'Export to CSV');
@@ -92,7 +91,6 @@ function excelButton(market: IMarket) {
         'font-size': 'smaller',
         visibility: market.model() ? 'visible' : 'hidden'
       },
-      //onclick: () => tableToExcel(document.getElementById(market.id) as any, market.title, market.title + '.xls')
       onclick: () => gridToExcel(market.model, market.title, market.title + '.xls')
     },
     'Export to Excel');
