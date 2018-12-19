@@ -12,10 +12,16 @@ export const splash: m.FactoryComponent = () => {
 }
 
 function view() {
-  return m('.header',
-    m('h1', constants.appTitle),
-    m('button.button-primary', {href: 'news', oncreate: m.route.link}, 'Get Started'),
-    new Date().toUTCString());
+  return m('.hero',
+    m('.hero-body',
+      m('.container.has-text-centered',
+        m('h1.title', { style: 'margin-top:5em' }, constants.appTitle),
+        m('h2.subtitle',
+          m('button.button', { style: 'margin:1em 0', href: 'news', oncreate: m.route.link }, 'Get Started'),
+          m('', new Date().toLocaleDateString() + ' ' + new Date().toLocaleTimeString())
+        )
+      )),
+  )
 }
 
 function updateTime() {

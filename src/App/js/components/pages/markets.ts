@@ -66,15 +66,14 @@ function title(market: IMarket) {
 }
 
 function grid(market: IMarket) {
-  return m(gridControl, { id: market.id, model: market.model });
+  return m(gridControl, { id: market.id, model: market.model, style: 'width:100%' });
 }
 
 function csvButton(market: IMarket) {
-  return m('button.button-small',
+  return m('button.button.is-small',
     {
       style: {
-        'margin-top': '1em',
-        'font-size': 'smaller',
+        'margin': '1em',
         visibility: market.model() ? 'visible' : 'hidden'
       },
       onclick: () => gridToCsv(market.model, market.title + '.csv'),
@@ -83,12 +82,10 @@ function csvButton(market: IMarket) {
 }
 
 function excelButton(market: IMarket) {
-  return m('button.button-small',
+  return m('button.button.is-small',
     {
       style: {
-        'margin-top': '1em',
-        'margin-left': '1em',
-        'font-size': 'smaller',
+        'margin': '1em',
         visibility: market.model() ? 'visible' : 'hidden'
       },
       onclick: () => gridToExcel(market.model, market.title, market.title + '.xls')

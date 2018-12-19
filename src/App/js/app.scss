@@ -1,9 +1,1 @@
-﻿$brand-color: #00a;
-$header-bg-color: #dde;
-$nav-bg-color: #dde;
-
-@import './node_modules/mustard-ui/src/scss/mustard-ui.scss';
-
-.nav-container {
-  max-width: none
-}
+﻿@import './node_modules/bulma/bulma.sass';

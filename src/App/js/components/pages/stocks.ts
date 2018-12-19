@@ -23,8 +23,8 @@ function view() {
     m('p', `Count: ${model.stocks() ? model.stocks().data.length : 0}`),
     model.stocks()
       ? [
-        m('button.button-small', { onclick: () => gridToExcel(model.stocks, 'stocks', 'stocks.xls') }, 'Export to Excel'),
-        m(grid, { model: model.stocks, style: { 'font-size': 'smaller' } })
+        exportButton(),
+        m(grid, { model: model.stocks, style: 'font-size:smaller' })
       ]
       : m(loading));
 }
@@ -59,4 +59,11 @@ function gridModelFactory(data: any) {
     columns: columns,
     data: data
   };
+}
+
+function exportButton() {
+  return m('button.button.is-small', {
+    style: 'margin:1em',
+    onclick: () => gridToExcel(model.stocks, 'stocks', 'stocks.xls')
+  }, 'Export to Excel');
 }
