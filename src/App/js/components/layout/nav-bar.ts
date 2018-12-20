@@ -13,7 +13,7 @@ function view() {
       hamburger()),
     m('#my-navbar.navbar-menu',
       m('.navbar-end', links(), m(userBar)))
-    )
+  )
 }
 
 function links() {
@@ -60,5 +60,5 @@ function toggle(ids: string[]) {
 }
 
 function isActiveLink(route: string, name: string) {
-  return route.toLowerCase().indexOf(name.toLowerCase()) >= 0
+  return route && route.toLowerCase().indexOf(name.toLowerCase()) >= 0
 }

@@ -30,35 +30,36 @@ function tableToHtml(table: HTMLTableElement) {
 
 function template(worksheet: string, table: string, styles: string) {
   // language=html
-  return `<html
-  xmlns:o="urn:schemas-microsoft-com:office:office"
-  xmlns:x="urn:schemas-microsoft-com:office:excel"
-  xmlns="http://www.w3.org/TR/REC-html40">
-  <head>
-    <meta charset="UTF-8">
-    <!--[if gte mso 9]>
-      <xml>
-        <o:DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
-          <o:Author>${constants.appTitle}</o:Author>
-          <o:Created>${(new Date()).getTime()}</o:Created>
-        </o:DocumentProperties>
-        <x:ExcelWorkbook>
-          <x:ExcelWorksheets>
-            <x:ExcelWorksheet>
-              <x:Name>${worksheet}</x:Name>
-              <x:WorksheetOptions>
-                <x:DisplayGridlines/>
-              </x:WorksheetOptions>
-            </x:ExcelWorksheet>
-          </x:ExcelWorksheets>
-        </x:ExcelWorkbook>
-      </xml><![endif]-->
-      <style type="text/css">
-        ${styles}
-      </style>
-    </head>
-  <body>
-    <table class="grid">${table}</table>
-  </body>
-  </html>`;
+  return `<!doctype html>
+<html
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:x="urn:schemas-microsoft-com:office:excel"
+xmlns="http://www.w3.org/TR/REC-html40">
+<head>
+  <meta charset="UTF-8">
+  <!--[if gte mso 9]>
+    <xml>
+      <o:DocumentProperties xmlns="urn:schemas-microsoft-com:office:office">
+        <o:Author>${constants.appTitle}</o:Author>
+        <o:Created>${(new Date()).getTime()}</o:Created>
+      </o:DocumentProperties>
+      <x:ExcelWorkbook>
+        <x:ExcelWorksheets>
+          <x:ExcelWorksheet>
+            <x:Name>${worksheet}</x:Name>
+            <x:WorksheetOptions>
+              <x:DisplayGridlines/>
+            </x:WorksheetOptions>
+          </x:ExcelWorksheet>
+        </x:ExcelWorksheets>
+      </x:ExcelWorkbook>
+    </xml><![endif]-->
+    <style type="text/css">
+      ${styles}
+    </style>
+  </head>
+<body>
+  <table class="grid">${table}</table>
+</body>
+</html>`;
 }
