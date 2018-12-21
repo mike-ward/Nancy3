@@ -7,7 +7,7 @@ import { splash } from '../components/pages/splash';
 import { news } from '../components/pages/news';
 import { markets } from '../components/pages/markets';
 import { stocks } from '../components/pages/stocks';
-import { about } from '../components/pages/about';
+import { modals } from '../components/pages/modals';
 
 // Account
 import { login } from '../components/pages/account/login';
@@ -21,7 +21,7 @@ export function buildRoutes() {
       'news': auth(page(news, 'News')),
       'markets': auth(page(markets, 'Markets')),
       'stocks': auth(page(stocks, 'Stocks')),
-      'about': page(about, 'About'),
+      'modals': page(modals, 'Modals'),
 
       // Account
       'account/login': login

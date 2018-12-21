@@ -41,9 +41,9 @@
     <None Remove="js\components\layout\tests\footer.spec.ts" />
     <None Remove="js\components\layout\user-bar.ts" />
     <None Remove="js\components\loading\loading.ts" />
-    <None Remove="js\components\pages\about.ts" />
     <None Remove="js\components\pages\account\login.ts" />
     <None Remove="js\components\pages\markets.ts" />
+    <None Remove="js\components\pages\modals.ts" />
     <None Remove="js\components\pages\news.ts" />
     <None Remove="js\components\pages\splash.ts" />
     <None Remove="js\components\pages\stocks.ts" />
@@ -90,7 +90,7 @@
     <TypeScriptCompile Include="js\components\layout\tests\footer.spec.ts" />
     <TypeScriptCompile Include="js\components\layout\user-bar.ts" />
     <TypeScriptCompile Include="js\components\loading\loading.ts" />
-    <TypeScriptCompile Include="js\components\pages\about.ts" />
+    <TypeScriptCompile Include="js\components\pages\modals.ts" />
     <TypeScriptCompile Include="js\components\pages\account\login.ts" />
     <TypeScriptCompile Include="js\components\pages\markets.ts" />
     <TypeScriptCompile Include="js\components\pages\news.ts" />

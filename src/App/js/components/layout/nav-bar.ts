@@ -22,7 +22,7 @@ function links() {
       { name: 'News', link: 'news' },
       { name: 'Markets', link: 'markets' },
       { name: 'Stocks', link: 'stocks' },
-      { name: 'About', link: 'about' }
+      { name: 'Modals', link: 'modals' }
     ]
   }
   return options.items
