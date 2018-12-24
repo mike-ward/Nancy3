@@ -3,7 +3,13 @@ import { alert, confirm } from '../../services/dialog-service';
 
 var examples = [
   { text: 'Alert/Info Modal', modal: () => alert('Example alert modal') },
-  { text: 'Comfirmation Modal', modal: () => confirm('Do you want Oreos?') },
+  {
+    text: 'Comfirmation Modal', modal: () =>
+      confirm('Do you want Oreos?')
+        .then(
+          () => alert('Then go by some you lazy bum!'),
+          () => alert('Aw shucks!'))
+  },
   { text: 'Prompt Modal', modal: () => alert('Comming soon!') },
 ]
 

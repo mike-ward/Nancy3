@@ -57,6 +57,7 @@
     <None Remove="js\services\download-service.ts" />
     <None Remove="js\services\export-csv-service.ts" />
     <None Remove="js\services\export-excel-service.ts" />
+    <None Remove="js\services\modal-service.ts" />
     <None Remove="js\services\route-service.ts" />
     <None Remove="Views\index.html" />
   </ItemGroup>
@@ -106,6 +107,7 @@
     <TypeScriptCompile Include="js\services\download-service.ts" />
     <TypeScriptCompile Include="js\services\export-csv-service.ts" />
     <TypeScriptCompile Include="js\services\export-excel-service.ts" />
+    <TypeScriptCompile Include="js\services\modal-service.ts" />
     <TypeScriptCompile Include="js\services\route-service.ts" />
   </ItemGroup>
 
