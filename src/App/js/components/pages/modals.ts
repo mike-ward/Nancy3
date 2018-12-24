@@ -1,14 +1,19 @@
 ﻿import m from 'mithril';
 import { alert, confirm } from '../../services/dialog-service';
 
+var examples = [
+  { text: 'Alert/Info Modal', modal: () => alert('Example alert modal') },
+  { text: 'Comfirmation Modal', modal: () => confirm('Do you want Oreos?') },
+  { text: 'Prompt Modal', modal: () => alert('Comming soon!') },
+]
+
 function view() {
   return [
     m('.page-title', 'Modals'),
-    m('.box',
-      m('.button.button', { onclick: () => alert('Example alert modal') }, 'Show Info Alert'),
-      '\u2003',
-      m('.button.button', { onclick: () => confirm('Example confirm modal') }, 'Show Confirmation Dialog')
-    )
+    m('.columns', examples.map(example => [
+      m('.column.is-narrow',
+        m('.button.button', { onclick: example.modal }, example.text))
+    ]))
   ];
 }
 
