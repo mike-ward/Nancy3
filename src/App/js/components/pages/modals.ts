@@ -1,17 +1,9 @@
 ﻿import m from 'mithril';
-import { alert, confirm } from '../../services/dialog-service';
+import { msg, yesNo } from '../../services/dialog-service';
 
-var examples = [
-  { text: 'Alert/Info Modal', modal: () => alert('Example alert modal') },
-  {
-    text: 'Comfirmation Modal', modal: () =>
-      confirm('Do you want Oreos?')
-        .then(
-          () => alert('Then go by some you lazy bum!'),
-          () => alert('Aw shucks!'))
-  },
-  { text: 'Prompt Modal', modal: () => alert('Comming soon!') },
-]
+export const modals: m.Component = {
+  view: view
+}
 
 function view() {
   return [
@@ -23,6 +15,24 @@ function view() {
   ];
 }
 
-export const modals: m.Component = {
-  view: view
+var examples = [
+  { text: 'Message Modal', modal: () => msg('Example message modal') },
+  { text: 'Message Modal with Markup', modal: () => AlertWithMarkup() },
+  {
+    text: 'Yes/No Modal', modal: () =>
+      yesNo('Do you want Oreos?')
+        .then(
+          () => msg('Then go buy some you lazy bum!'),
+          () => msg('Aw shucks!'))
+  },
+  { text: 'Prompt Modal', modal: () => msg('Comming soon!') },
+]
+
+function AlertWithMarkup() {
+  return msg(m('.content',
+    m('.subtitle', 'Lorem ipsum'),
+    m('blockquote', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices eleifend gravida, ' +
+      'nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, ' +
+      'interdum mattis neque.')
+  ), 'Message with Markup');
 }
