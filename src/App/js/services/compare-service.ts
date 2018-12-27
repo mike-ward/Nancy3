@@ -9,9 +9,7 @@ function compareAny(a: any, b: any): number {
   // NaN, and only NaN, will compare unequal to itself,
   // and is more reliable than isNaN(). Adding insult
   // to injury, NaN itself is not a number.
-  // ReSharper disable once SimilarExpressionsComparison
   const aIsNaN = a !== a;
-  // ReSharper disable once SimilarExpressionsComparison
   const bIsNaN = b !== b;
 
   if (typeof a === 'number' || typeof b === 'number' || aIsNaN || bIsNaN) {
@@ -29,20 +27,23 @@ function compareAny(a: any, b: any): number {
 }
 
 function naturalStringCompare(a: string | number, b: string | number): number {
-  const isDigit = (c: any) => c >= '0' && c <= '9';
-  const isNumber = this._.isNumber;
-
   enum ClassificationType { Undecided, Alpha, Number }
-
-  type ChunkType = { content: string, classification: ClassificationType };
+  type ChunkType = { content: string, classification: ClassificationType, count: number };
+  const isDigit = (c: any) => c >= '0' && c <= '9' || c === '.';
+  const isNumberLike = (a: any) => !isNaN(a);
 
   function getChunk(str: string): ChunkType {
     const chars: string[] = [];
     let classification: ClassificationType = ClassificationType.Undecided;
+    let count = 0;
 
     for (const c of str) {
+      count++;
       if (classification === ClassificationType.Undecided) {
         classification = isDigit(c) ? ClassificationType.Number : ClassificationType.Alpha;
+      }
+      else if (classification === ClassificationType.Number && c === ',') {
+        continue;
       }
       else {
         const numeric = isDigit(c);
@@ -52,17 +53,17 @@ function naturalStringCompare(a: string | number, b: string | number): number {
       chars.push(c);
     }
 
-    return { content: chars.join(''), classification: classification };
+    return { content: chars.join(''), classification: classification, count: count };
   }
 
   while (true) {
-    if (this._.isNull(a) && this._.isNull(b)) return 0;
-    if (this._.isNull(a)) return -1;
-    if (this._.isNull(b)) return 1;
-    if (isNumber(a) && isNumber(b)) return +a - +b;
+    if (a === null && b === null) return 0;
+    if (a === null) return -1;
+    if (b === null) return 1;
+    if (isNumberLike(a) && isNumberLike(b)) return +a - +b;
 
-    a = a as string;
-    b = b as string;
+    a = a.toString();
+    b = b.toString();
     if (a.length === 0 && b.length === 0) return 0;
 
     const ac = getChunk(a);
@@ -70,7 +71,7 @@ function naturalStringCompare(a: string | number, b: string | number): number {
 
     if (ac.classification === ClassificationType.Number
       && bc.classification === ClassificationType.Number
-      && isNumber(+ac.content) && isNumber(+bc.content)) {
+      && isNumberLike(ac.content) && isNumberLike(bc.content)) {
       const compare = +ac.content - +bc.content;
       if (compare < 0) return -1;
       if (compare > 0) return 1;
@@ -80,7 +81,7 @@ function naturalStringCompare(a: string | number, b: string | number): number {
       if (result !== 0) return result;
     }
 
-    a = (a as string).substring(ac.content.length);
-    b = (b as string).substring(bc.content.length);
+    a = a.substring(ac.count);
+    b = b.substring(bc.count);
   }
 }

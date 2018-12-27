@@ -1,6 +1,8 @@
 ﻿import { IGridModel, IGridRow } from "./grid-interfaces";
 import { compareService } from '../../services/compare-service';
 
+type comparerType = (a: any, b: any) => number;
+
 export function updateSortState(gm: IGridModel, columnId: string) {
   const column = gm.columns.reduce((a, c) => c.id === columnId ? c : a, null);
   if (!column.sortDirection) gm.columns.forEach(col => col.sortDirection = col.id === columnId ? 1 : 0)
@@ -17,9 +19,10 @@ export function sortByColumns(gm: IGridModel) {
 
   for (let column of sortByStates) {
     // future: add multiple column sort
-    const comparer = column.sortComparer
-      ? column.sortComparer
-      : compareService.compareAny;
+    const comparer: comparerType =
+      column.sortComparer
+        ? column.sortComparer
+        : compareService.naturalStringCompare;
 
     const columnId = column.id;
     const sortDirection = column.sortDirection;
@@ -30,7 +33,6 @@ export function sortByColumns(gm: IGridModel) {
       return sortDirection >= 0 ? result : -result;
     });
 
-    console.log('sort')
     return data;
   }
   return gm.data;

@@ -59,6 +59,7 @@
     <None Remove="js\services\export-excel-service.ts" />
     <None Remove="js\services\modal-service.ts" />
     <None Remove="js\services\route-service.ts" />
+    <None Remove="js\services\tests\compare-service.spec.ts" />
     <None Remove="Views\index.html" />
   </ItemGroup>
 
@@ -109,6 +110,7 @@
     <TypeScriptCompile Include="js\services\export-excel-service.ts" />
     <TypeScriptCompile Include="js\services\modal-service.ts" />
     <TypeScriptCompile Include="js\services\route-service.ts" />
+    <TypeScriptCompile Include="js\services\tests\compare-service.spec.ts" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(DeployOnBuild)' != 'true'">
