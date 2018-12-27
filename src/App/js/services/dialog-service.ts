@@ -1,15 +1,23 @@
 ﻿import m from 'mithril';
 import constants from './constants-service';
+import { cssStylesAdd } from './css-service'
 import { modal, closeModal } from './modal-service';
 
+cssStylesAdd(
+  `.message-foot{border-top: 1px solid gainsboro;padding:.5em 1rem;text-align:right}
+   .message-foot button{margin:0 .3rem;min-width:5rem}`)
+
 export function msg(message: string | m.Vnode, title?: string): void {
-  modal(m(`.card`, { clickBgCloses: true },
-    m('.card-header', m('p.card-header-title', title || constants.appTitle)),
-    m('.card-content', message)
+  modal(m(`.message.is-link`, { clickBgCloses: true },
+    m('.message-header', [
+      title || constants.appTitle,
+      m('button.delete', {onclick: () => closeModal(null) })
+      ]),
+    m('.message-body', message)
   ));
 }
 
-export function yesNo(message: string | m.Vnode) {
+export function yesNo(message: string | m.Vnode, title?: string) {
   let _resolve: () => void;
   let _reject: () => void;
 
@@ -18,12 +26,12 @@ export function yesNo(message: string | m.Vnode) {
     _reject = reject;
   });
 
-  modal(m(`.card`,
-    m('.card-header', m('p.card-header-title', constants.appTitle)),
-    m('.card-content', message),
-    m('.card-footer',
-      m('a.card-footer-item', { onclick: () => closeModal(_resolve) }, 'Yes'),
-      m('a.card-footer-item', { onclick: () => closeModal(_reject) }, 'No')
+  modal(m(`.message.is-link`,
+    m('.message-header', title || constants.appTitle),
+    m('.message-body', message),
+    m('.message-foot',
+      m('button.button', { onclick: () => closeModal(_resolve) }, 'Yes'),
+      m('button.button', { onclick: () => closeModal(_reject) }, 'No')
     )));
 
   return result;
