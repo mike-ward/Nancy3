@@ -7,25 +7,31 @@ export function modal(content: m.Vnode | m.Vnode[] | m.ComponentTypes) {
   modalContainer.id = modalContainerId;
   document.body.appendChild(modalContainer);
 
-  const isComponentType =
-    typeof (content as any) === 'function' ||
-    typeof (content as any).view === 'function';
+  try {
+    const isComponentType =
+      typeof (content as any) === 'function' ||
+      typeof (content as any).view === 'function';
 
-  const vnode = isComponentType
-    ? m(content as any)
-    : content;
+    const vnode = isComponentType
+      ? m(content as any)
+      : content;
 
-  const modalComponent = {
-    view: () =>
-      m('.modal is-active',
-        m('.modal-background'),
-        m('.modal-content', vnode as any))
+    const modalComponent = {
+      view: () =>
+        m('.modal is-active',
+          m('.modal-background'),
+          m('.modal-content', vnode as any))
+    }
+
+    m.mount(modalContainer, modalComponent);
+
+    const el = modalContainer.querySelector('input,button');
+    if (el) (el as HTMLElement).focus();
   }
-
-  m.mount(modalContainer, modalComponent);
-
-  const el = modalContainer.querySelector('input,button');
-  if (el) (el as HTMLElement).focus();
+  catch (e) {
+    closeModal();
+    throw e;
+  }
 }
 
 export function closeModal() {

@@ -30,9 +30,7 @@ export const grid: m.FactoryComponent<IGridAttrs> = () => {
 
 function table(vm: IGridViewModel, attrs: IGridAttrs) {
   return vm && vm.columns && vm.vrows
-    ? m('table.grid', attrs,
-      thead(vm),
-      tbody(vm))
+    ? m('table.grid', attrs, [thead(vm), tbody(vm)])
     : null;
 }
 
