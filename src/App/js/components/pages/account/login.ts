@@ -2,8 +2,7 @@
 import constants from '../../../services/constants-service';
 import { cssStylesAdd } from '../../../services/css-service';
 
-// language=css
-cssStylesAdd(`form.login-form { width: 20rem; margin: 5rem auto }`);
+cssStylesAdd(`form.login-form{width:20rem;margin:5rem auto}`);
 
 export const login = {
   view: view,

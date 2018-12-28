@@ -5,8 +5,8 @@ import { cssStylesAdd } from '../../services/css-service';
 import { IGridAttrs, IGridColumn } from './grid-interfaces';
 import { gridViewModelStream, IGridViewModel, IGridViewCell } from './grid-view-model';
 
-export const gridStyles = `
-  table.grid {border:1px;border-collapse:collapse}
+export const gridStyles =
+  `table.grid {border:1px;border-collapse:collapse}
   .grid th {background-color:${constants.color.thBg};color:${constants.color.text}!important}
   .grid th,.grid td{white-space:nowrap;padding:.2em;text-align:left;border:1px solid #eee}
   .grid-cell-click-action{cursor:pointer;}

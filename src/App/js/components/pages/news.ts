@@ -5,8 +5,8 @@ import { cssStylesAdd } from '../../services/css-service';
 import { loading } from '../loading/loading';
 
 // language=css
-cssStylesAdd(`
-  .news-item{margin-bottom:2rem;max-width:60rem}
+cssStylesAdd(
+  `.news-item{margin-bottom:2rem;max-width:60rem}
   .news-date-time{font-weight:bold;margin-bottom:0.5rem}
   .news-title{font-size:large;font-weight:bold}`);
 

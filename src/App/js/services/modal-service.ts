@@ -1,21 +1,26 @@
 ﻿import m from 'mithril';
-const modalContainerId = 'modal-container';
+
+const modalContainerId = 'modal-container-unique-id';
 
 export function modal(content: string | m.Vnode) {
-  const clickBgCloses = (<m.Vnode>content).attrs && (<any>(<m.Vnode>content).attrs)['clickBgCloses'];
-
-  const view =
-    m('.modal is-active',
-      m('.modal-background', { onclick: () => clickBgCloses ? modalContainer.remove() : null }),
-      m('.modal-content', m('', content)));
-
   const modalContainer = document.createElement('div');
   modalContainer.id = modalContainerId;
   document.body.appendChild(modalContainer);
-  m.render(modalContainer, view);
+
+  const view =
+    m('.modal is-active',
+      m('.modal-background'),
+      m('.modal-content', m('', content)));
+
+  m.mount(modalContainer, { view: () => view });
+
+  const el = modalContainer.querySelector('input,button');
+  if (el) (el as HTMLElement).focus();
 }
 
-export function closeModal(result: () => void) {
-  document.getElementById(modalContainerId).remove();
-  if (result) result();
+export function closeModal() {
+  const container = document.getElementById(modalContainerId);
+  m.mount(container, null);
+  container.remove();
 }
+
