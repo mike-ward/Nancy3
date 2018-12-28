@@ -2,17 +2,27 @@
 
 const modalContainerId = 'modal-container-unique-id';
 
-export function modal(content: string | m.Vnode) {
+export function modal(content: m.Vnode | m.Vnode[] | m.ComponentTypes) {
   const modalContainer = document.createElement('div');
   modalContainer.id = modalContainerId;
   document.body.appendChild(modalContainer);
 
-  const view =
-    m('.modal is-active',
-      m('.modal-background'),
-      m('.modal-content', m('', content)));
+  const isComponentType =
+    typeof (content as any) === 'function' ||
+    typeof (content as any).view === 'function';
 
-  m.mount(modalContainer, { view: () => view });
+  const vnode = isComponentType
+    ? m(content as any)
+    : content;
+
+  const modalComponent = {
+    view: () =>
+      m('.modal is-active',
+        m('.modal-background'),
+        m('.modal-content', vnode as any))
+  }
+
+  m.mount(modalContainer, modalComponent);
 
   const el = modalContainer.querySelector('input,button');
   if (el) (el as HTMLElement).focus();
@@ -23,4 +33,3 @@ export function closeModal() {
   m.mount(container, null);
   container.remove();
 }
-

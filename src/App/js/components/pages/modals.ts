@@ -43,15 +43,15 @@ var examples = [
     modal: () =>
       yesNoCancel('Do want to retend to save a file?')
         .then(
-          (r: boolean) => r ? msg('Pressed YES') : msg('Pressed NO'),
-          () => msg('Pressed CANCEL'))
+          (r: boolean) => r ? msg('Answered YES') : msg('Answered NO'),
+          () => msg('Answered CANCEL'))
   },
   {
     text: 'Prompt Modal',
     modal: () => 
       ask('What is the answer to life, the universe and everything?', '42', 'Ask a Silly Question')
         .then(
-          (answer: string) => msg('You said ' + answer),
+          (answer: string) => msg('You typed ' + answer),
           () => msg('You declined to answer'))
   },
 ]

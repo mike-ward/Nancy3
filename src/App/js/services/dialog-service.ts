@@ -69,6 +69,6 @@ export function ask(question: string | m.Vnode, value?: string, title?: string) 
         m('.message-foot',
           m('button.button', { onclick: () => closeDialog(() => resolve(answer)) }, 'OK'),
           m('button.button', { onclick: () => closeDialog(reject) }, 'Cancel')
-        )));
-  });
+        )))
+  })
 }
