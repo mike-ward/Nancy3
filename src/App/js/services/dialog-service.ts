@@ -18,7 +18,7 @@ export function msg(message: string | m.Vnode, title?: string) {
       m(`.message.is-link`,
         m('.message-header', [
           title || constants.appTitle,
-          m('button.delete', { onclick: () => closeDialog(resolve) })
+          m('button.delete.is-medium', { onclick: () => closeDialog(resolve) })
         ]),
         m('.message-body', message)
       ));
