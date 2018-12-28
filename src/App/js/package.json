@@ -12,10 +12,8 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "mithril": "2.0.0-rc.3"
-  },
   "devDependencies": {
+    "mithril": "2.0.0-rc.3",
     "@types/jest": "23.3.10",
     "@types/mithril": "1.1.13",
     "bulma": "0.7.2",
