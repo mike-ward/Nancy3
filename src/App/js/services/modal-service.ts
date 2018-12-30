@@ -2,25 +2,17 @@
 
 const modalContainerId = 'modal-container-unique-id';
 
-export function modal(content: m.Vnode | m.Vnode[] | m.ComponentTypes) {
+export function modal(render: () => m.Children) {
   const modalContainer = document.createElement('div');
   modalContainer.id = modalContainerId;
   document.body.appendChild(modalContainer);
 
   try {
-    const isComponentType =
-      typeof (content as any) === 'function' ||
-      typeof (content as any).view === 'function';
-
-    const vnode = isComponentType
-      ? m(content as any)
-      : content;
-
     const modalComponent = {
       view: () =>
         m('.modal is-active',
           m('.modal-background'),
-          m('.modal-content', vnode as any))
+          m('.modal-content', render()))
     }
 
     m.mount(modalContainer, modalComponent);

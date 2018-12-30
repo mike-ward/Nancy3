@@ -14,20 +14,20 @@ function closeDialog(result: () => void) {
 
 export function msg(message: string | m.Vnode, title?: string) {
   return new Promise((resolve) => {
-    modal(
+    modal(() =>
       m(`.message.is-link`,
         m('.message-header', [
           title || constants.appTitle,
           m('button.delete.is-medium', { onclick: () => closeDialog(resolve) })
         ]),
         m('.message-body', message)
-      ));
+      ))
   });
 }
 
 export function yesNo(message: string | m.Vnode, title?: string) {
   return new Promise((resolve, reject) => {
-    modal(
+    modal(() =>
       m(`.message.is-link`,
         m('.message-header', title || constants.appTitle),
         m('.message-body', message),
@@ -40,7 +40,7 @@ export function yesNo(message: string | m.Vnode, title?: string) {
 
 export function yesNoCancel(message: string | m.Vnode, title?: string) {
   return new Promise((resolve, reject) => {
-    modal(
+    modal(() =>
       m(`.message.is-link`,
         m('.message-header', title || constants.appTitle),
         m('.message-body', message),
@@ -56,7 +56,7 @@ export function ask(question: string | m.Vnode, value?: string, title?: string) 
   return new Promise((resolve, reject) => {
     let answer = value || '';
 
-    modal(
+    modal(() =>
       m(`.message.is-link`,
         m('.message-header', title || constants.appTitle),
         m('.message-body',
