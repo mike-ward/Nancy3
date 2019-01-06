@@ -1,5 +1,4 @@
-﻿//import 'mustard-ui/dist/css/mustard-ui.min.css';
-import '../app.scss';
+﻿import '../app.scss';
 import { cssStylesAdd, cssStylesInject } from './css-service';
 import { buildRoutes } from './route-service';
 
