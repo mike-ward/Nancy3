@@ -1,5 +1,4 @@
-﻿import m from 'mithril';
-import stream from 'mithril/stream';
+﻿import stream from 'mithril/stream';
 import { IGridModel, IGridColumn, IGridRow } from './grid-interfaces';
 import { sortByColumns, updateSortState } from './grid-sort';
 

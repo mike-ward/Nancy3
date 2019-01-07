@@ -2,9 +2,16 @@
   "compilerOptions": {
     "target": "es6",
     "module": "es6",
-    "allowSyntheticDefaultImports": true,
     "sourceMap": true,
     "outDir": "../tsout",
-    "noImplicitAny": true
+    "alwaysStrict": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "removeComments": true,
+    "noImplicitReturns": true,
+    "noUnusedParameters": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true
   }
 }

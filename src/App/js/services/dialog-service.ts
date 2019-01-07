@@ -15,7 +15,10 @@ function closeDialog(result: () => void) {
 export function msg(message: string | m.Vnode, title?: string) {
   return new Promise((resolve) => {
     modal(() =>
-      m(`.message.is-link`,
+      m(`.message.is-link`, {
+        style: { cursor: 'pointer' },
+        onclick: () => closeDialog(resolve)
+      },
         m('.message-header', [
           title || constants.appTitle,
           m('button.delete.is-medium', { onclick: () => closeDialog(resolve) })

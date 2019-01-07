@@ -17,8 +17,8 @@ export function modal(render: () => m.Children) {
 
     m.mount(modalContainer, modalComponent);
 
-    const el = modalContainer.querySelector('input,button');
-    if (el) (el as HTMLElement).focus();
+    const el = modalContainer.querySelector('input,button') as HTMLElement;
+    if (el) el.focus();
   }
   catch (e) {
     closeModal();
