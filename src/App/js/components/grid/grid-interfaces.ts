@@ -41,6 +41,23 @@ export interface IGridColumn {
   cellRenderer?: (value: any, column: IGridColumn, row: IGridRow, meta: any) => string | m.Vnode;
 }
 
-export interface IGridRow {
-  [columnId: string]: any;
+export type IGridRow = {
+  [columnId: string]: any
+};
+
+export interface IGridViewModel {
+  columns: IGridColumn[];
+  vrows: IGridViewRow[];
+  updateSort: (columnId: string) => void;
+}
+
+export interface IGridViewRow {
+  key?: string;
+  data: Map<string, IGridViewCell>;
+}
+
+export interface IGridViewCell {
+  value: any;
+  tooltip: string;
+  clickHandler: (event: Event) => void;
 }

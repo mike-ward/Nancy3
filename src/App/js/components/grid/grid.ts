@@ -2,8 +2,8 @@
 import stream from 'mithril/stream';
 import constants from '../../services/constants-service';
 import { cssStylesAdd } from '../../services/css-service';
-import { IGridAttrs, IGridColumn } from './grid-interfaces';
-import { gridViewModelStream, IGridViewModel, IGridViewCell } from './grid-view-model';
+import { gridViewModelStream } from './grid-view-model';
+import { IGridAttrs, IGridColumn, IGridViewModel, IGridViewCell } from './grid-interfaces';
 
 export const gridStyles =
   `table.grid {border:1px;border-collapse:collapse}

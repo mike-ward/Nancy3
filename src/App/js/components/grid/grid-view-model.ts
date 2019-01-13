@@ -1,23 +1,6 @@
 ﻿import stream from 'mithril/stream';
-import { IGridModel, IGridColumn, IGridRow } from './grid-interfaces';
 import { sortByColumns, updateSortState } from './grid-sort';
-
-export interface IGridViewModel {
-  columns: IGridColumn[];
-  vrows: IGridViewRow[];
-  updateSort: (columnId: string) => void;
-}
-
-export interface IGridViewRow {
-  key: string;
-  data: Map<string, IGridViewCell>;
-}
-
-export interface IGridViewCell {
-  value: any;
-  tooltip: string;
-  clickHandler: (event: Event) => void;
-}
+import { IGridModel, IGridViewModel, IGridRow, IGridColumn, IGridViewCell } from './grid-interfaces';
 
 export function gridViewModelStream(gms: stream.Stream<IGridModel>) {
   const viewModelStream = gms.map<IGridViewModel>(gm => gm &&
@@ -32,32 +15,43 @@ export function gridViewModelStream(gms: stream.Stream<IGridModel>) {
 
 function gridViewDataRows(gm: IGridModel) {
   const dataRows = sortByColumns(gm);
-  return dataRows.map(dataRow => gridDataRow(gm, dataRow));
+  const rows = dataRows.map(dataRow => gridDataRow(gm, dataRow));
+  return rows;
 }
 
 function gridDataRow(gm: IGridModel, dataRow: IGridRow) {
-  const dr = gm.columns.reduce((a, col) => {
-    const value = dataRow[col.id];
-    const renderedValue = col.cellRenderer
-      ? col.cellRenderer(value, col, dataRow, gm.meta)
-      : value;
-    const tooltip = col.cellTooltip
-      ? col.cellTooltip(value, renderedValue, col, dataRow, gm.meta)
-      : undefined;
-    const clickHandler = (event: Event) => col.cellClick
-      ? col.cellClick(event, value, renderedValue, col, dataRow, gm.meta)
-      : undefined;
+  const data = gm.columns.reduce(
+    (a, col) => a.set(col.id, gridDataCell(dataRow, col, gm)),
+    new Map<string, IGridViewCell>());
 
-    const column = {
-      value: renderedValue,
-      tooltip: tooltip,
-      clickHandler: clickHandler
-    };
+  const row = {
+    key: gm.key ? dataRow[gm.key] : undefined,
+    data: data
+  }
 
-    a.data.set(col.id, column);
-    return a;
-  }, { key: null, data: new Map<string, IGridViewCell>() });
+  return row;
+}
 
-  dr.key = gm.key ? dr.data.get(gm.key).value : undefined;
-  return dr;
+function gridDataCell(dataRow: IGridRow, col: IGridColumn, gm: IGridModel) {
+  const value = dataRow[col.id];
+
+  const renderedValue = col.cellRenderer
+    ? col.cellRenderer(value, col, dataRow, gm.meta)
+    : value;
+
+  const tooltip = col.cellTooltip
+    ? col.cellTooltip(value, renderedValue, col, dataRow, gm.meta)
+    : undefined;
+
+  const clickHandler = (event: Event) => col.cellClick
+    ? col.cellClick(event, value, renderedValue, col, dataRow, gm.meta)
+    : undefined;
+
+  const cell = {
+    value: renderedValue,
+    tooltip: tooltip,
+    clickHandler: clickHandler
+  };
+
+  return cell;
 }
