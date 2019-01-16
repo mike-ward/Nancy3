@@ -1,4 +1,5 @@
 ﻿import m from 'mithril';
+import constants from '../../services/constants-service';
 import { cssStylesAdd } from '../../services/css-service';
 
 // language=CSS
@@ -11,6 +12,6 @@ export const footer = {
 function view() {
   return m('.foot',
     m('hr'),
-    m('', 'footer stuff goes here')
+    m('', constants.copyright)
   );
 }
