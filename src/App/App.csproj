@@ -113,6 +113,18 @@
     <TypeScriptCompile Include="js\services\tests\compare-service.spec.ts" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\content\app.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\content\app.js">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="wwwroot\content\app.map">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
   <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(DeployOnBuild)' != 'true'">
     <Exec Command="cd js&#xD;&#xA;npm run build-$(ConfigurationName)" />
   </Target>
