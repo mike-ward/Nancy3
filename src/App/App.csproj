@@ -125,7 +125,11 @@
     </Content>
   </ItemGroup>
 
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(DeployOnBuild)' != 'true'">
+  <ItemGroup>
+    <ExcludeFromPackageFolders Include="js" />
+  </ItemGroup>
+  
+  <Target Name="BuildWebAssets" AfterTargets="AfterBuild">
     <Exec Command="cd js&#xD;&#xA;npm run build-$(ConfigurationName)" />
   </Target>
 
