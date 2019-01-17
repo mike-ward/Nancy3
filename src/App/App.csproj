@@ -4,7 +4,6 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <TypeScriptToolsVersion>Latest</TypeScriptToolsVersion>
     <UserSecretsId>4ef93650-7b0d-4014-99c9-e295aeab411d</UserSecretsId>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -125,10 +124,6 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <ExcludeFromPackageFolders Include="js" />
-  </ItemGroup>
-  
   <Target Name="BuildWebAssets" AfterTargets="AfterBuild">
     <Exec Command="cd js&#xD;&#xA;npm run build-$(ConfigurationName)" />
   </Target>

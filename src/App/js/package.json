@@ -6,9 +6,9 @@
   "scripts": {
     "test": "jest",
     "build-Debug": "npx parcel build app.ts -d ../wwwroot/content --no-minify",
-    "build-Release": "npx parcel build app.ts -d ../wwwroot/content --no-cache",
+    "build-Release": "npx parcel build app.ts -d ../wwwroot/content --no-cache --no-source-maps",
     "build-debug": "npx parcel build app.ts -d ../wwwroot/content --no-minify",
-    "build-release": "npx parcel build app.ts -d ../wwwroot/content --no-cache",
+    "build-release": "npx parcel build app.ts -d ../wwwroot/content --no-cache --no-source-maps",
     "watch": "npx parcel watch app.ts -d ../wwwroot/content"
   },
   "keywords": [],

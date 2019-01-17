@@ -1,5 +1,4 @@
-nuget restore
 pushd App\js
 call npm i
 popd
-msbuild App.sln /t:Clean;Rebuild /p:configuration=Release /p:DeployOnBuild=true /verbosity:minimal
+msbuild App.sln /t:Restore;Rebuild /p:Configuration=Release /p:DeployOnBuild=true /verbosity:minimal
