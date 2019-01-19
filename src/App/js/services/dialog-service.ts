@@ -14,17 +14,19 @@ function closeDialog(result: () => void) {
 
 export function msg(message: string | m.Vnode, title?: string) {
   return new Promise((resolve) => {
+    const attrs = {
+      style: { cursor: 'pointer' },
+      tabindex: 0, // needed to capture keyboard events on div
+      onclick: () => closeDialog(resolve),
+      onkeyup: (e: KeyboardEvent) => { if (['Space', 'Escape', 'Enter'].some(code => code === e.code)) closeDialog(resolve) }
+    }
+
     modal(() =>
-      m(`.message.is-link`, {
-        style: { cursor: 'pointer' },
-        onclick: () => closeDialog(resolve)
-      },
-        m('.message-header', [
-          title || constants.appTitle,
-          m('button.delete.is-medium', { onclick: () => closeDialog(resolve) })
-        ]),
+      m(`.message.is-link`,
+        m('.message-header', title || constants.appTitle),
         m('.message-body', message)
-      ))
+      ),
+      attrs);
   });
 }
 
