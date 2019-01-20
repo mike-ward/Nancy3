@@ -1,6 +1,6 @@
 ﻿import stream from 'mithril/stream';
-import { sortByColumns, updateSortState } from './grid-sort';
-import { IGridModel, IGridViewModel, IGridRow, IGridColumn, IGridViewCell } from './grid-interfaces';
+import { sortRowsByColumns, updateSortState } from './grid-sort';
+import { IGridModel, IGridViewModel, IGridRow, IGridColumn, IGridViewRow, IGridViewCell } from './grid-interfaces';
 
 export function gridViewModelStream(gms: stream.Stream<IGridModel>) {
   const viewModelStream = gms.map<IGridViewModel>(gm => gm &&
@@ -14,8 +14,8 @@ export function gridViewModelStream(gms: stream.Stream<IGridModel>) {
 }
 
 function gridViewDataRows(gm: IGridModel) {
-  const dataRows = sortByColumns(gm);
-  const rows = dataRows.map(dataRow => gridDataRow(gm, dataRow));
+  const rows = gm.rows.map(row => gridDataRow(gm, row));
+  sortRowsByColumns(gm.columns, rows);
   return rows;
 }
 
@@ -24,34 +24,34 @@ function gridDataRow(gm: IGridModel, dataRow: IGridRow) {
     (a, col) => a.set(col.id, gridDataCell(dataRow, col, gm)),
     new Map<string, IGridViewCell>());
 
-  const row = {
-    key: gm.key ? dataRow[gm.key] : undefined,
-    data: data
-  }
+  const row = { data: data } as IGridViewRow;
+
+  // Only create key if value defined to reduce memory footprint
+  if (gm.key) row.key = dataRow[gm.key]
 
   return row;
 }
 
-function gridDataCell(dataRow: IGridRow, col: IGridColumn, gm: IGridModel) {
-  const value = dataRow[col.id];
+function gridDataCell(row: IGridRow, col: IGridColumn, gm: IGridModel) {
+  const value = row[col.id];
 
   const renderedValue = col.cellRenderer
-    ? col.cellRenderer(value, col, dataRow, gm.meta)
+    ? col.cellRenderer(value, col, row, gm.meta)
     : value;
 
   const tooltip = col.cellTooltip
-    ? col.cellTooltip(value, renderedValue, col, dataRow, gm.meta)
+    ? col.cellTooltip(value, renderedValue, col, row, gm.meta)
     : undefined;
 
-  const clickHandler = (event: Event) => col.cellClick
-    ? col.cellClick(event, value, renderedValue, col, dataRow, gm.meta)
+  const clickHandler = (event: KeyboardEvent) => col.cellClick
+    ? col.cellClick(event, value, renderedValue, col, row, gm.meta)
     : undefined;
 
-  const cell = {
-    value: renderedValue,
-    tooltip: tooltip,
-    clickHandler: clickHandler
-  };
+  const cell = { value: renderedValue } as IGridViewCell;
+
+  // Only create keys if values defined to reduce memory footprint
+  if (tooltip) cell.tooltip = tooltip;
+  if (clickHandler) cell.clickHandler = clickHandler;
 
   return cell;
 }

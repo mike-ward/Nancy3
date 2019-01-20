@@ -15,7 +15,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "23.3.12",
+    "@types/jest": "23.3.13",
     "@types/mithril": "1.1.14",
     "bulma": "0.7.2",
     "glob": "7.1.3",

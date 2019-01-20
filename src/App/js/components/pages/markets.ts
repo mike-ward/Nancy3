@@ -130,5 +130,5 @@ function gridModelFactory(data: any) {
         : null
     }) as IGridColumn);
 
-  return { columns: columns, data: data };
+  return { columns: columns, rows: data };
 }

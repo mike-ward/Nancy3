@@ -20,7 +20,7 @@ let model: IModel;
 function view() {
   return m('div',
     m('.page-title', `Stocks`),
-    m('p', `Count: ${model.stocks() ? model.stocks().data.length : 0}`),
+    m('p', `Count: ${model.stocks() ? model.stocks().rows.length : 0}`),
     model.stocks()
       ? [
         exportButton(),
@@ -57,7 +57,7 @@ function gridModelFactory(data: any) {
 
   return {
     columns: columns,
-    data: data
+    rows: data
   };
 }
 

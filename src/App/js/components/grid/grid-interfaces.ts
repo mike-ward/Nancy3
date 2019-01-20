@@ -7,7 +7,7 @@ export interface IGridAttrs extends m.Attributes {
 
 export interface IGridModel {
   columns: IGridColumn[];
-  data: IGridRow[];
+  rows: IGridRow[];
   /** Used to assoicate DOM elements with data array items. If specified, must be a column id. Typically not needed.*/
   key?: string;
   /** Extra stuff that gets passed to cell renderers, cell click handlers and cell tootips */
@@ -36,7 +36,7 @@ export interface IGridColumn {
   /** Tooltip to display when hovering over cell */
   cellTooltip?: (value: any, renderedValue: any, column: IGridColumn, row: IGridRow, meta: any) => string;
   /** Action to take when cell is clicked. If specified, grid changes cursor style to "pointer" */
-  cellClick?: (event: Event, value: any, renderedValue: any, column: IGridColumn, row: IGridRow, meta: any) => void;
+  cellClick?: (event: KeyboardEvent, value: any, renderedValue: any, column: IGridColumn, row: IGridRow, meta: any) => void;
   /** Allows custom rendering of values. Commonly used to handle null/empty values. Return string or vnode */
   cellRenderer?: (value: any, column: IGridColumn, row: IGridRow, meta: any) => string | m.Vnode;
 }
@@ -59,5 +59,5 @@ export interface IGridViewRow {
 export interface IGridViewCell {
   value: any;
   tooltip: string;
-  clickHandler: (event: Event) => void;
+  clickHandler: (event: KeyboardEvent) => void;
 }
