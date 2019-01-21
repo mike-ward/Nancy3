@@ -6,16 +6,17 @@ import { gridViewModelStream } from './grid-view-model';
 import { IGridAttrs, IGridColumn, IGridViewModel, IGridViewCell } from './grid-interfaces';
 
 export const gridStyles =
-  `table.grid {border:1px;border-collapse:collapse}
-  .grid th {background-color:${constants.color.thBg};color:${constants.color.text}!important}
-  .grid th,.grid td{white-space:nowrap;padding:.2em;text-align:left;border:1px solid #eee}
-  .grid-cell-click-action{cursor:pointer;}
-  .grid-cell-click:hover{text-decoration:underline;}
-  .grid-sort-indicator:hover, .grid-sort-indicator-up, .grid-sort-indicator-dn{cursor:pointer;}
-  .grid-sort-indicator-hi:after{content:'▲';color:#ccd;visibility:hidden;}
-  .grid-sort-indicator-hi:hover:after{visibility:visible}
-  .grid-sort-indicator-up:after{content:'▲'}
-  .grid-sort-indicator-dn:after{content:'▼'}`;
+  `div.app-grid { overflow-x: auto }
+   table.app-grid {border:1px;border-collapse:collapse}
+  .app-grid th {background-color:${constants.color.thBg};color:${constants.color.text}!important}
+  .app-grid th,.app-grid td {white-space:nowrap;padding:.2em;text-align:left;border:1px solid #eee}
+  .app-grid-cell-click-action {cursor:pointer;}
+  .app-grid-cell-click:hover {text-decoration:underline;}
+  .app-grid-sort-indicator:hover, .app-grid-sort-indicator-up, .app-grid-sort-indicator-dn {cursor:pointer;}
+  .app-grid-sort-indicator-hi:after {content:'▲';color:#ccd;visibility:hidden;}
+  .app-grid-sort-indicator-hi:hover:after {visibility:visible}
+  .app-grid-sort-indicator-up:after {content:'▲'}
+  .app-grid-sort-indicator-dn:after {content:'▼'}`;
 
 cssStylesAdd(gridStyles);
 
@@ -30,7 +31,8 @@ export const grid: m.FactoryComponent<IGridAttrs> = () => {
 
 function table(vm: IGridViewModel, attrs: IGridAttrs) {
   return vm && vm.columns && vm.vrows
-    ? m('table.grid', attrs, [thead(vm), tbody(vm)])
+    ? m('.app-grid',
+      m('table.app-grid', attrs, [thead(vm), tbody(vm)]))
     : null;
 }
 
@@ -44,10 +46,10 @@ function th(vm: IGridViewModel, column: IGridColumn, ) {
   let names = undefined as string;
 
   if (column.sortEnable) {
-    const classes = ['grid-sort-indicator'];
-    if (!column.sortDirection) classes.push('grid-sort-indicator-hi');
-    if (column.sortDirection > 0) classes.push('grid-sort-indicator-up');
-    if (column.sortDirection < 0) classes.push('grid-sort-indicator-dn');
+    const classes = ['app-grid-sort-indicator'];
+    if (!column.sortDirection) classes.push('app-grid-sort-indicator-hi');
+    if (column.sortDirection > 0) classes.push('app-grid-sort-indicator-up');
+    if (column.sortDirection < 0) classes.push('app-grid-sort-indicator-dn');
     names = classes.join(' ');
   }
 
@@ -75,7 +77,7 @@ function td(cell: IGridViewCell, css: string | object) {
       style: css,
       title: cell.tooltip,
       onclick: cell.clickHandler,
-      className: cell.clickHandler ? 'grid-cell-click' : undefined
+      className: cell.clickHandler ? 'app-grid-cell-click' : undefined
     },
     cell.value);
 }

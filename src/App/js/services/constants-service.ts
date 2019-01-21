@@ -4,5 +4,5 @@
     text: '#333',
     thBg: 'gainsboro'
   },
-  copyright: 'Copyright 2019'
+  copyright: '© 2019 Me'
 }

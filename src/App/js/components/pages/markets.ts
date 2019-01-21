@@ -9,7 +9,7 @@ import { gridToCsv } from '../../services/export-csv-service';
 import { gridToExcel } from '../../services/export-excel-service';
 
 // language=css
-cssStylesAdd(`div.markets .grid{font-size:smaller;}`);
+cssStylesAdd(`div.markets .app-grid {font-size:small;}`);
 
 export const markets: m.Component = {
   view: view,
@@ -70,27 +70,23 @@ function grid(market: IMarket) {
 }
 
 function csvButton(market: IMarket) {
-  return m('button.button.is-small',
-    {
-      style: {
-        'margin': '1em',
-        visibility: market.model() ? 'visible' : 'hidden'
-      },
-      onclick: () => gridToCsv(market.model, market.title + '.csv'),
-    },
-    'Export to CSV');
+  return button(market, 'Export CSV', () => gridToCsv(market.model, market.title + '.csv'));
 }
 
 function excelButton(market: IMarket) {
+  return button(market, 'Export Excel', () => gridToExcel(market.model, market.title, market.title + '.xls'));
+}
+
+function button(market: IMarket, text: string, onclick: () => void) {
   return m('button.button.is-small',
     {
+      onclick: onclick,
       style: {
-        'margin': '1em',
+        margin: '1em',
         visibility: market.model() ? 'visible' : 'hidden'
-      },
-      onclick: () => gridToExcel(market.model, market.title, market.title + '.xls')
+      }
     },
-    'Export to Excel');
+    text);
 }
 
 function api(url: string) {
