@@ -1,10 +1,10 @@
 ﻿import m from 'mithril';
 
 export const userBar = {
-  view: view
+  view: userBarView
 };
 
-function view() {
+function userBarView() {
   const pageData = (window as any).pageData;
   const isAdmin = pageData && pageData.isAdmin;
 

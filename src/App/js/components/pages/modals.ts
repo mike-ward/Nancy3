@@ -2,10 +2,10 @@
 import { msg, yesNo, yesNoCancel, ask } from '../../services/dialog-service';
 
 export const modals: m.Component = {
-  view: view
+  view: modalsView
 }
 
-function view() {
+function modalsView() {
   return [
     m('.page-title', 'Modals'),
     m('form.columns', examples.map(example => [
@@ -48,7 +48,7 @@ var examples = [
   },
   {
     text: 'Prompt Modal',
-    modal: () => 
+    modal: () =>
       ask('What is the answer to life, the universe and everything?', '42', 'Ask a Silly Question')
         .then(
           (answer: string) => msg('You typed ' + answer),

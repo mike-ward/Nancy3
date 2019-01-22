@@ -7,7 +7,7 @@ import { camelIdentifierToTitle } from '../../services/convert-service';
 import { gridToExcel } from '../../services/export-excel-service';
 
 export const stocks: m.Component = {
-  view: view,
+  view: stocksView,
   oninit: oninit
 }
 
@@ -17,7 +17,7 @@ interface IModel {
 
 let model: IModel;
 
-function view() {
+function stocksView() {
   return m('div',
     m('.page-title', `Stocks`),
     m('p', `Count: ${model.stocks() ? model.stocks().rows.length : 0}`),

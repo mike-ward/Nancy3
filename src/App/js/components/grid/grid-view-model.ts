@@ -2,15 +2,15 @@
 import { sortRowsByColumns, updateSortState } from './grid-sort';
 import { IGridModel, IGridViewModel, IGridRow, IGridColumn, IGridViewRow, IGridViewCell } from './grid-interfaces';
 
-export function gridViewModelStream(gms: stream.Stream<IGridModel>) {
-  const viewModelStream = gms.map<IGridViewModel>(gm => gm &&
+export function gridViewModel(model: stream.Stream<IGridModel>) {
+  const vms = model.map<IGridViewModel>(mdl => mdl &&
     ({
-      columns: gm.columns.filter(c => !c.hide),
-      vrows: gridViewDataRows(gm),
-      updateSort: (columnId: string) => gms(updateSortState(gm, columnId))
+      columns: mdl.columns.filter(c => !c.hide),
+      vrows: gridViewDataRows(mdl),
+      updateSort: (columnId: string) => model(updateSortState(mdl, columnId))
     }));
 
-  return viewModelStream;
+  return vms;
 }
 
 function gridViewDataRows(gm: IGridModel) {

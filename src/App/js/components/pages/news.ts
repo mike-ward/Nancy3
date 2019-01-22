@@ -11,7 +11,7 @@ cssStylesAdd(
   .news-title{font-size:large;font-weight:bold}`);
 
 export const news = {
-  view: view,
+  view: newsView,
   oninit: oninit,
   onremove: onremove,
 };
@@ -36,7 +36,7 @@ function initModel() {
   }
 }
 
-function view(): m.Vnode {
+function newsView(): m.Vnode {
   return m('div',
     m('.page-title', 'News'),
     m('div', model.news

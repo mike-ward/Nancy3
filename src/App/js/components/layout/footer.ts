@@ -6,10 +6,10 @@ import { cssStylesAdd } from '../../services/css-service';
 cssStylesAdd(`.foot{margin-top:5rem;}`);
 
 export const footer = {
-  view: view
+  view: footerView
 }
 
-function view() {
+function footerView() {
   return m('.foot',
     m('hr'),
     m('', constants.copyright)

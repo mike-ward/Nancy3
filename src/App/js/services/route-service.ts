@@ -17,18 +17,18 @@ export function buildRoutes() {
   m.route(root, '',
     {
       // Pages
-      '': bare(splash, 'Splash'),
+      '': plain(splash, 'Splash'),
       'news': auth(page(news, 'News')),
       'markets': auth(page(markets, 'Markets')),
       'stocks': auth(page(stocks, 'Stocks')),
-      'modals': page(modals, 'Modals'),
+      'modals': auth(page(modals, 'Modals')),
 
       // Account
       'account/login': login
     });
 }
 
-function bare(component: m.ComponentTypes, title: string): m.Component {
+function plain(component: m.ComponentTypes, title: string): m.Component {
   return {
     oncreate: () => document.title = `${constants.appTitle} - ${title}`,
     onremove: () => document.title = `${constants.appTitle}`,
@@ -37,11 +37,8 @@ function bare(component: m.ComponentTypes, title: string): m.Component {
 }
 
 function page(component: m.ComponentTypes, title: string): m.Component {
-  return {
-    oncreate: () => document.title = `${constants.appTitle} - ${title}`,
-    onremove: () => document.title = `${constants.appTitle}`,
-    view: () => m(layout, m(component))
-  }
+  const pl = plain(component, title);
+  return { view: () => m(layout, m(pl)) }
 }
 
 function auth(component: m.ComponentTypes): m.RouteResolver {

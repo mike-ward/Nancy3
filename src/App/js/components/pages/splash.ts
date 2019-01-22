@@ -5,13 +5,13 @@ export const splash: m.FactoryComponent = () => {
   let timer: any;
 
   return {
-    view: view,
+    view: splashView,
     oninit: () => timer = setInterval(updateTime, 1000),
     onremove: () => clearInterval(timer),
   }
 }
 
-function view() {
+function splashView() {
   return m('.hero',
     m('.hero-body',
       m('.container.has-text-centered',

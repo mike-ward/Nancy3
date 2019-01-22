@@ -12,7 +12,7 @@ import { gridToExcel } from '../../services/export-excel-service';
 cssStylesAdd(`div.markets .app-grid {font-size:small;}`);
 
 export const markets: m.Component = {
-  view: view,
+  view: marketsView,
   oninit: oninit
 };
 
@@ -45,7 +45,7 @@ function initModel() {
   }
 }
 
-function view() {
+function marketsView() {
   const markets = [model.mostActive, model.gainers, model.losers];
   return m('.markets',
     m('.page-title', 'Markets'),

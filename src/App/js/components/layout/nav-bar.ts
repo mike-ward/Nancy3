@@ -3,10 +3,10 @@ import { userBar } from './user-bar';
 import constants from '../../services/constants-service';
 
 export const navBar = {
-  view: view
+  view: navBarView
 }
 
-function view() {
+function navBarView() {
   return m('nav.navbar.is-info[role="navigation"][aria-label="main navigation"]',
     m('.navbar-brand',
       m('a.navbar-item[href=/]', { oncreate: m.route.link, style: 'font-size:x-large' }, constants.appTitle),

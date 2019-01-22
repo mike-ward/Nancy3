@@ -3,10 +3,10 @@ import { header } from './header';
 import { footer } from './footer';
 
 export const layout = {
-  view: view
+  view: layoutView
 }
 
-function view(v: m.Vnode) {
+function layoutView(v: m.Vnode) {
   return m('',
     m(header),
     m('',

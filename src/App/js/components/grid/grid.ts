@@ -2,7 +2,7 @@
 import stream from 'mithril/stream';
 import constants from '../../services/constants-service';
 import { cssStylesAdd } from '../../services/css-service';
-import { gridViewModelStream } from './grid-view-model';
+import { gridViewModel } from './grid-view-model';
 import { IGridAttrs, IGridColumn, IGridViewModel, IGridViewCell } from './grid-interfaces';
 
 export const gridStyles =
@@ -21,18 +21,17 @@ export const gridStyles =
 cssStylesAdd(gridStyles);
 
 export const grid: m.FactoryComponent<IGridAttrs> = () => {
-  let vms: stream.Stream<IGridViewModel>;
+  let vm: stream.Stream<IGridViewModel>;
 
   return {
-    oninit: vn => vms = gridViewModelStream(vn.attrs.model),
-    view: vn => table(vms(), vn.attrs),
+    oninit: vn => vm = gridViewModel(vn.attrs.model),
+    view: vn => m('.app-grid', table(vm(), vn.attrs)),
   }
 }
 
 function table(vm: IGridViewModel, attrs: IGridAttrs) {
   return vm && vm.columns && vm.vrows
-    ? m('.app-grid',
-      m('table.app-grid', attrs, [thead(vm), tbody(vm)]))
+    ? m('table.app-grid', attrs, [thead(vm), tbody(vm)])
     : null;
 }
 
@@ -42,20 +41,20 @@ function thead(vm: IGridViewModel) {
     m('tr', columns.map(column => th(vm, column))));
 }
 
-function th(vm: IGridViewModel, column: IGridColumn, ) {
-  let names = undefined as string;
+function th(vm: IGridViewModel, column: IGridColumn) {
+  let classNames = undefined as string;
 
   if (column.sortEnable) {
     const classes = ['app-grid-sort-indicator'];
     if (!column.sortDirection) classes.push('app-grid-sort-indicator-hi');
     if (column.sortDirection > 0) classes.push('app-grid-sort-indicator-up');
     if (column.sortDirection < 0) classes.push('app-grid-sort-indicator-dn');
-    names = classes.join(' ');
+    classNames = classes.join(' ');
   }
 
   return m('th',
     {
-      className: names,
+      class: classNames,
       title: column.tooltip,
       onclick: column.sortEnable ? () => vm.updateSort(column.id) : undefined
     },
@@ -77,7 +76,7 @@ function td(cell: IGridViewCell, css: string | object) {
       style: css,
       title: cell.tooltip,
       onclick: cell.clickHandler,
-      className: cell.clickHandler ? 'app-grid-cell-click' : undefined
+      class: cell.clickHandler ? 'app-grid-cell-click' : undefined
     },
     cell.value);
 }
