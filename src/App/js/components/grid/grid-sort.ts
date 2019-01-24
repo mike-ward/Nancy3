@@ -1,4 +1,4 @@
-﻿import { IGridModel, IGridColumn, IGridViewRow } from "./grid-interfaces";
+﻿import { IGridModel, IGridColumn, IGridViewRow } from "./grid-types";
 import { compareService } from '../../services/compare-service';
 
 type comparerType = (a: any, b: any) => number;

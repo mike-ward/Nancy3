@@ -3,7 +3,7 @@ import stream from 'mithril/stream';
 import constants from '../../services/constants-service';
 import { cssStylesAdd } from '../../services/css-service';
 import { gridViewModel } from './grid-view-model';
-import { IGridAttrs, IGridColumn, IGridViewModel, IGridViewCell } from './grid-interfaces';
+import { IGridAttrs, IGridColumn, IGridViewModel, IGridViewCell } from './grid-types';
 
 export const gridStyles =
   `div.app-grid { overflow-x: auto }

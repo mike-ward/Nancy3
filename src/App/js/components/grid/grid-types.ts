@@ -61,3 +61,19 @@ export interface IGridViewCell {
   tooltip: string;
   clickHandler: (event: KeyboardEvent) => void;
 }
+
+export interface IGridFilter {
+  field: string;
+  operator:
+  '$eq'
+  | '$neq'
+  | '$lt'
+  | '$gt'
+  | '$lte'
+  | '$gte'
+  | '$starts-with'
+  | '$ends-with'
+  | '$in-range';
+  arg: any;
+  exclude: boolean;
+}

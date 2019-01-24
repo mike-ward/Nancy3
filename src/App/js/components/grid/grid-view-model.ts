@@ -1,6 +1,6 @@
 ﻿import stream from 'mithril/stream';
 import { sortRowsByColumns, updateSortState } from './grid-sort';
-import { IGridModel, IGridViewModel, IGridRow, IGridColumn, IGridViewRow, IGridViewCell } from './grid-interfaces';
+import { IGridModel, IGridViewModel, IGridRow, IGridColumn, IGridViewRow, IGridViewCell } from './grid-types';
 
 export function gridViewModel(model: stream.Stream<IGridModel>) {
   const vms = model.map<IGridViewModel>(mdl => mdl &&

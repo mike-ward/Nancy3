@@ -2,7 +2,7 @@
 import stream from 'mithril/stream';
 import { download } from './download-service';
 import { grid } from '../components/grid/grid';
-import { IGridModel } from '../components/grid/grid-interfaces';
+import { IGridModel } from '../components/grid/grid-types';
 
 export function gridToCsv(model: stream.Stream<IGridModel>, filename: string) {
   const hidden = document.createElement('div')
