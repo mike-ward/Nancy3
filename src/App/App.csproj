@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -129,6 +129,7 @@
   </ItemGroup>
 
   <Target Name="BuildWebAssets" AfterTargets="AfterBuild">
+    <Exec Command="copy /Y js\node_modules\bulma\css\bulma.min.css wwwroot\content\app.css" />
     <Exec Command="cd js&#xD;&#xA;npm run build-$(ConfigurationName)" />
   </Target>
 

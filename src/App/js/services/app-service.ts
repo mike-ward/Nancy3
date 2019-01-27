@@ -1,5 +1,4 @@
-﻿import '../app.scss';
-import { cssStylesAdd, cssStylesInject } from './css-service';
+﻿import { cssStylesAdd, cssStylesInject } from './css-service';
 import { buildRoutes } from './route-service';
 
 export function startApp() {
@@ -12,4 +11,4 @@ export function startApp() {
 
   cssStylesInject();
   buildRoutes();
-}
+} 
