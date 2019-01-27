@@ -1,7 +1,11 @@
 ﻿export const compareService = {
   compareAny: compareAny,
-  naturalStringCompare: naturalStringCompare
+  naturalStringCompare: naturalStringCompare,
+  naturalStringCompareIgnoreCase: naturalStringCompareIgnoreCase,
+  locale: () => locale
 }
+
+const locale = 'en';
 
 function compareAny(a: any, b: any): number {
   if (a === b) return 0;
@@ -23,10 +27,18 @@ function compareAny(a: any, b: any): number {
 
   if (a !== null && b === null) return +1;
   if (a === null && b !== null) return -1;
-  return a.localeCompare(b);
+  return a.localeCompare(b, locale);
 }
 
 function naturalStringCompare(a: string | number, b: string | number): number {
+  return naturalStringCompareImplementation(a, b, undefined);
+} 
+
+function naturalStringCompareIgnoreCase(a: string | number, b: string | number): number {
+  return naturalStringCompareImplementation(a, b, { sensitivity: 'accent' });
+} 
+
+function naturalStringCompareImplementation(a: string | number, b: string | number, options: any): number {
   enum ClassificationType { Undecided, Alpha, Number }
   type ChunkType = { content: string, classification: ClassificationType, count: number };
   const isDigit = (c: any) => c >= '0' && c <= '9' || c === '.';
@@ -77,7 +89,7 @@ function naturalStringCompare(a: string | number, b: string | number): number {
       if (compare > 0) return 1;
     }
     else {
-      const result = ac.content.localeCompare(bc.content);
+      const result = ac.content.localeCompare(bc.content, locale, options);
       if (result !== 0) return result;
     }
 
@@ -85,3 +97,4 @@ function naturalStringCompare(a: string | number, b: string | number): number {
     b = b.substring(bc.count);
   }
 }
+

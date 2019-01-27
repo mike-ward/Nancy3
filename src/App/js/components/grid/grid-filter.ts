@@ -19,11 +19,11 @@ function filterFuncFactory(filter: IGridFilter) {
     return filter.exclude
       ? function (row: IGridViewRow) {
         const val = row.data.get(filter.field).value;
-        return args.some(arg => predicate(cmp(val, arg)));
+        return args.every(arg => !predicate(cmp(val, arg)))
       }
       : function (row: IGridViewRow) {
         const val = row.data.get(filter.field).value;
-        return args.every(arg => !predicate(cmp(val, arg)));
+        return args.some(arg => predicate(cmp(val, arg)))
       }
   }
 
@@ -43,16 +43,19 @@ function filterFuncFactory(filter: IGridFilter) {
 }
 
 function compare(a: any, b: any) {
-  return compareService.naturalStringCompare(a, b);
+  return compareService.naturalStringCompareIgnoreCase(a, b);
 }
 
 function startsWith(a: any, b: any) {
-  return a.indexOf(b);
+  const length = b.length;
+  const start = a.substring(length - a.length, length);
+  return compare(start, b);
 }
 
 function endsWith(a: any, b: any) {
   const length = b.length;
-  return a.substring(length - a.length, length) === a ? 0 : 1;
+  const end = a.substring(length - a.length, length) as string;
+  return compare(end, b);
 }
 
 function inRange(a: any, b: any) {
