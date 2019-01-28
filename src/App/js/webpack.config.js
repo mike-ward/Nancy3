@@ -19,5 +19,14 @@ module.exports = {
 
   resolve: {
     extensions: ['.ts', '.js']
+  },
+
+  stats: {
+    all: false,
+    assets: true,
+    errors: true,
+    errorDetails: true,
+    version: true,
+    warnings: true
   }
 };
