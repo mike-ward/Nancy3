@@ -18,11 +18,11 @@ function filterFuncFactory(filter: IGridFilter) {
 
     return filter.exclude
       ? function (row: IGridViewRow) {
-        const val = row.data.get(filter.field).value;
+        const val = row.data[filter.field].value;
         return args.every(arg => !predicate(cmp(val, arg)))
       }
       : function (row: IGridViewRow) {
-        const val = row.data.get(filter.field).value;
+        const val = row.data[filter.field].value;
         return args.some(arg => predicate(cmp(val, arg)))
       }
   }

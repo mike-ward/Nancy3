@@ -20,7 +20,7 @@ export function gridViewModel(model: stream.Stream<IGridModel>) {
 function gridViewDataRows(columns: IGridColumn[], gm: IGridModel) {
   // Prealloate for performance
   const length = gm.rows.length;
-  const vrows = new Array(length);
+  const vrows = [];
 
   // Use for loop instead of map for preformance
   for (let row = 0; row < length; ++row) {
@@ -33,12 +33,12 @@ function gridViewDataRows(columns: IGridColumn[], gm: IGridModel) {
 
 function gridDataRow(columns: IGridColumn[], dataRow: IGridRow, gm: IGridModel) {
   const length = columns.length
-  const data = new Map<string, IGridViewCell>();
+  const data = Object.create(null);
 
   // Use for loop instead of reduce() for preformance
   for (let col = 0; col < length; ++col) {
     const column = columns[col];
-    data.set(column.id, gridDataCell(dataRow, column, gm.meta));
+    data[column.id] = gridDataCell(dataRow, column, gm.meta);
   }
 
   const row = { data: data } as IGridViewRow;

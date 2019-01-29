@@ -53,7 +53,7 @@ export interface IGridViewModel {
 
 export interface IGridViewRow {
   key?: string;
-  data: Map<string, IGridViewCell>;
+  data: { [key: string]: IGridViewCell };
 }
 
 export interface IGridViewCell {

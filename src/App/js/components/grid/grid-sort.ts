@@ -28,7 +28,7 @@ export function sortRowsByColumns(columns: IGridColumn[], rows: IGridViewRow[]) 
     const sortDirection = column.sortDirection;
 
     rows.sort((a: IGridViewRow, b: IGridViewRow) => {
-      const result = comparer(a.data.get(columnId).value, b.data.get(columnId).value);
+      const result = comparer(a.data[columnId].value, b.data[columnId].value);
       return sortDirection >= 0 ? result : -result;
     });
   }
