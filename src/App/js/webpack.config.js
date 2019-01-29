@@ -7,6 +7,8 @@ module.exports = {
     path: path.resolve(__dirname, '../wwwroot/content')
   },
 
+  mode: 'development',
+
   module: {
     rules: [
       {

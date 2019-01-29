@@ -5,11 +5,11 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build-Debug": "npx webpack --config webpack.config.js --mode=development",
+    "build-Debug": "npx webpack --config webpack.config.js",
     "build-Release": "npx webpack --config webpack.config.js --mode=production",
     "build-debug": "npm run build-Debug",
     "build-release": "npm run build-Release",
-    "watch": ""
+    "watch": "npx webpack --config webpack.config.js --watch"
   },
   "keywords": [],
   "author": "",

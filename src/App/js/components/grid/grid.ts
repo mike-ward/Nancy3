@@ -37,8 +37,14 @@ function table(vm: IGridViewModel, attrs: IGridAttrs) {
 
 function thead(vm: IGridViewModel) {
   const columns = vm.columns;
-  return m('thead',
-    m('tr', columns.map(column => th(vm, column))));
+  // Prealloate for performance
+  const ths = new Array(columns.length);
+
+  // Use for loops instead of map for preformance
+  for (let col = 0; col < vm.columns.length; ++col) {
+    ths[col] = th(vm, columns[col]);
+  }
+  return m('thead', m('tr', ths));
 }
 
 function th(vm: IGridViewModel, column: IGridColumn) {
@@ -62,12 +68,26 @@ function th(vm: IGridViewModel, column: IGridColumn) {
 }
 
 function tbody(vm: IGridViewModel) {
-  return m('tbody',
-    vm.vrows.map(vr =>
-      m('tr',
-        { key: vr.key },
-        vm.columns.map(column => td(vr.data.get(column.id), column.css)))
-    ));
+  const columns = vm.columns;
+  const vrows = vm.vrows;
+  // Prealloate for performance
+  const trs = new Array(vrows.length);
+
+  // Use for loops instead of map for preformance
+  for (let row = 0; row < vrows.length; ++row) {
+    const vrow = vrows[row];
+    const length = columns.length;
+    const tds = new Array(length);
+
+    for (let col = 0; col < length; ++col) {
+      const column = columns[col];
+      tds[col] = td(vrow.data.get(column.id), column.css);
+    }
+
+    trs[row] = m('tr', { key: vrow.key }, tds);
+  }
+
+  return m('tbody', trs);
 }
 
 function td(cell: IGridViewCell, css: string | object) {
