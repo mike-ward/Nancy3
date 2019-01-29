@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "build-Debug": "npx webpack --config webpack.config.js",
-    "build-Release": "npx webpack --config webpack.config.js --mode=production",
+    "build-Debug": "npx webpack -d",
+    "build-Release": "npx webpack -p --devtool=source-map",
     "build-debug": "npm run build-Debug",
     "build-release": "npm run build-Release",
     "watch": "npx webpack --config webpack.config.js --watch"
